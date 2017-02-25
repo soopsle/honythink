@@ -1,0 +1,258 @@
+22:44:39.122 INFO (StartupInfoLogger.java:48)- Starting Application on xing-PC with PID 6740 (D:\Workspaces2016\honythink\target\classes started by xing in D:\Workspaces2016\honythink)
+22:44:39.127 INFO (SpringApplication.java:665)- The following profiles are active: dev
+22:44:39.261 INFO (AbstractApplicationContext.java:581)- Refreshing org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@7b02881e: startup date [Sat Feb 25 22:44:39 CST 2017]; root of context hierarchy
+22:44:41.611 WARN (ClassPathMapperScanner.java:167)- No MyBatis mapper was found in '[com.honythink]' package. Please check your configuration.
+22:44:41.656 INFO (DefaultListableBeanFactory.java:818)- Overriding bean definition for bean 'ignoredPathsWebSecurityConfigurerAdapter' with a different definition: replacing [Root bean: class [null]; scope=; abstract=false; lazyInit=false; autowireMode=3; dependencyCheck=0; autowireCandidate=true; primary=false; factoryBeanName=org.springframework.boot.autoconfigure.security.SpringBootWebSecurityConfiguration; factoryMethodName=ignoredPathsWebSecurityConfigurerAdapter; initMethodName=null; destroyMethodName=(inferred); defined in class path resource [org/springframework/boot/autoconfigure/security/SpringBootWebSecurityConfiguration.class]] with [Root bean: class [null]; scope=; abstract=false; lazyInit=false; autowireMode=3; dependencyCheck=0; autowireCandidate=true; primary=false; factoryBeanName=org.springframework.boot.actuate.autoconfigure.ManagementWebSecurityAutoConfiguration; factoryMethodName=ignoredPathsWebSecurityConfigurerAdapter; initMethodName=null; destroyMethodName=(inferred); defined in class path resource [org/springframework/boot/actuate/autoconfigure/ManagementWebSecurityAutoConfiguration.class]]
+22:44:41.894 INFO (RepositoryConfigurationDelegate.java:170)- Multiple Spring Data modules found, entering strict repository configuration mode!
+22:44:42.477 INFO (WebAppConfigurer.java:64)- C:\Java\jdk1.8.0_92
+22:44:42.478 INFO (WebAppConfigurer.java:65)- jdbc:mysql://localhost:3306/CRMSystemNew?useUnicode=true&characterEncoding=utf8&autoReconnect=true
+22:44:42.481 INFO (WebAppConfigurer.java:67)- jdbc:mysql://localhost:3306/CRMSystemNew?useUnicode=true&characterEncoding=utf8&autoReconnect=true
+22:44:42.485 INFO (WebAppConfigurer.java:70)- jdbc:mysql://localhost:3306/CRMSystemNew?useUnicode=true&characterEncoding=utf8&autoReconnect=true
+22:44:42.486 INFO (PostProcessorRegistrationDelegate.java:328)- Bean 'webAppConfigurer' of type [class com.honythink.config.WebAppConfigurer$$EnhancerBySpringCGLIB$$7355d88f] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+22:44:42.741 INFO (PostProcessorRegistrationDelegate.java:328)- Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [class org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration$$EnhancerBySpringCGLIB$$be2aa640] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+22:44:43.279 INFO (TomcatEmbeddedServletContainer.java:87)- Tomcat initialized with port(s): 80 (http)
+22:44:43.293 INFO (DirectJDKLog.java:179)- Starting service Tomcat
+22:44:43.295 INFO (DirectJDKLog.java:179)- Starting Servlet Engine: Apache Tomcat/8.5.5
+22:44:43.421 INFO (DirectJDKLog.java:179)- Initializing Spring embedded WebApplicationContext
+22:44:43.422 INFO (EmbeddedWebApplicationContext.java:276)- Root WebApplicationContext: initialization completed in 4161 ms
+22:44:43.879 WARN (RedisSessionConfiguration.java:71)- Spring Session store type is mandatory: set 'spring.session.store-type=redis' in your configuration
+22:44:44.067 INFO (AbstractFilterRegistrationBean.java:258)- Mapping filter: 'metricsFilter' to: [/*]
+22:44:44.068 INFO (AbstractFilterRegistrationBean.java:258)- Mapping filter: 'characterEncodingFilter' to: [/*]
+22:44:44.069 INFO (AbstractFilterRegistrationBean.java:258)- Mapping filter: 'springSessionRepositoryFilter' to: [/*]
+22:44:44.069 INFO (AbstractFilterRegistrationBean.java:258)- Mapping filter: 'hiddenHttpMethodFilter' to: [/*]
+22:44:44.070 INFO (AbstractFilterRegistrationBean.java:258)- Mapping filter: 'httpPutFormContentFilter' to: [/*]
+22:44:44.070 INFO (AbstractFilterRegistrationBean.java:258)- Mapping filter: 'requestContextFilter' to: [/*]
+22:44:44.074 INFO (AbstractFilterRegistrationBean.java:258)- Mapping filter: 'springSecurityFilterChain' to: [/*]
+22:44:44.077 INFO (AbstractFilterRegistrationBean.java:258)- Mapping filter: 'webRequestLoggingFilter' to: [/*]
+22:44:44.077 INFO (AbstractFilterRegistrationBean.java:271)- Mapping filter: 'webStatFilter' to urls: [/*]
+22:44:44.078 INFO (AbstractFilterRegistrationBean.java:258)- Mapping filter: 'applicationContextIdFilter' to: [/*]
+22:44:44.078 INFO (ServletRegistrationBean.java:190)- Mapping servlet: 'statViewServlet' to [/druid/*]
+22:44:44.081 INFO (ServletRegistrationBean.java:190)- Mapping servlet: 'dispatcherServlet' to [/]
+22:44:45.152 INFO (RequestMappingHandlerAdapter.java:534)- Looking for @ControllerAdvice: org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@7b02881e: startup date [Sat Feb 25 22:44:39 CST 2017]; root of context hierarchy
+22:44:45.237 INFO (AbstractHandlerMethodMapping.java:543)- Mapped "{[/index]}" onto public java.lang.String com.honythink.biz.base.controller.BaseController.index(javax.servlet.http.HttpSession)
+22:44:45.239 INFO (AbstractHandlerMethodMapping.java:543)- Mapped "{[/test],methods=[GET]}" onto public java.lang.String com.honythink.biz.base.controller.BaseController.test(javax.servlet.http.HttpSession)
+22:44:45.242 INFO (AbstractHandlerMethodMapping.java:543)- Mapped "{[/error]}" onto public org.springframework.http.ResponseEntity<java.util.Map<java.lang.String, java.lang.Object>> org.springframework.boot.autoconfigure.web.BasicErrorController.error(javax.servlet.http.HttpServletRequest)
+22:44:45.243 INFO (AbstractHandlerMethodMapping.java:543)- Mapped "{[/error],produces=[text/html]}" onto public org.springframework.web.servlet.ModelAndView org.springframework.boot.autoconfigure.web.BasicErrorController.errorHtml(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse)
+22:44:45.267 INFO (AbstractUrlHandlerMapping.java:341)- Root mapping to handler of type [class org.springframework.web.servlet.mvc.ParameterizableViewController]
+22:44:45.297 INFO (AbstractUrlHandlerMapping.java:354)- Mapped URL path [/webjars/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+22:44:45.297 INFO (AbstractUrlHandlerMapping.java:354)- Mapped URL path [/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+22:44:45.334 INFO (ExceptionHandlerExceptionResolver.java:269)- Detected @ExceptionHandler methods in defaultExceptionHandler
+22:44:45.374 INFO (AbstractUrlHandlerMapping.java:354)- Mapped URL path [/**/favicon.ico] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+22:44:45.758 INFO (AuthenticationManagerConfiguration.java:169)- 
+
+Using default security password: 3fee3604-4b36-443c-b733-8bc41b8164cd
+
+22:44:45.831 INFO (DefaultSecurityFilterChain.java:43)- Creating filter chain: OrRequestMatcher [requestMatchers=[Ant [pattern='/css/**'], Ant [pattern='/js/**'], Ant [pattern='/images/**'], Ant [pattern='/webjars/**'], Ant [pattern='/**/favicon.ico'], Ant [pattern='/error'], org.springframework.boot.actuate.autoconfigure.ManagementWebSecurityAutoConfiguration$LazyEndpointPathRequestMatcher@781dac73]], []
+22:44:45.905 INFO (DefaultSecurityFilterChain.java:43)- Creating filter chain: org.springframework.boot.autoconfigure.security.SpringBootWebSecurityConfiguration$ApplicationNoWebSecurityConfigurerAdapter$1@2fbd390, [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@166b11e, org.springframework.security.web.context.SecurityContextPersistenceFilter@2bfc2f8b, org.springframework.security.web.header.HeaderWriterFilter@112c2930, org.springframework.security.web.csrf.CsrfFilter@71567f33, org.springframework.security.web.authentication.logout.LogoutFilter@1e734eee, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@32e5af53, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@44641d6c, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@5e68be2, org.springframework.security.web.session.SessionManagementFilter@38de5daf, org.springframework.security.web.access.ExceptionTranslationFilter@6fb0261e]
+22:44:46.337 INFO (AbstractHandlerMethodMapping.java:543)- Mapped "{[/beans || /beans.json],methods=[GET],produces=[application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke()
+22:44:46.339 INFO (AbstractHandlerMethodMapping.java:543)- Mapped "{[/health || /health.json],produces=[application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.HealthMvcEndpoint.invoke(java.security.Principal)
+22:44:46.340 INFO (AbstractHandlerMethodMapping.java:543)- Mapped "{[/configprops || /configprops.json],methods=[GET],produces=[application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke()
+22:44:46.341 INFO (AbstractHandlerMethodMapping.java:543)- Mapped "{[/trace || /trace.json],methods=[GET],produces=[application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke()
+22:44:46.343 INFO (AbstractHandlerMethodMapping.java:543)- Mapped "{[/metrics/{name:.*}],methods=[GET],produces=[application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.MetricsMvcEndpoint.value(java.lang.String)
+22:44:46.344 INFO (AbstractHandlerMethodMapping.java:543)- Mapped "{[/metrics || /metrics.json],methods=[GET],produces=[application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke()
+22:44:46.346 INFO (AbstractHandlerMethodMapping.java:543)- Mapped "{[/mappings || /mappings.json],methods=[GET],produces=[application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke()
+22:44:46.347 INFO (AbstractHandlerMethodMapping.java:543)- Mapped "{[/dump || /dump.json],methods=[GET],produces=[application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke()
+22:44:46.348 INFO (AbstractHandlerMethodMapping.java:543)- Mapped "{[/heapdump || /heapdump.json],methods=[GET],produces=[application/octet-stream]}" onto public void org.springframework.boot.actuate.endpoint.mvc.HeapdumpMvcEndpoint.invoke(boolean,javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse) throws java.io.IOException,javax.servlet.ServletException
+22:44:46.356 INFO (AbstractHandlerMethodMapping.java:543)- Mapped "{[/info || /info.json],methods=[GET],produces=[application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke()
+22:44:46.358 INFO (AbstractHandlerMethodMapping.java:543)- Mapped "{[/autoconfig || /autoconfig.json],methods=[GET],produces=[application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke()
+22:44:46.360 INFO (AbstractHandlerMethodMapping.java:543)- Mapped "{[/env/{name:.*}],methods=[GET],produces=[application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.EnvironmentMvcEndpoint.value(java.lang.String)
+22:44:46.361 INFO (AbstractHandlerMethodMapping.java:543)- Mapped "{[/env || /env.json],methods=[GET],produces=[application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke()
+22:44:48.590 WARN (AbstractApplicationContext.java:549)- Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'enableRedisKeyspaceNotificationsInitializer' defined in class path resource [org/springframework/boot/autoconfigure/session/RedisSessionConfiguration$SpringBootRedisHttpSessionConfiguration.class]: Invocation of init method failed; nested exception is org.springframework.data.redis.RedisConnectionFailureException: Cannot get Jedis connection; nested exception is redis.clients.jedis.exceptions.JedisConnectionException: Could not get a resource from the pool
+22:44:48.596 INFO (MBeanExporter.java:449)- Unregistering JMX-exposed beans on shutdown
+22:44:48.604 INFO (DirectJDKLog.java:179)- Stopping service Tomcat
+22:44:48.642 WARN (DirectJDKLog.java:179)- The web application [honythink] appears to have started a thread named [Abandoned connection cleanup thread] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ java.lang.Object.wait(Native Method)
+ java.lang.ref.ReferenceQueue.remove(Unknown Source)
+ com.mysql.jdbc.AbandonedConnectionCleanupThread.run(AbandonedConnectionCleanupThread.java:43)
+22:44:48.654 INFO (AutoConfigurationReportLoggingInitializer.java:101)- 
+
+Error starting ApplicationContext. To display the auto-configuration report re-run your application with 'debug' enabled.
+22:44:48.659 ERROR (SpringApplication.java:839)- Application startup failed
+org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'enableRedisKeyspaceNotificationsInitializer' defined in class path resource [org/springframework/boot/autoconfigure/session/RedisSessionConfiguration$SpringBootRedisHttpSessionConfiguration.class]: Invocation of init method failed; nested exception is org.springframework.data.redis.RedisConnectionFailureException: Cannot get Jedis connection; nested exception is redis.clients.jedis.exceptions.JedisConnectionException: Could not get a resource from the pool
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1583)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:545)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:482)
+	at org.springframework.beans.factory.support.AbstractBeanFactory$1.getObject(AbstractBeanFactory.java:306)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:230)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:302)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:197)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:751)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:861)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:541)
+	at org.springframework.boot.context.embedded.EmbeddedWebApplicationContext.refresh(EmbeddedWebApplicationContext.java:122)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:761)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:371)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:315)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1186)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1175)
+	at com.honythink.Application.main(Application.java:39)
+Caused by: org.springframework.data.redis.RedisConnectionFailureException: Cannot get Jedis connection; nested exception is redis.clients.jedis.exceptions.JedisConnectionException: Could not get a resource from the pool
+	at org.springframework.data.redis.connection.jedis.JedisConnectionFactory.fetchJedisConnector(JedisConnectionFactory.java:198)
+	at org.springframework.data.redis.connection.jedis.JedisConnectionFactory.getConnection(JedisConnectionFactory.java:345)
+	at org.springframework.session.data.redis.config.annotation.web.http.RedisHttpSessionConfiguration$EnableRedisKeyspaceNotificationsInitializer.afterPropertiesSet(RedisHttpSessionConfiguration.java:223)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1642)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1579)
+	... 16 common frames omitted
+Caused by: redis.clients.jedis.exceptions.JedisConnectionException: Could not get a resource from the pool
+	at redis.clients.util.Pool.getResource(Pool.java:53)
+	at redis.clients.jedis.JedisPool.getResource(JedisPool.java:99)
+	at redis.clients.jedis.JedisPool.getResource(JedisPool.java:12)
+	at org.springframework.data.redis.connection.jedis.JedisConnectionFactory.fetchJedisConnector(JedisConnectionFactory.java:191)
+	... 20 common frames omitted
+Caused by: redis.clients.jedis.exceptions.JedisConnectionException: java.net.SocketTimeoutException: connect timed out
+	at redis.clients.jedis.Connection.connect(Connection.java:164)
+	at redis.clients.jedis.BinaryClient.connect(BinaryClient.java:80)
+	at redis.clients.jedis.BinaryJedis.connect(BinaryJedis.java:1677)
+	at redis.clients.jedis.JedisFactory.makeObject(JedisFactory.java:87)
+	at org.apache.commons.pool2.impl.GenericObjectPool.create(GenericObjectPool.java:868)
+	at org.apache.commons.pool2.impl.GenericObjectPool.borrowObject(GenericObjectPool.java:435)
+	at org.apache.commons.pool2.impl.GenericObjectPool.borrowObject(GenericObjectPool.java:363)
+	at redis.clients.util.Pool.getResource(Pool.java:49)
+	... 23 common frames omitted
+Caused by: java.net.SocketTimeoutException: connect timed out
+	at java.net.DualStackPlainSocketImpl.waitForConnect(Native Method)
+	at java.net.DualStackPlainSocketImpl.socketConnect(Unknown Source)
+	at java.net.AbstractPlainSocketImpl.doConnect(Unknown Source)
+	at java.net.AbstractPlainSocketImpl.connectToAddress(Unknown Source)
+	at java.net.AbstractPlainSocketImpl.connect(Unknown Source)
+	at java.net.PlainSocketImpl.connect(Unknown Source)
+	at java.net.SocksSocketImpl.connect(Unknown Source)
+	at java.net.Socket.connect(Unknown Source)
+	at redis.clients.jedis.Connection.connect(Connection.java:158)
+	... 30 common frames omitted
+22:45:20.179 INFO (StartupInfoLogger.java:48)- Starting Application on xing-PC with PID 7808 (D:\Workspaces2016\honythink\target\classes started by xing in D:\Workspaces2016\honythink)
+22:45:20.194 INFO (SpringApplication.java:665)- The following profiles are active: dev
+22:45:20.294 INFO (AbstractApplicationContext.java:581)- Refreshing org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@530712d: startup date [Sat Feb 25 22:45:20 CST 2017]; root of context hierarchy
+22:45:21.933 WARN (ClassPathMapperScanner.java:167)- No MyBatis mapper was found in '[com.honythink]' package. Please check your configuration.
+22:45:21.988 INFO (DefaultListableBeanFactory.java:818)- Overriding bean definition for bean 'ignoredPathsWebSecurityConfigurerAdapter' with a different definition: replacing [Root bean: class [null]; scope=; abstract=false; lazyInit=false; autowireMode=3; dependencyCheck=0; autowireCandidate=true; primary=false; factoryBeanName=org.springframework.boot.autoconfigure.security.SpringBootWebSecurityConfiguration; factoryMethodName=ignoredPathsWebSecurityConfigurerAdapter; initMethodName=null; destroyMethodName=(inferred); defined in class path resource [org/springframework/boot/autoconfigure/security/SpringBootWebSecurityConfiguration.class]] with [Root bean: class [null]; scope=; abstract=false; lazyInit=false; autowireMode=3; dependencyCheck=0; autowireCandidate=true; primary=false; factoryBeanName=org.springframework.boot.actuate.autoconfigure.ManagementWebSecurityAutoConfiguration; factoryMethodName=ignoredPathsWebSecurityConfigurerAdapter; initMethodName=null; destroyMethodName=(inferred); defined in class path resource [org/springframework/boot/actuate/autoconfigure/ManagementWebSecurityAutoConfiguration.class]]
+22:45:22.607 INFO (WebAppConfigurer.java:64)- C:\Java\jdk1.8.0_92
+22:45:22.608 INFO (WebAppConfigurer.java:65)- jdbc:mysql://localhost:3306/CRMSystemNew?useUnicode=true&characterEncoding=utf8&autoReconnect=true
+22:45:22.609 INFO (WebAppConfigurer.java:67)- jdbc:mysql://localhost:3306/CRMSystemNew?useUnicode=true&characterEncoding=utf8&autoReconnect=true
+22:45:22.610 INFO (WebAppConfigurer.java:70)- jdbc:mysql://localhost:3306/CRMSystemNew?useUnicode=true&characterEncoding=utf8&autoReconnect=true
+22:45:22.611 INFO (PostProcessorRegistrationDelegate.java:328)- Bean 'webAppConfigurer' of type [class com.honythink.config.WebAppConfigurer$$EnhancerBySpringCGLIB$$42d6be43] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+22:45:22.885 INFO (PostProcessorRegistrationDelegate.java:328)- Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [class org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration$$EnhancerBySpringCGLIB$$8dab8bf4] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+22:45:23.620 INFO (TomcatEmbeddedServletContainer.java:87)- Tomcat initialized with port(s): 80 (http)
+22:45:23.637 INFO (DirectJDKLog.java:179)- Starting service Tomcat
+22:45:23.639 INFO (DirectJDKLog.java:179)- Starting Servlet Engine: Apache Tomcat/8.5.5
+22:45:23.797 INFO (DirectJDKLog.java:179)- Initializing Spring embedded WebApplicationContext
+22:45:23.798 INFO (EmbeddedWebApplicationContext.java:276)- Root WebApplicationContext: initialization completed in 3504 ms
+22:45:24.456 INFO (AbstractFilterRegistrationBean.java:258)- Mapping filter: 'metricsFilter' to: [/*]
+22:45:24.457 INFO (AbstractFilterRegistrationBean.java:258)- Mapping filter: 'characterEncodingFilter' to: [/*]
+22:45:24.457 INFO (AbstractFilterRegistrationBean.java:258)- Mapping filter: 'hiddenHttpMethodFilter' to: [/*]
+22:45:24.457 INFO (AbstractFilterRegistrationBean.java:258)- Mapping filter: 'httpPutFormContentFilter' to: [/*]
+22:45:24.458 INFO (AbstractFilterRegistrationBean.java:258)- Mapping filter: 'requestContextFilter' to: [/*]
+22:45:24.460 INFO (AbstractFilterRegistrationBean.java:258)- Mapping filter: 'springSecurityFilterChain' to: [/*]
+22:45:24.461 INFO (AbstractFilterRegistrationBean.java:258)- Mapping filter: 'webRequestLoggingFilter' to: [/*]
+22:45:24.462 INFO (AbstractFilterRegistrationBean.java:271)- Mapping filter: 'webStatFilter' to urls: [/*]
+22:45:24.463 INFO (AbstractFilterRegistrationBean.java:258)- Mapping filter: 'applicationContextIdFilter' to: [/*]
+22:45:24.463 INFO (ServletRegistrationBean.java:190)- Mapping servlet: 'statViewServlet' to [/druid/*]
+22:45:24.466 INFO (ServletRegistrationBean.java:190)- Mapping servlet: 'dispatcherServlet' to [/]
+22:45:25.618 INFO (RequestMappingHandlerAdapter.java:534)- Looking for @ControllerAdvice: org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@530712d: startup date [Sat Feb 25 22:45:20 CST 2017]; root of context hierarchy
+22:45:25.751 INFO (AbstractHandlerMethodMapping.java:543)- Mapped "{[/index]}" onto public java.lang.String com.honythink.biz.base.controller.BaseController.index(javax.servlet.http.HttpSession)
+22:45:25.753 INFO (AbstractHandlerMethodMapping.java:543)- Mapped "{[/test],methods=[GET]}" onto public java.lang.String com.honythink.biz.base.controller.BaseController.test(javax.servlet.http.HttpSession)
+22:45:25.756 INFO (AbstractHandlerMethodMapping.java:543)- Mapped "{[/error]}" onto public org.springframework.http.ResponseEntity<java.util.Map<java.lang.String, java.lang.Object>> org.springframework.boot.autoconfigure.web.BasicErrorController.error(javax.servlet.http.HttpServletRequest)
+22:45:25.757 INFO (AbstractHandlerMethodMapping.java:543)- Mapped "{[/error],produces=[text/html]}" onto public org.springframework.web.servlet.ModelAndView org.springframework.boot.autoconfigure.web.BasicErrorController.errorHtml(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse)
+22:45:25.785 INFO (AbstractUrlHandlerMapping.java:341)- Root mapping to handler of type [class org.springframework.web.servlet.mvc.ParameterizableViewController]
+22:45:25.819 INFO (AbstractUrlHandlerMapping.java:354)- Mapped URL path [/webjars/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+22:45:25.820 INFO (AbstractUrlHandlerMapping.java:354)- Mapped URL path [/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+22:45:25.864 INFO (ExceptionHandlerExceptionResolver.java:269)- Detected @ExceptionHandler methods in defaultExceptionHandler
+22:45:25.912 INFO (AbstractUrlHandlerMapping.java:354)- Mapped URL path [/**/favicon.ico] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+22:45:26.824 INFO (AuthenticationManagerConfiguration.java:169)- 
+
+Using default security password: 43068d9b-1b31-4e60-b59c-688251091b6b
+
+22:45:26.908 INFO (DefaultSecurityFilterChain.java:43)- Creating filter chain: OrRequestMatcher [requestMatchers=[Ant [pattern='/css/**'], Ant [pattern='/js/**'], Ant [pattern='/images/**'], Ant [pattern='/webjars/**'], Ant [pattern='/**/favicon.ico'], Ant [pattern='/error'], org.springframework.boot.actuate.autoconfigure.ManagementWebSecurityAutoConfiguration$LazyEndpointPathRequestMatcher@5b066c33]], []
+22:45:27.048 INFO (DefaultSecurityFilterChain.java:43)- Creating filter chain: org.springframework.boot.autoconfigure.security.SpringBootWebSecurityConfiguration$ApplicationNoWebSecurityConfigurerAdapter$1@682618e5, [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@25ad25f5, org.springframework.security.web.context.SecurityContextPersistenceFilter@165614f5, org.springframework.security.web.header.HeaderWriterFilter@1537e43, org.springframework.security.web.csrf.CsrfFilter@5d2a86c0, org.springframework.security.web.authentication.logout.LogoutFilter@38cfecf3, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@5b0902b4, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@7d25913, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@5f0f70c7, org.springframework.security.web.session.SessionManagementFilter@71789580, org.springframework.security.web.access.ExceptionTranslationFilter@9a9aa68]
+22:45:27.757 INFO (AbstractHandlerMethodMapping.java:543)- Mapped "{[/beans || /beans.json],methods=[GET],produces=[application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke()
+22:45:27.759 INFO (AbstractHandlerMethodMapping.java:543)- Mapped "{[/health || /health.json],produces=[application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.HealthMvcEndpoint.invoke(java.security.Principal)
+22:45:27.761 INFO (AbstractHandlerMethodMapping.java:543)- Mapped "{[/metrics/{name:.*}],methods=[GET],produces=[application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.MetricsMvcEndpoint.value(java.lang.String)
+22:45:27.761 INFO (AbstractHandlerMethodMapping.java:543)- Mapped "{[/metrics || /metrics.json],methods=[GET],produces=[application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke()
+22:45:27.763 INFO (AbstractHandlerMethodMapping.java:543)- Mapped "{[/dump || /dump.json],methods=[GET],produces=[application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke()
+22:45:27.869 INFO (AbstractHandlerMethodMapping.java:543)- Mapped "{[/configprops || /configprops.json],methods=[GET],produces=[application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke()
+22:45:27.871 INFO (AbstractHandlerMethodMapping.java:543)- Mapped "{[/env/{name:.*}],methods=[GET],produces=[application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.EnvironmentMvcEndpoint.value(java.lang.String)
+22:45:27.873 INFO (AbstractHandlerMethodMapping.java:543)- Mapped "{[/env || /env.json],methods=[GET],produces=[application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke()
+22:45:27.880 INFO (AbstractHandlerMethodMapping.java:543)- Mapped "{[/info || /info.json],methods=[GET],produces=[application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke()
+22:45:27.884 INFO (AbstractHandlerMethodMapping.java:543)- Mapped "{[/trace || /trace.json],methods=[GET],produces=[application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke()
+22:45:27.885 INFO (AbstractHandlerMethodMapping.java:543)- Mapped "{[/autoconfig || /autoconfig.json],methods=[GET],produces=[application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke()
+22:45:27.889 INFO (AbstractHandlerMethodMapping.java:543)- Mapped "{[/heapdump || /heapdump.json],methods=[GET],produces=[application/octet-stream]}" onto public void org.springframework.boot.actuate.endpoint.mvc.HeapdumpMvcEndpoint.invoke(boolean,javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse) throws java.io.IOException,javax.servlet.ServletException
+22:45:27.891 INFO (AbstractHandlerMethodMapping.java:543)- Mapped "{[/mappings || /mappings.json],methods=[GET],produces=[application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke()
+22:45:28.617 INFO (MBeanExporter.java:431)- Registering beans for JMX exposure on startup
+22:45:28.619 INFO (MBeanExporter.java:912)- Bean with name 'druidDataSource' has been autodetected for JMX exposure
+22:45:28.633 INFO (MBeanExporter.java:667)- Located MBean 'druidDataSource': registering with JMX server as MBean [com.alibaba.druid.pool:name=druidDataSource,type=DruidDataSource]
+22:45:28.657 INFO (DefaultLifecycleProcessor.java:341)- Starting beans in phase 0
+22:45:28.896 INFO (TomcatEmbeddedServletContainer.java:185)- Tomcat started on port(s): 80 (http)
+22:45:28.904 INFO (StartupInfoLogger.java:57)- Started Application in 9.554 seconds (JVM running for 11.014)
+22:45:48.569 INFO (DirectJDKLog.java:179)- Initializing Spring FrameworkServlet 'dispatcherServlet'
+22:45:48.570 INFO (FrameworkServlet.java:489)- FrameworkServlet 'dispatcherServlet': initialization started
+22:45:48.675 INFO (FrameworkServlet.java:508)- FrameworkServlet 'dispatcherServlet': initialization completed in 104 ms
+22:47:11.129 INFO (SpringApplicationAdminMXBeanRegistrar.java:125)- Application shutdown requested.
+22:47:11.130 INFO (AbstractApplicationContext.java:982)- Closing org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@530712d: startup date [Sat Feb 25 22:45:20 CST 2017]; root of context hierarchy
+22:47:11.134 INFO (DefaultLifecycleProcessor.java:356)- Stopping beans in phase 0
+22:47:11.138 INFO (MBeanExporter.java:449)- Unregistering JMX-exposed beans on shutdown
+22:47:11.145 INFO (MBeanRegistrationSupport.java:241)- Unregistering JMX-exposed beans
+22:47:20.962 INFO (StartupInfoLogger.java:48)- Starting Application on xing-PC with PID 6560 (D:\Workspaces2016\honythink\target\classes started by xing in D:\Workspaces2016\honythink)
+22:47:20.979 INFO (SpringApplication.java:665)- The following profiles are active: dev
+22:47:21.095 INFO (AbstractApplicationContext.java:581)- Refreshing org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@146587a2: startup date [Sat Feb 25 22:47:21 CST 2017]; root of context hierarchy
+22:47:22.822 WARN (ClassPathMapperScanner.java:167)- No MyBatis mapper was found in '[com.honythink]' package. Please check your configuration.
+22:47:22.872 INFO (DefaultListableBeanFactory.java:818)- Overriding bean definition for bean 'ignoredPathsWebSecurityConfigurerAdapter' with a different definition: replacing [Root bean: class [null]; scope=; abstract=false; lazyInit=false; autowireMode=3; dependencyCheck=0; autowireCandidate=true; primary=false; factoryBeanName=org.springframework.boot.autoconfigure.security.SpringBootWebSecurityConfiguration; factoryMethodName=ignoredPathsWebSecurityConfigurerAdapter; initMethodName=null; destroyMethodName=(inferred); defined in class path resource [org/springframework/boot/autoconfigure/security/SpringBootWebSecurityConfiguration.class]] with [Root bean: class [null]; scope=; abstract=false; lazyInit=false; autowireMode=3; dependencyCheck=0; autowireCandidate=true; primary=false; factoryBeanName=org.springframework.boot.actuate.autoconfigure.ManagementWebSecurityAutoConfiguration; factoryMethodName=ignoredPathsWebSecurityConfigurerAdapter; initMethodName=null; destroyMethodName=(inferred); defined in class path resource [org/springframework/boot/actuate/autoconfigure/ManagementWebSecurityAutoConfiguration.class]]
+22:47:23.561 INFO (WebAppConfigurer.java:64)- C:\Java\jdk1.8.0_92
+22:47:23.561 INFO (WebAppConfigurer.java:65)- jdbc:mysql://localhost:3306/CRMSystemNew?useUnicode=true&characterEncoding=utf8&autoReconnect=true
+22:47:23.562 INFO (WebAppConfigurer.java:67)- jdbc:mysql://localhost:3306/CRMSystemNew?useUnicode=true&characterEncoding=utf8&autoReconnect=true
+22:47:23.562 INFO (WebAppConfigurer.java:70)- jdbc:mysql://localhost:3306/CRMSystemNew?useUnicode=true&characterEncoding=utf8&autoReconnect=true
+22:47:23.563 INFO (PostProcessorRegistrationDelegate.java:328)- Bean 'webAppConfigurer' of type [class com.honythink.config.WebAppConfigurer$$EnhancerBySpringCGLIB$$1a510aa1] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+22:47:23.877 INFO (PostProcessorRegistrationDelegate.java:328)- Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [class org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration$$EnhancerBySpringCGLIB$$6525d852] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+22:47:24.500 INFO (TomcatEmbeddedServletContainer.java:87)- Tomcat initialized with port(s): 80 (http)
+22:47:24.546 INFO (DirectJDKLog.java:179)- Starting service Tomcat
+22:47:24.548 INFO (DirectJDKLog.java:179)- Starting Servlet Engine: Apache Tomcat/8.5.5
+22:47:25.043 INFO (DirectJDKLog.java:179)- At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+22:47:25.049 INFO (DirectJDKLog.java:179)- Initializing Spring embedded WebApplicationContext
+22:47:25.050 INFO (EmbeddedWebApplicationContext.java:276)- Root WebApplicationContext: initialization completed in 3955 ms
+22:47:25.575 INFO (AbstractFilterRegistrationBean.java:258)- Mapping filter: 'metricsFilter' to: [/*]
+22:47:25.576 INFO (AbstractFilterRegistrationBean.java:258)- Mapping filter: 'characterEncodingFilter' to: [/*]
+22:47:25.576 INFO (AbstractFilterRegistrationBean.java:258)- Mapping filter: 'hiddenHttpMethodFilter' to: [/*]
+22:47:25.577 INFO (AbstractFilterRegistrationBean.java:258)- Mapping filter: 'httpPutFormContentFilter' to: [/*]
+22:47:25.577 INFO (AbstractFilterRegistrationBean.java:258)- Mapping filter: 'requestContextFilter' to: [/*]
+22:47:25.581 INFO (AbstractFilterRegistrationBean.java:258)- Mapping filter: 'springSecurityFilterChain' to: [/*]
+22:47:25.581 INFO (AbstractFilterRegistrationBean.java:258)- Mapping filter: 'webRequestLoggingFilter' to: [/*]
+22:47:25.582 INFO (AbstractFilterRegistrationBean.java:271)- Mapping filter: 'webStatFilter' to urls: [/*]
+22:47:25.582 INFO (AbstractFilterRegistrationBean.java:258)- Mapping filter: 'applicationContextIdFilter' to: [/*]
+22:47:25.583 INFO (ServletRegistrationBean.java:190)- Mapping servlet: 'statViewServlet' to [/druid/*]
+22:47:25.585 INFO (ServletRegistrationBean.java:190)- Mapping servlet: 'dispatcherServlet' to [/]
+22:47:26.930 INFO (RequestMappingHandlerAdapter.java:534)- Looking for @ControllerAdvice: org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@146587a2: startup date [Sat Feb 25 22:47:21 CST 2017]; root of context hierarchy
+22:47:27.051 INFO (AbstractHandlerMethodMapping.java:543)- Mapped "{[/index]}" onto public java.lang.String com.honythink.biz.base.controller.BaseController.index(javax.servlet.http.HttpSession)
+22:47:27.052 INFO (AbstractHandlerMethodMapping.java:543)- Mapped "{[/test],methods=[GET]}" onto public java.lang.String com.honythink.biz.base.controller.BaseController.test(javax.servlet.http.HttpSession)
+22:47:27.058 INFO (AbstractHandlerMethodMapping.java:543)- Mapped "{[/error]}" onto public org.springframework.http.ResponseEntity<java.util.Map<java.lang.String, java.lang.Object>> org.springframework.boot.autoconfigure.web.BasicErrorController.error(javax.servlet.http.HttpServletRequest)
+22:47:27.059 INFO (AbstractHandlerMethodMapping.java:543)- Mapped "{[/error],produces=[text/html]}" onto public org.springframework.web.servlet.ModelAndView org.springframework.boot.autoconfigure.web.BasicErrorController.errorHtml(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse)
+22:47:27.086 INFO (AbstractUrlHandlerMapping.java:341)- Root mapping to handler of type [class org.springframework.web.servlet.mvc.ParameterizableViewController]
+22:47:27.128 INFO (AbstractUrlHandlerMapping.java:354)- Mapped URL path [/webjars/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+22:47:27.129 INFO (AbstractUrlHandlerMapping.java:354)- Mapped URL path [/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+22:47:27.223 INFO (ExceptionHandlerExceptionResolver.java:269)- Detected @ExceptionHandler methods in defaultExceptionHandler
+22:47:27.662 INFO (AbstractUrlHandlerMapping.java:354)- Mapped URL path [/**/favicon.ico] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+22:47:28.650 INFO (AuthenticationManagerConfiguration.java:169)- 
+
+Using default security password: 28b70121-944f-49e2-8035-6137ada1683d
+
+22:47:28.715 INFO (DefaultSecurityFilterChain.java:43)- Creating filter chain: OrRequestMatcher [requestMatchers=[Ant [pattern='/css/**'], Ant [pattern='/js/**'], Ant [pattern='/images/**'], Ant [pattern='/webjars/**'], Ant [pattern='/**/favicon.ico'], Ant [pattern='/error'], org.springframework.boot.actuate.autoconfigure.ManagementWebSecurityAutoConfiguration$LazyEndpointPathRequestMatcher@5b066c33]], []
+22:47:28.848 INFO (DefaultSecurityFilterChain.java:43)- Creating filter chain: org.springframework.boot.autoconfigure.security.SpringBootWebSecurityConfiguration$ApplicationNoWebSecurityConfigurerAdapter$1@682618e5, [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@25ad25f5, org.springframework.security.web.context.SecurityContextPersistenceFilter@165614f5, org.springframework.security.web.header.HeaderWriterFilter@1537e43, org.springframework.security.web.csrf.CsrfFilter@5d2a86c0, org.springframework.security.web.authentication.logout.LogoutFilter@38cfecf3, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@5b0902b4, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@7d25913, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@5f0f70c7, org.springframework.security.web.session.SessionManagementFilter@71789580, org.springframework.security.web.access.ExceptionTranslationFilter@9a9aa68]
+22:47:29.375 INFO (AbstractHandlerMethodMapping.java:543)- Mapped "{[/beans || /beans.json],methods=[GET],produces=[application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke()
+22:47:29.377 INFO (AbstractHandlerMethodMapping.java:543)- Mapped "{[/health || /health.json],produces=[application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.HealthMvcEndpoint.invoke(java.security.Principal)
+22:47:29.379 INFO (AbstractHandlerMethodMapping.java:543)- Mapped "{[/metrics/{name:.*}],methods=[GET],produces=[application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.MetricsMvcEndpoint.value(java.lang.String)
+22:47:29.380 INFO (AbstractHandlerMethodMapping.java:543)- Mapped "{[/metrics || /metrics.json],methods=[GET],produces=[application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke()
+22:47:29.381 INFO (AbstractHandlerMethodMapping.java:543)- Mapped "{[/dump || /dump.json],methods=[GET],produces=[application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke()
+22:47:29.382 INFO (AbstractHandlerMethodMapping.java:543)- Mapped "{[/configprops || /configprops.json],methods=[GET],produces=[application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke()
+22:47:29.384 INFO (AbstractHandlerMethodMapping.java:543)- Mapped "{[/env/{name:.*}],methods=[GET],produces=[application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.EnvironmentMvcEndpoint.value(java.lang.String)
+22:47:29.385 INFO (AbstractHandlerMethodMapping.java:543)- Mapped "{[/env || /env.json],methods=[GET],produces=[application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke()
+22:47:29.386 INFO (AbstractHandlerMethodMapping.java:543)- Mapped "{[/heapdump || /heapdump.json],methods=[GET],produces=[application/octet-stream]}" onto public void org.springframework.boot.actuate.endpoint.mvc.HeapdumpMvcEndpoint.invoke(boolean,javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse) throws java.io.IOException,javax.servlet.ServletException
+22:47:29.392 INFO (AbstractHandlerMethodMapping.java:543)- Mapped "{[/info || /info.json],methods=[GET],produces=[application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke()
+22:47:29.398 INFO (AbstractHandlerMethodMapping.java:543)- Mapped "{[/trace || /trace.json],methods=[GET],produces=[application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke()
+22:47:29.400 INFO (AbstractHandlerMethodMapping.java:543)- Mapped "{[/autoconfig || /autoconfig.json],methods=[GET],produces=[application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke()
+22:47:29.401 INFO (AbstractHandlerMethodMapping.java:543)- Mapped "{[/mappings || /mappings.json],methods=[GET],produces=[application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke()
+22:47:29.970 INFO (MBeanExporter.java:431)- Registering beans for JMX exposure on startup
+22:47:29.975 INFO (MBeanExporter.java:912)- Bean with name 'druidDataSource' has been autodetected for JMX exposure
+22:47:29.987 INFO (MBeanExporter.java:667)- Located MBean 'druidDataSource': registering with JMX server as MBean [com.alibaba.druid.pool:name=druidDataSource,type=DruidDataSource]
+22:47:30.007 INFO (DefaultLifecycleProcessor.java:341)- Starting beans in phase 0
+22:47:30.322 INFO (TomcatEmbeddedServletContainer.java:185)- Tomcat started on port(s): 80 (http)
+22:47:30.330 INFO (StartupInfoLogger.java:57)- Started Application in 10.587 seconds (JVM running for 12.042)
+22:47:33.812 INFO (DirectJDKLog.java:179)- Initializing Spring FrameworkServlet 'dispatcherServlet'
+22:47:33.813 INFO (FrameworkServlet.java:489)- FrameworkServlet 'dispatcherServlet': initialization started
+22:47:33.854 INFO (FrameworkServlet.java:508)- FrameworkServlet 'dispatcherServlet': initialization completed in 39 ms
