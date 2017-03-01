@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
+<generatorConfiguration >
+ <classPathEntry location="D:\DevelopTools\repository\mysql\mysql-connector-java\5.1.27\mysql-connector-java-5.1.27.jar" />
+  <context id="context1" >
+  	 <commentGenerator>  
+	    <!-- 是否去除自动生成的注释 true：是 ： false:否 --> 
+	    <property name="suppressAllComments" value="true" /> 
+	    <!--数据库连接的信息：驱动类、连接地址、用户名、密码 --> 
+ 	 </commentGenerator>  
+  
+    <jdbcConnection driverClass="com.mysql.jdbc.Driver" connectionURL="jdbc:mysql://localhost:3306/honythink?useUnicode=true&amp;characterEncoding=utf8" userId="root" password="root" />
+    <javaModelGenerator targetPackage="com.honythink.db.entity" targetProject="honythink" />
+    <sqlMapGenerator targetPackage="com.honythink.db.sqlmap" targetProject="honythink" />
+    <javaClientGenerator targetPackage="com.honythink.db.mapper" targetProject="honythink" type="XMLMAPPER" />
+    
+    
+	<table  schema="" tableName="resume" domainObjectName="Resume"  
+    	enableSelectByPrimaryKey="true"
+    	enableInsert="true"
+    	enableUpdateByPrimaryKey="true"
+    	enableDeleteByPrimaryKey="true"
+    	selectByPrimaryKeyQueryId="true"
+	    enableCountByExample="false" 
+	    enableUpdateByExample="false" 
+	    enableDeleteByExample="false" 
+	    enableSelectByExample="false" 
+	    selectByExampleQueryId="false">
+	    <property name="useActualColumnNames" value="true"/>
+		<columnOverride column="self" javaType="java.lang.String" jdbcType="VARCHAR" /> 
+		<columnOverride column="work" javaType="java.lang.String" jdbcType="VARCHAR" /> 
+		<columnOverride column="project" javaType="java.lang.String" jdbcType="VARCHAR" /> 
+		<columnOverride column="train" javaType="java.lang.String" jdbcType="VARCHAR" /> 
+    </table>
+    
+    
+  </context>
+</generatorConfiguration>

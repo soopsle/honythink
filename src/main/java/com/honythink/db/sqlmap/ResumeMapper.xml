@@ -1,0 +1,425 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.honythink.db.mapper.ResumeMapper" >
+  <resultMap id="BaseResultMap" type="com.honythink.db.entity.Resume" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="tag" property="tag" jdbcType="VARCHAR" />
+    <result column="position" property="position" jdbcType="VARCHAR" />
+    <result column="resume_name" property="resume_name" jdbcType="VARCHAR" />
+    <result column="gender" property="gender" jdbcType="VARCHAR" />
+    <result column="birthday" property="birthday" jdbcType="VARCHAR" />
+    <result column="age" property="age" jdbcType="VARCHAR" />
+    <result column="seniority" property="seniority" jdbcType="VARCHAR" />
+    <result column="card" property="card" jdbcType="VARCHAR" />
+    <result column="mobile" property="mobile" jdbcType="VARCHAR" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
+    <result column="marriage" property="marriage" jdbcType="VARCHAR" />
+    <result column="city" property="city" jdbcType="VARCHAR" />
+    <result column="addr" property="addr" jdbcType="VARCHAR" />
+    <result column="residence" property="residence" jdbcType="VARCHAR" />
+    <result column="school" property="school" jdbcType="VARCHAR" />
+    <result column="major" property="major" jdbcType="VARCHAR" />
+    <result column="education" property="education" jdbcType="VARCHAR" />
+    <result column="educationtime" property="educationtime" jdbcType="VARCHAR" />
+    <result column="money" property="money" jdbcType="VARCHAR" />
+    <result column="self" property="self" jdbcType="VARCHAR" />
+    <result column="work" property="work" jdbcType="VARCHAR" />
+    <result column="project" property="project" jdbcType="VARCHAR" />
+    <result column="train" property="train" jdbcType="VARCHAR" />
+    <result column="filename" property="filename" jdbcType="VARCHAR" />
+    <result column="path" property="path" jdbcType="VARCHAR" />
+    <result column="path1" property="path1" jdbcType="VARCHAR" />
+    <result column="path2" property="path2" jdbcType="VARCHAR" />
+    <result column="path3" property="path3" jdbcType="VARCHAR" />
+    <result column="path4" property="path4" jdbcType="VARCHAR" />
+    <result column="uid" property="uid" jdbcType="INTEGER" />
+    <result column="time" property="time" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, name, tag, position, resume_name, gender, birthday, age, seniority, card, mobile, 
+    email, marriage, city, addr, residence, school, major, education, educationtime, 
+    money, self, work, project, train, filename, path, path1, path2, path3, path4, uid, 
+    time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from resume
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="list" resultMap="BaseResultMap" parameterType="com.honythink.biz.system.dto.BaseDto" >
+    select * from resume limit #{page}, #{rows}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from resume
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.honythink.db.entity.Resume" >
+    insert into resume (id, name, tag, 
+      position, resume_name, gender, 
+      birthday, age, seniority, 
+      card, mobile, email, 
+      marriage, city, addr, 
+      residence, school, major, 
+      education, educationtime, money, 
+      self, work, project, 
+      train, filename, path, 
+      path1, path2, path3, 
+      path4, uid, time)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{tag,jdbcType=VARCHAR}, 
+      #{position,jdbcType=VARCHAR}, #{resume_name,jdbcType=VARCHAR}, #{gender,jdbcType=VARCHAR}, 
+      #{birthday,jdbcType=VARCHAR}, #{age,jdbcType=VARCHAR}, #{seniority,jdbcType=VARCHAR}, 
+      #{card,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
+      #{marriage,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR}, #{addr,jdbcType=VARCHAR}, 
+      #{residence,jdbcType=VARCHAR}, #{school,jdbcType=VARCHAR}, #{major,jdbcType=VARCHAR}, 
+      #{education,jdbcType=VARCHAR}, #{educationtime,jdbcType=VARCHAR}, #{money,jdbcType=VARCHAR}, 
+      #{self,jdbcType=VARCHAR}, #{work,jdbcType=VARCHAR}, #{project,jdbcType=VARCHAR}, 
+      #{train,jdbcType=VARCHAR}, #{filename,jdbcType=VARCHAR}, #{path,jdbcType=VARCHAR}, 
+      #{path1,jdbcType=VARCHAR}, #{path2,jdbcType=VARCHAR}, #{path3,jdbcType=VARCHAR}, 
+      #{path4,jdbcType=VARCHAR}, #{uid,jdbcType=INTEGER}, #{time,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.honythink.db.entity.Resume" >
+    insert into resume
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="tag != null" >
+        tag,
+      </if>
+      <if test="position != null" >
+        position,
+      </if>
+      <if test="resume_name != null" >
+        resume_name,
+      </if>
+      <if test="gender != null" >
+        gender,
+      </if>
+      <if test="birthday != null" >
+        birthday,
+      </if>
+      <if test="age != null" >
+        age,
+      </if>
+      <if test="seniority != null" >
+        seniority,
+      </if>
+      <if test="card != null" >
+        card,
+      </if>
+      <if test="mobile != null" >
+        mobile,
+      </if>
+      <if test="email != null" >
+        email,
+      </if>
+      <if test="marriage != null" >
+        marriage,
+      </if>
+      <if test="city != null" >
+        city,
+      </if>
+      <if test="addr != null" >
+        addr,
+      </if>
+      <if test="residence != null" >
+        residence,
+      </if>
+      <if test="school != null" >
+        school,
+      </if>
+      <if test="major != null" >
+        major,
+      </if>
+      <if test="education != null" >
+        education,
+      </if>
+      <if test="educationtime != null" >
+        educationtime,
+      </if>
+      <if test="money != null" >
+        money,
+      </if>
+      <if test="self != null" >
+        self,
+      </if>
+      <if test="work != null" >
+        work,
+      </if>
+      <if test="project != null" >
+        project,
+      </if>
+      <if test="train != null" >
+        train,
+      </if>
+      <if test="filename != null" >
+        filename,
+      </if>
+      <if test="path != null" >
+        path,
+      </if>
+      <if test="path1 != null" >
+        path1,
+      </if>
+      <if test="path2 != null" >
+        path2,
+      </if>
+      <if test="path3 != null" >
+        path3,
+      </if>
+      <if test="path4 != null" >
+        path4,
+      </if>
+      <if test="uid != null" >
+        uid,
+      </if>
+      <if test="time != null" >
+        time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="tag != null" >
+        #{tag,jdbcType=VARCHAR},
+      </if>
+      <if test="position != null" >
+        #{position,jdbcType=VARCHAR},
+      </if>
+      <if test="resume_name != null" >
+        #{resume_name,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null" >
+        #{gender,jdbcType=VARCHAR},
+      </if>
+      <if test="birthday != null" >
+        #{birthday,jdbcType=VARCHAR},
+      </if>
+      <if test="age != null" >
+        #{age,jdbcType=VARCHAR},
+      </if>
+      <if test="seniority != null" >
+        #{seniority,jdbcType=VARCHAR},
+      </if>
+      <if test="card != null" >
+        #{card,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null" >
+        #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="marriage != null" >
+        #{marriage,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null" >
+        #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="addr != null" >
+        #{addr,jdbcType=VARCHAR},
+      </if>
+      <if test="residence != null" >
+        #{residence,jdbcType=VARCHAR},
+      </if>
+      <if test="school != null" >
+        #{school,jdbcType=VARCHAR},
+      </if>
+      <if test="major != null" >
+        #{major,jdbcType=VARCHAR},
+      </if>
+      <if test="education != null" >
+        #{education,jdbcType=VARCHAR},
+      </if>
+      <if test="educationtime != null" >
+        #{educationtime,jdbcType=VARCHAR},
+      </if>
+      <if test="money != null" >
+        #{money,jdbcType=VARCHAR},
+      </if>
+      <if test="self != null" >
+        #{self,jdbcType=VARCHAR},
+      </if>
+      <if test="work != null" >
+        #{work,jdbcType=VARCHAR},
+      </if>
+      <if test="project != null" >
+        #{project,jdbcType=VARCHAR},
+      </if>
+      <if test="train != null" >
+        #{train,jdbcType=VARCHAR},
+      </if>
+      <if test="filename != null" >
+        #{filename,jdbcType=VARCHAR},
+      </if>
+      <if test="path != null" >
+        #{path,jdbcType=VARCHAR},
+      </if>
+      <if test="path1 != null" >
+        #{path1,jdbcType=VARCHAR},
+      </if>
+      <if test="path2 != null" >
+        #{path2,jdbcType=VARCHAR},
+      </if>
+      <if test="path3 != null" >
+        #{path3,jdbcType=VARCHAR},
+      </if>
+      <if test="path4 != null" >
+        #{path4,jdbcType=VARCHAR},
+      </if>
+      <if test="uid != null" >
+        #{uid,jdbcType=INTEGER},
+      </if>
+      <if test="time != null" >
+        #{time,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.honythink.db.entity.Resume" >
+    update resume
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="tag != null" >
+        tag = #{tag,jdbcType=VARCHAR},
+      </if>
+      <if test="position != null" >
+        position = #{position,jdbcType=VARCHAR},
+      </if>
+      <if test="resume_name != null" >
+        resume_name = #{resume_name,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null" >
+        gender = #{gender,jdbcType=VARCHAR},
+      </if>
+      <if test="birthday != null" >
+        birthday = #{birthday,jdbcType=VARCHAR},
+      </if>
+      <if test="age != null" >
+        age = #{age,jdbcType=VARCHAR},
+      </if>
+      <if test="seniority != null" >
+        seniority = #{seniority,jdbcType=VARCHAR},
+      </if>
+      <if test="card != null" >
+        card = #{card,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null" >
+        mobile = #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="marriage != null" >
+        marriage = #{marriage,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null" >
+        city = #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="addr != null" >
+        addr = #{addr,jdbcType=VARCHAR},
+      </if>
+      <if test="residence != null" >
+        residence = #{residence,jdbcType=VARCHAR},
+      </if>
+      <if test="school != null" >
+        school = #{school,jdbcType=VARCHAR},
+      </if>
+      <if test="major != null" >
+        major = #{major,jdbcType=VARCHAR},
+      </if>
+      <if test="education != null" >
+        education = #{education,jdbcType=VARCHAR},
+      </if>
+      <if test="educationtime != null" >
+        educationtime = #{educationtime,jdbcType=VARCHAR},
+      </if>
+      <if test="money != null" >
+        money = #{money,jdbcType=VARCHAR},
+      </if>
+      <if test="self != null" >
+        self = #{self,jdbcType=VARCHAR},
+      </if>
+      <if test="work != null" >
+        work = #{work,jdbcType=VARCHAR},
+      </if>
+      <if test="project != null" >
+        project = #{project,jdbcType=VARCHAR},
+      </if>
+      <if test="train != null" >
+        train = #{train,jdbcType=VARCHAR},
+      </if>
+      <if test="filename != null" >
+        filename = #{filename,jdbcType=VARCHAR},
+      </if>
+      <if test="path != null" >
+        path = #{path,jdbcType=VARCHAR},
+      </if>
+      <if test="path1 != null" >
+        path1 = #{path1,jdbcType=VARCHAR},
+      </if>
+      <if test="path2 != null" >
+        path2 = #{path2,jdbcType=VARCHAR},
+      </if>
+      <if test="path3 != null" >
+        path3 = #{path3,jdbcType=VARCHAR},
+      </if>
+      <if test="path4 != null" >
+        path4 = #{path4,jdbcType=VARCHAR},
+      </if>
+      <if test="uid != null" >
+        uid = #{uid,jdbcType=INTEGER},
+      </if>
+      <if test="time != null" >
+        time = #{time,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.honythink.db.entity.Resume" >
+    update resume
+    set name = #{name,jdbcType=VARCHAR},
+      tag = #{tag,jdbcType=VARCHAR},
+      position = #{position,jdbcType=VARCHAR},
+      resume_name = #{resume_name,jdbcType=VARCHAR},
+      gender = #{gender,jdbcType=VARCHAR},
+      birthday = #{birthday,jdbcType=VARCHAR},
+      age = #{age,jdbcType=VARCHAR},
+      seniority = #{seniority,jdbcType=VARCHAR},
+      card = #{card,jdbcType=VARCHAR},
+      mobile = #{mobile,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      marriage = #{marriage,jdbcType=VARCHAR},
+      city = #{city,jdbcType=VARCHAR},
+      addr = #{addr,jdbcType=VARCHAR},
+      residence = #{residence,jdbcType=VARCHAR},
+      school = #{school,jdbcType=VARCHAR},
+      major = #{major,jdbcType=VARCHAR},
+      education = #{education,jdbcType=VARCHAR},
+      educationtime = #{educationtime,jdbcType=VARCHAR},
+      money = #{money,jdbcType=VARCHAR},
+      self = #{self,jdbcType=VARCHAR},
+      work = #{work,jdbcType=VARCHAR},
+      project = #{project,jdbcType=VARCHAR},
+      train = #{train,jdbcType=VARCHAR},
+      filename = #{filename,jdbcType=VARCHAR},
+      path = #{path,jdbcType=VARCHAR},
+      path1 = #{path1,jdbcType=VARCHAR},
+      path2 = #{path2,jdbcType=VARCHAR},
+      path3 = #{path3,jdbcType=VARCHAR},
+      path4 = #{path4,jdbcType=VARCHAR},
+      uid = #{uid,jdbcType=INTEGER},
+      time = #{time,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

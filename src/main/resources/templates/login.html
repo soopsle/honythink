@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head lang="en">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" type="text/css" href="easyui/1.3.4/themes/default/easyui.css" />
+    <link rel="stylesheet" type="text/css" href="css/wu.css" />
+    <link rel="stylesheet" type="text/css" href="css/icon.css" />
+    <script type="text/javascript" src="js/jquery-1.8.0.min.js"></script>
+    <script type="text/javascript" src="easyui/1.3.4/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="easyui/1.3.4/locale/easyui-lang-zh_CN.js"></script>
+</head>
+<body>
+<div id="w" class="easyui-window" title="请先登录" data-options="modal:true,closed:true,iconCls:'Lockgo',closable:false,minimizable:false" style="width:400px;padding:20px 70px 20px 70px;">
+
+    <div style="margin-bottom:10px">
+        <input class="easyui-textbox" id="logname" style="width:100%;height:30px;padding:12px" data-options="prompt:'登录邮箱',iconCls:'icon-man',iconWidth:38">
+    </div>
+    <div style="margin-bottom:20px">
+        <input class="easyui-textbox" id="logpass" type="password" style="width:100%;height:30px;padding:12px" data-options="prompt:'登录密码',iconCls:'icon-lock',iconWidth:38">
+    </div>
+    <div style="margin-bottom:20px">
+        <input type="checkbox" checked="checked" id="logrem">
+        <span>Remember me</span>
+    </div>
+    <div>
+        <a href="javascript:;" onclick="dologin()" class="easyui-linkbutton" data-options="iconCls:'icon-ok'" style="padding:5px 0px;width:100%;">
+            <span style="font-size:14px;">登录</span>
+        </a>
+    </div>
+
+
+
+</div>
+</body>
+</html>
