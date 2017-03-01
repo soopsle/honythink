@@ -27,7 +27,25 @@ public class BaseDto {
 	protected String sort;//0=综合排序，1=离我最近
 	// 排序方式
 	protected String order;//0=asc,1=desc
-	/**
+	
+	protected String pageSize;
+	
+	protected String total;
+	
+	
+	public String getPageSize() {
+        return pageSize;
+    }
+    public void setPageSize(String pageSize) {
+        this.pageSize = pageSize;
+    }
+    public String getTotal() {
+        return total;
+    }
+    public void setTotal(String total) {
+        this.total = total;
+    }
+    /**
 	 * @return the page
 	 */
 	public Integer getPage() {

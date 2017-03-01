@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class BaseController {
     @Autowired
-    public HttpServletRequest request;
+    public HttpServletRequest request;  
 
 
     @RequestMapping(value = "/test", method = RequestMethod.GET)

@@ -30,8 +30,8 @@
 			<appender-ref ref="STDOUT" />
 			<appender-ref ref="FILE" />
 		</root>
-		<logger name="org.springframework.web" level="INFO" />
-		<logger name="cn.onehome.db.mapper" level="DEBUG" />
+		<logger name="org.springframework.web" level="DEBUG" />
+		<logger name="com.honythink.db.mapper" level="DEBUG" />
 	</springProfile>
 	<!-- spring.profiles.active=dev -->
 	<springProfile name="test">
@@ -40,7 +40,7 @@
 			<appender-ref ref="FILE" />
 		</root>
 		<logger name="org.springframework.web" level="INFO" />
-		<logger name="cn.onehome.db.mapper" level="INFO" />
+		<logger name="com.honythink.db.mapper" level="INFO" />
 	</springProfile>
 	<!-- spring.profiles.active=prod -->
 	<springProfile name="prod">
@@ -49,7 +49,7 @@
 			<appender-ref ref="FILE" />
 		</root>
 		<logger name="org.springframework.web" level="INFO" />
-		<logger name="cn.onehome.db.mapper" level="DEBUG" />
+		<logger name="com.honythink.db.mapper" level="DEBUG" />
 	</springProfile>
 
 </configuration>
