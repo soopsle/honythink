@@ -35,7 +35,7 @@ public class Application {
             /// 设置总上传数据总大小
             factory.setMaxRequestSize("100MB"); 
             //Sets the directory location where files will be stored.
-            //factory.setLocation("路径地址");
+//            factory.setLocation("/usr/local/honythink/");
             return factory.createMultipartConfig(); 
     } 
     

@@ -44,8 +44,8 @@ public class Word2Html {
 
 //    public static void main(String argv[]) {
 //        try {
-////            convert2Html("c://a.doc","c://a.html");
-//            new Word2Html().htmlToWord2();
+//            convert2Html("c://a.doc","c://a.html");
+////            new Word2Html().htmlToWord2();
 //        } catch (Exception e) {
 //            e.printStackTrace();
 //        }

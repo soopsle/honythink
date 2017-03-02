@@ -19,4 +19,8 @@ public class Constants {
     public static final String TEMPLATE_CSIX = "template_csix";
     public static final String TEMPLATE_YINGU = "template_yingu";
     public static final String[] TEMPLATE_ALL = new String[]{"template_csix.doc","template_yingu.doc","template_honythink.doc"};
+    public static final String RESUME_UPLOAD = "upload/";
+    public static final String RESUME_TEMPLATE = "template/";
+    public static final String RESUME_ZIP = "zip/";
+    
 }

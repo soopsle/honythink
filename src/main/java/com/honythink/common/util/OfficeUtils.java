@@ -11,7 +11,7 @@ import java.util.regex.Pattern;
 public class OfficeUtils {
 //    public static void main(String[] args) {
 //        try {
-//            for(int i=1;i<3;i++){
+//            for(int i=2;i<3;i++){
 //                InputStream is = new FileInputStream(new File("C:/"+i+".doc"));
 //                String html = getContent(is);
 ////                findName(html);
@@ -26,7 +26,7 @@ public class OfficeUtils {
 ////                findMobile(html); 
 ////                findSelf(html);
 ////                findWork(html);
-////                findProjects(html);
+//                findProjects(html);
 ////                  findSchool(html);
 ////                  findMajor(html);
 ////                  findEducation(html);
@@ -184,10 +184,10 @@ public class OfficeUtils {
         return "";
     }
     public static String findWork(String html){
-        Pattern pattern = Pattern.compile("<table class=MsoTableGrid border=0 cellspacing=0 cellpadding=0 width=\"100%\"[\\s\\S]*经历"); //中文括号 
+        Pattern pattern = Pattern.compile("工作经历[\\s\\S]*?<table[\\s\\S]*?经历</span></b><b"); //中文括号 
         Matcher matcher = pattern.matcher(html);
         if (matcher.find()){
-            Pattern pattern1 = Pattern.compile("<table class=MsoTableGrid border=0 cellspacing=0 cellpadding=0 width=\"100%\"[\\s\\S]*</span>  <span lang=EN-US style='font-size:9.0pt'><o:p></o:p></span></p>  </td> </tr></table>"); //中文括号 
+            Pattern pattern1 = Pattern.compile("<table[\\s\\S]*</span>  <span lang=EN-US style='font-size:9.0pt'><o:p></o:p></span></p>  </td> </tr></table>"); //中文括号 
             Matcher matcher1 = pattern1.matcher(matcher.group(0));
             if (matcher1.find()){
                 return matcher1.group(0);
@@ -198,10 +198,10 @@ public class OfficeUtils {
         return "";
     }
     public static String findProjects(String html){
-        Pattern pattern = Pattern.compile("<table class=MsoTableGrid border=0 cellspacing=0 cellpadding=0 width=\"100%\"[\\s\\S]*经历"); //中文括号 
+        Pattern pattern = Pattern.compile("项目经历[\\s\\S]*?<table[\\s\\S]*?经历</span></b><b"); //中文括号 
         Matcher matcher = pattern.matcher(html);
         if (matcher.find()){
-            Pattern pattern1 = Pattern.compile("<table class=MsoTableGrid border=0 cellspacing=0 cellpadding=0 width=\"100%\"[\\s\\S]*</span>  <span lang=EN-US style='font-size:9.0pt'><o:p></o:p></span></p>  </td> </tr></table>"); //中文括号 
+            Pattern pattern1 = Pattern.compile("<table[\\s\\S]*lang=EN-US style='font-size:9.0pt'><o:p></o:p></span></p>  </td> </tr></table>"); //中文括号 
             Matcher matcher1 = pattern1.matcher(matcher.group(0));
             if (matcher1.find()){
                 return matcher1.group(0);

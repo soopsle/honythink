@@ -24,6 +24,12 @@
 	</form>
 </div>
 
+<!-- 表单详情 -->
+	<div id="directionDialog" title="详情" class="easyui-dialog" data-options="modal:true,closed:true,iconCls:'icon-edit'"
+		style="width:800px;height:450px;">
+		<div id="direction" style="margin-left: 15px"></div>
+	</div>
+
 <script type="text/javascript">
 	function add(){
 		$('#form_add').form('submit', {
@@ -31,6 +37,7 @@
 			success:function(data){
 				if(data){
 					$.messager.alert('信息提示','提交成功！','info');
+					$('#datagrid').datagrid('load');//重新加载datagrid，刷新功能
 					$('#dialog_add').dialog('close');
 				}
 				else
@@ -105,7 +112,6 @@
                 text: '取消',
                 iconCls: 'icon-cancel',
                 handler: function () {
-              	    $('#datagrid').datagrid('reload');
                     $('#dialog_add').dialog('close');                    
                 }
             }]
@@ -180,11 +186,12 @@
 		pageSize:20,           
 		pagination:true,
 		multiSort:true,
+		//autoRowHeight:false,
+		editorHeight:24,
 		//fitColumns:true,
 		fit:true,
 		columns:[[
-		{ field:'id',checkbox:true},
-		{ field:'name',title:'姓名',width:100,sortable:true,editor:'text'},
+		
 		{ field:'resume_name',title:'简历名称',width:100,editor:'text'},
 		{ field:'gender',title:'性别',width:60,editor:{
 						type:'combobox',
@@ -215,27 +222,62 @@
          { field:'major',title:'专业',width:100,editor:'text'},
          { field:'education',title:'最高学历',width:100,editor:'text'},
          { field:'educationtime',title:'在校时间',width:100,editor:'text'},
-       /*   { field:'self',title:'自我评价',width:100},
-         { field:'work',title:'工作经历',width:100},
-         { field:'project',title:'项目经历',width:100},
-         { field:'train',title:'培训经历',width:100}, */
-         { field:'time',title:'录入时间',width:100}
+         { field:'self',title:'自我评价',width:100,
+				formatter:function(value,rowData,rowIndex){
+								if(value != null){
+									return '<a href="#"  onclick="openDirectionDialog('+rowIndex+', \'self\')">'+value.replace(/<[^>]*?>/g,'')+'</a> ';
+								}else{
+									return ;
+								}
+							}	
+		 }, 
+         { field:'work',title:'工作经历',width:100,
+				formatter:function(value,rowData,rowIndex){
+								if(value != null){
+									return '<a href="#"  onclick="openDirectionDialog('+rowIndex+', \'work\')">'+value.replace(/<[^>]*?>/g,'')+'</a> ';
+								}else{
+									return ;
+								}
+							}	
+		 }, 
+         { field:'project',title:'项目经历',width:100,
+				formatter:function(value,rowData,rowIndex){
+								if(value != null){
+									return '<a href="#"  onclick="openDirectionDialog('+rowIndex+', \'project\')">'+value.replace(/<[^>]*?>/g,'')+'</a> ';
+								}else{
+									return ;
+								}
+							}	
+		 }, 
+         { field:'train',title:'培训经历',width:100,
+				formatter:function(value,rowData,rowIndex){
+								if(value != null){
+									return '<a href="#"  onclick="openDirectionDialog('+rowIndex+', \'train\')">'+value.replace(/<[^>]*?>/g,'')+'</a> ';
+								}else{
+									return ;
+								}
+							}	
+		 }, 
+         { field:'time',title:'录入时间',width:130}
             
 		]],
 		frozenColumns:[[ 
-		{field:'action',title:'操作',width:70,align:'right',
-					formatter:function(value,row,index){
-						if (row.editing){
-								var s = '<a href="#" onclick="saverow(this)">保存</a> ';
-								var c = '<a href="#" onclick="cancelrow(this)">取消</a>';
-								return s+c;
-							} else {
-								var e = '<a href="#" onclick="editrow(this)">修改</a> ';
-								var d = '<a href="#" onclick="deleterow(this)">删除</a>';
-								return e+d;
-							}
-					}
-				}
+			{field:'id',checkbox:true},
+			
+			{field:'action',title:'操作',width:70,align:'right',
+						formatter:function(value,row,index){
+							if (row.editing){
+									var s = '<a href="#" onclick="saverow(this)">保存</a> ';
+									var c = '<a href="#" onclick="cancelrow(this)">取消</a>';
+									return s+c;
+								} else {
+									var e = '<a href="#" onclick="editrow(this)">修改</a> ';
+									var d = '<a href="#" onclick="deleterow(this)">删除</a>';
+									return e+d;
+								}
+						}
+			},
+			{ field:'name',title:'姓名',width:100,sortable:true,editor:'text'}
 	    ]],
 			onBeforeEdit:function(index,row){
 				row.editing = true;
@@ -274,7 +316,10 @@
 			onCancelEdit:function(index,row){
 				row.editing = false;
 				updateActions(index);
-			}
+			},
+			onDblClickRow: function (rowIndex, rowData) {
+				openDialogViewDetail("viewDialog",rowData.id);
+			}//双击事件
 	});
 	function updateActions(index){
 		$('#datagrid').datagrid('updateRow',{
@@ -298,7 +343,7 @@
                     type: "POST",
                     url: "resume/delete/"+selectedRow.id,
                     success: function(msg){
-                      alert("数据添加成功...");
+                      alert("数据删除成功...");
                       $('#datagrid').datagrid('load');//重新加载datagrid，刷新功能
                     }
                  });
@@ -310,5 +355,27 @@
 	}
 	function cancelrow(target){
 		$('#datagrid').datagrid('cancelEdit', getRowIndex(target));
+	}
+	function openDirectionDialog(index,field){
+		$('#datagrid').datagrid("selectRow", index);
+		var row = $("#datagrid").datagrid("getSelected");
+		if(field == 'self'){
+			$("#direction").html(row.self);
+		}
+		if(field == 'work'){
+			$("#direction").html(row.work);
+		}
+		if(field == 'project'){
+			$("#direction").html(row.project);
+		}
+		if(field == 'train'){
+			$("#direction").html(row.train);
+		}
+		$('#directionDialog').dialog({ top : 100, buttons : [{
+			text : '关闭', iconCls : 'icon-cancel', handler : function() {
+				$('#directionDialog').dialog('close');
+			}}]
+	    });
+		$('#directionDialog').dialog("open");
 	}
 </script>

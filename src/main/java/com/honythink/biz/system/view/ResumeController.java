@@ -1,6 +1,5 @@
 package com.honythink.biz.system.view;
 
-import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -8,14 +7,12 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -29,11 +26,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
-
 import com.honythink.Constants;
 import com.honythink.biz.base.controller.BaseController;
 import com.honythink.biz.system.dto.BaseDto;
 import com.honythink.biz.system.service.ResumeService;
+import com.honythink.common.util.FileUtils;
 import com.honythink.common.util.OfficeUtils;
 import com.honythink.common.util.OfficeWriteUtils;
 import com.honythink.db.entity.Resume;
@@ -55,8 +52,8 @@ public class ResumeController extends BaseController {
     @Autowired
     private ResumeService resumeService;
 
-    @RequestMapping("")
-    public String index() {
+    @RequestMapping("/resume_index")
+    public String resume_index() {
         return "/resume_index";
     }
 
@@ -83,7 +80,7 @@ public class ResumeController extends BaseController {
         if (!file.isEmpty()) {
             try {
                 // 简历上传
-                File resumeFile = new File(file.getOriginalFilename());
+                File resumeFile = FileUtils.createFile(Constants.RESUME_UPLOAD,UUID.randomUUID().toString()+"_"+file.getOriginalFilename());
                 BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(resumeFile));
                 out.write(file.getBytes());
                 out.flush();
@@ -218,6 +215,7 @@ public class ResumeController extends BaseController {
     @RequestMapping(value = "/list", method = RequestMethod.POST)
     @ResponseBody
     public List<Resume> list(BaseDto dto) {
+        dto.setPage(dto.getPage()-1);
         List<Resume> record = resumeService.list(dto);
         return record;
     }
@@ -225,7 +223,8 @@ public class ResumeController extends BaseController {
     @RequestMapping(value = "/download", method = RequestMethod.GET)
     public void download(Integer[] ids, HttpServletRequest request, HttpServletResponse response) {
         List<File> files = new ArrayList<File>();
-        String base = request.getSession().getServletContext().getRealPath("/") + "upload/";
+        String base = Constants.RESUME_TEMPLATE;
+        String baseZip = Constants.RESUME_ZIP;
         for (Integer id : ids) {
             // 套用模板 生成简历
             Resume record = resumeService.selectByPrimaryKey(id);
@@ -236,120 +235,20 @@ public class ResumeController extends BaseController {
             }
         }
         String fileName = UUID.randomUUID().toString() + ".zip";
-        createFile(base, fileName);
-        File fileZip = new File(base + fileName);
+        FileUtils.createFile(baseZip, fileName);
+        File fileZip = new File(baseZip + fileName);
         try {
             // 文件输出流
             FileOutputStream outStream = new FileOutputStream(fileZip);
             // 压缩流
             ZipOutputStream toClient = new ZipOutputStream(outStream);
-            zipFile(files, toClient);
+            FileUtils.zipFile(files, toClient);
             toClient.close();
             outStream.close();
         } catch (IOException | ServletException e) {
             e.printStackTrace();
         }
-        this.downloadFile(fileZip, response, true);
+        FileUtils.downloadFile(fileZip, response, true);
     }
 
-    // 创建文件
-    public void createFile(String path, String fileName) {
-        // path表示你所创建文件的路径
-        File f = new File(path);
-
-        if (!f.exists()) {
-            f.mkdirs();
-        }
-
-        // fileName表示你创建的文件名；为txt类型；
-        File file = new File(f, fileName);
-        if (!file.exists()) {
-            try {
-                file.createNewFile();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    public static void zipFile(List<File> files, ZipOutputStream outputStream) throws IOException, ServletException {
-        try {
-            int size = files.size();
-            // 压缩列表中的文件
-            for (int i = 0; i < size; i++) {
-                File file = (File) files.get(i);
-                zipFile(file, outputStream);
-            }
-        } catch (IOException e) {
-            throw e;
-        }
-    }
-
-    public static void zipFile(File inputFile, ZipOutputStream outputstream) throws IOException, ServletException {
-        try {
-            if (inputFile.exists()) {
-                if (inputFile.isFile()) {
-                    FileInputStream inStream = new FileInputStream(inputFile);
-                    BufferedInputStream bInStream = new BufferedInputStream(inStream);
-                    ZipEntry entry = new ZipEntry(inputFile.getName());
-                    outputstream.putNextEntry(entry);
-
-                    final int MAX_BYTE = 10 * 1024 * 1024; // 最大的流为10M
-                    long streamTotal = 0; // 接受流的容量
-                    int streamNum = 0; // 流需要分开的数量
-                    int leaveByte = 0; // 文件剩下的字符数
-                    byte[] inOutbyte; // byte数组接受文件的数据
-
-                    streamTotal = bInStream.available(); // 通过available方法取得流的最大字符数
-                    streamNum = (int) Math.floor(streamTotal / MAX_BYTE); // 取得流文件需要分开的数量
-                    leaveByte = (int) streamTotal % MAX_BYTE; // 分开文件之后,剩余的数量
-
-                    if (streamNum > 0) {
-                        for (int j = 0; j < streamNum; ++j) {
-                            inOutbyte = new byte[MAX_BYTE];
-                            // 读入流,保存在byte数组
-                            bInStream.read(inOutbyte, 0, MAX_BYTE);
-                            outputstream.write(inOutbyte, 0, MAX_BYTE); // 写出流
-                        }
-                    }
-                    // 写出剩下的流数据
-                    inOutbyte = new byte[leaveByte];
-                    bInStream.read(inOutbyte, 0, leaveByte);
-                    outputstream.write(inOutbyte);
-                    outputstream.closeEntry(); // Closes the current ZIP entry
-                    // and positions the stream for
-                    // writing the next entry
-                    bInStream.close(); // 关闭
-                    inStream.close();
-                }
-            } else {
-                throw new ServletException("文件不存在！");
-            }
-        } catch (IOException e) {
-            throw e;
-        }
-    }
-
-    public void downloadFile(File file, HttpServletResponse response, boolean isDelete) {
-        try {
-            // 以流的形式下载文件。
-            BufferedInputStream fis = new BufferedInputStream(new FileInputStream(file.getPath()));
-            byte[] buffer = new byte[fis.available()];
-            fis.read(buffer);
-            fis.close();
-            // 清空response
-            response.reset();
-            OutputStream toClient = new BufferedOutputStream(response.getOutputStream());
-            response.setContentType("application/octet-stream");
-            response.setHeader("Content-Disposition", "attachment;filename=" + new String(file.getName().getBytes("UTF-8"), "ISO-8859-1"));
-            toClient.write(buffer);
-            toClient.flush();
-            toClient.close();
-            if (isDelete) {
-                file.delete(); // 是否将生成的服务器端文件删除
-            }
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-    }
 }

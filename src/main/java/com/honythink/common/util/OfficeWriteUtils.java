@@ -1,5 +1,6 @@
 package com.honythink.common.util;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -8,6 +9,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import org.apache.poi.hwpf.HWPFDocument;
 import org.apache.poi.hwpf.usermodel.Range;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.util.ResourceUtils;
 
 import com.honythink.Constants;
@@ -53,7 +55,7 @@ public class OfficeWriteUtils {
         StringBuffer sb = new StringBuffer();
         for (String templatePath : paths) {
             try {
-                is = new FileInputStream(base+templatePath);
+                is = new ClassPathResource(templatePath).getInputStream();
                 HWPFDocument doc = new HWPFDocument(is);
                 Range range = doc.getRange();
                 // 把range范围内的${reportDate}替换为当前的日期
@@ -72,6 +74,10 @@ public class OfficeWriteUtils {
                 range.replaceText("${education}",record.getEducation()==null?"":record.getEducation());
                 range.replaceText("${train}",record.getTrain()==null?"":record.getTrain());
                 String filename = "弘毅知行-"+record.getName()+"-"+templatePath;
+                File f = new File(base);
+                if (!f.exists()) {
+                    f.mkdirs();
+                }
                 OutputStream os = new FileOutputStream(base+filename);
                 sb.append(filename).append("@@@@");
                 // 把doc输出到输出流中

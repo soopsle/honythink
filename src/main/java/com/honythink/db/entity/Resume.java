@@ -2,6 +2,8 @@ package com.honythink.db.entity;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class Resume {
     private Integer id;
 
@@ -67,6 +69,7 @@ public class Resume {
 
     private Integer uid;
 
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
     private Date time;
 
     public Integer getId() {
@@ -324,7 +327,6 @@ public class Resume {
     public void setUid(Integer uid) {
         this.uid = uid;
     }
-
     public Date getTime() {
         return time;
     }
