@@ -6,7 +6,7 @@
     <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="tag" property="tag" jdbcType="VARCHAR" />
     <result column="position" property="position" jdbcType="VARCHAR" />
-    <result column="resume_name" property="resume_name" jdbcType="VARCHAR" />
+    <result column="resume_name" property="resumeName" jdbcType="VARCHAR" />
     <result column="gender" property="gender" jdbcType="VARCHAR" />
     <result column="birthday" property="birthday" jdbcType="VARCHAR" />
     <result column="age" property="age" jdbcType="VARCHAR" />
@@ -35,21 +35,28 @@
     <result column="path4" property="path4" jdbcType="VARCHAR" />
     <result column="uid" property="uid" jdbcType="INTEGER" />
     <result column="time" property="time" jdbcType="TIMESTAMP" />
+    <result column="username" property="username" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, name, tag, position, resume_name, gender, birthday, age, seniority, card, mobile, 
     email, marriage, city, addr, residence, school, major, education, educationtime, 
     money, self, work, project, train, filename, path, path1, path2, path3, path4, uid, 
-    time
+    time, username
   </sql>
+  
+  <select id="list" parameterType="com.honythink.biz.system.dto.ResumeDto" resultMap="BaseResultMap">
+    select * from resume r where 1=1
+     <if test="username != null" >
+       and r.username = #{username}
+     </if>
+     limit #{page}, #{rows}
+  </select>
+  
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 'true' as QUERYID,
     <include refid="Base_Column_List" />
     from resume
     where id = #{id,jdbcType=INTEGER}
-  </select>
-  <select id="list" resultMap="BaseResultMap" parameterType="com.honythink.biz.system.dto.BaseDto" >
-    select * from resume limit #{page}, #{rows}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from resume
@@ -66,9 +73,10 @@
       self, work, project, 
       train, filename, path, 
       path1, path2, path3, 
-      path4, uid, time)
+      path4, uid, time, 
+      username)
     values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{tag,jdbcType=VARCHAR}, 
-      #{position,jdbcType=VARCHAR}, #{resume_name,jdbcType=VARCHAR}, #{gender,jdbcType=VARCHAR}, 
+      #{position,jdbcType=VARCHAR}, #{resumeName,jdbcType=VARCHAR}, #{gender,jdbcType=VARCHAR}, 
       #{birthday,jdbcType=VARCHAR}, #{age,jdbcType=VARCHAR}, #{seniority,jdbcType=VARCHAR}, 
       #{card,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
       #{marriage,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR}, #{addr,jdbcType=VARCHAR}, 
@@ -77,7 +85,8 @@
       #{self,jdbcType=VARCHAR}, #{work,jdbcType=VARCHAR}, #{project,jdbcType=VARCHAR}, 
       #{train,jdbcType=VARCHAR}, #{filename,jdbcType=VARCHAR}, #{path,jdbcType=VARCHAR}, 
       #{path1,jdbcType=VARCHAR}, #{path2,jdbcType=VARCHAR}, #{path3,jdbcType=VARCHAR}, 
-      #{path4,jdbcType=VARCHAR}, #{uid,jdbcType=INTEGER}, #{time,jdbcType=TIMESTAMP})
+      #{path4,jdbcType=VARCHAR}, #{uid,jdbcType=INTEGER}, #{time,jdbcType=TIMESTAMP}, 
+      #{username,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.honythink.db.entity.Resume" >
     insert into resume
@@ -94,7 +103,7 @@
       <if test="position != null" >
         position,
       </if>
-      <if test="resume_name != null" >
+      <if test="resumeName != null" >
         resume_name,
       </if>
       <if test="gender != null" >
@@ -181,6 +190,9 @@
       <if test="time != null" >
         time,
       </if>
+      <if test="username != null" >
+        username,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -195,8 +207,8 @@
       <if test="position != null" >
         #{position,jdbcType=VARCHAR},
       </if>
-      <if test="resume_name != null" >
-        #{resume_name,jdbcType=VARCHAR},
+      <if test="resumeName != null" >
+        #{resumeName,jdbcType=VARCHAR},
       </if>
       <if test="gender != null" >
         #{gender,jdbcType=VARCHAR},
@@ -282,6 +294,9 @@
       <if test="time != null" >
         #{time,jdbcType=TIMESTAMP},
       </if>
+      <if test="username != null" >
+        #{username,jdbcType=VARCHAR},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.honythink.db.entity.Resume" >
@@ -296,8 +311,8 @@
       <if test="position != null" >
         position = #{position,jdbcType=VARCHAR},
       </if>
-      <if test="resume_name != null" >
-        resume_name = #{resume_name,jdbcType=VARCHAR},
+      <if test="resumeName != null" >
+        resume_name = #{resumeName,jdbcType=VARCHAR},
       </if>
       <if test="gender != null" >
         gender = #{gender,jdbcType=VARCHAR},
@@ -383,6 +398,9 @@
       <if test="time != null" >
         time = #{time,jdbcType=TIMESTAMP},
       </if>
+      <if test="username != null" >
+        username = #{username,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -391,7 +409,7 @@
     set name = #{name,jdbcType=VARCHAR},
       tag = #{tag,jdbcType=VARCHAR},
       position = #{position,jdbcType=VARCHAR},
-      resume_name = #{resume_name,jdbcType=VARCHAR},
+      resume_name = #{resumeName,jdbcType=VARCHAR},
       gender = #{gender,jdbcType=VARCHAR},
       birthday = #{birthday,jdbcType=VARCHAR},
       age = #{age,jdbcType=VARCHAR},
@@ -419,7 +437,8 @@
       path3 = #{path3,jdbcType=VARCHAR},
       path4 = #{path4,jdbcType=VARCHAR},
       uid = #{uid,jdbcType=INTEGER},
-      time = #{time,jdbcType=TIMESTAMP}
+      time = #{time,jdbcType=TIMESTAMP},
+      username = #{username,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

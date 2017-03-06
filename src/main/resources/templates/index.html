@@ -18,8 +18,9 @@
         	<h1>弘毅知行OA</h1>
         </div>
         <div class="wu-header-right">
-        	<p><strong class="easyui-tooltip" title="">admin</strong>，欢迎您！</p>
-            <p><a href="#">安全退出</a></p>
+	        <form th:action="@{/logout}" method="post">
+		            <input type="submit" value="注销"/>
+		    </form>
         </div>
     </div>
     <!-- end of header -->
@@ -192,5 +193,6 @@
 			}
 		}
 	</script>
+	
 </body>
 </html>

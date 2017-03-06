@@ -4,6 +4,7 @@ package com.honythink.biz.system.service;
 import java.util.List;
 
 import com.honythink.biz.system.dto.BaseDto;
+import com.honythink.biz.system.dto.ResumeDto;
 import com.honythink.db.entity.Resume;
 
 public interface ResumeService {
@@ -19,5 +20,5 @@ public interface ResumeService {
 
     int updateByPrimaryKey(Resume record);
     
-    List<Resume> list(BaseDto dto);
+    List<Resume> list(ResumeDto dto);
 }

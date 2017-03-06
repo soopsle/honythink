@@ -6,6 +6,8 @@
 			<a href="#" class="easyui-linkbutton" iconCls="icon-add"
 				onclick="openAdd()" plain="true">上传简历</a> 
 			<a href="#" class="easyui-linkbutton"
+				iconCls="icon-remove" onclick="openDelete()" plain="true">删除</a>
+			<a href="#" class="easyui-linkbutton"
 				iconCls="icon-edit" onclick="openDownload()" plain="true">生成并下载</a>
 		</div>
 	</div>
@@ -17,7 +19,19 @@
 	data-options="closed:true,iconCls:'icon-save'"
 	style="width:400px; padding:10px;">
 	<form id="form_add" method="POST" enctype="multipart/form-data"
-		action="/resume/upload">
+		action="/resume/batch/upload">
+		<p>
+			文件：<input type="file" name="file" />
+		</p>
+		<p>
+			文件：<input type="file" name="file" />
+		</p>
+		<p>
+			文件：<input type="file" name="file" />
+		</p>
+		<p>
+			文件：<input type="file" name="file" />
+		</p>
 		<p>
 			文件：<input type="file" name="file" />
 		</p>
@@ -34,6 +48,10 @@
 	function add(){
 		$('#form_add').form('submit', {
 			url:'',
+			 onSubmit: function(){  
+				$("#saveBT").hide();
+				return true;
+				},
 			success:function(data){
 				if(data){
 					$.messager.alert('信息提示','提交成功！','info');
@@ -105,6 +123,7 @@
 			modal:true,
             title: "上传简历",
             buttons: [{
+            	id:"saveBT",
                 text: '确定',
                 iconCls: 'icon-ok',
                 handler: add
@@ -134,6 +153,35 @@
 		} else {
 			var vals = valArr.join(','); //转换为逗号隔开的字符串 
 			window.location.href = "/resume/download/?ids="+vals;
+		}
+	}	
+	function openDelete(){
+		var valArr = new Array; 
+		var c=0;
+		$('input[name="id"]:checked').each(function(i) {
+			valArr[i] = $(this).val();
+			c++;
+		});
+		if (c == 0) {
+			alert("请选择删除下载的文件！");
+			return;
+		} else {
+			$.messager.confirm('Confirm','确认删除?',function(r){
+				if (r){
+					var vals = valArr.join(','); //转换为逗号隔开的字符串 
+					 $.ajax({
+                    type: "POST",
+                    url: "resume/delete",
+                    data: {
+                    	"ids":vals,
+                    },
+                    success: function(msg){
+                      $('#datagrid').datagrid('load');//重新加载datagrid，刷新功能
+                      alert("删除成功...");
+                    }
+                 });
+				}
+			});
 		}
 	}	
 	
@@ -192,7 +240,7 @@
 		fit:true,
 		columns:[[
 		
-		{ field:'resume_name',title:'简历名称',width:100,editor:'text'},
+		{ field:'resumeName',title:'简历名称',width:100,editor:'text'},
 		{ field:'gender',title:'性别',width:60,editor:{
 						type:'combobox',
 						options:{
@@ -258,8 +306,8 @@
 								}
 							}	
 		 }, 
-         { field:'time',title:'录入时间',width:130}
-            
+         { field:'time',title:'录入时间',width:130},
+         { field:'username',title:'录入人员',width:130}
 		]],
 		frozenColumns:[[ 
 			{field:'id',checkbox:true},
@@ -335,9 +383,18 @@
 		$('#datagrid').datagrid('beginEdit', getRowIndex(target));
 	}
 	function deleterow(target){
+	 	var selectedRow = $('#datagrid').datagrid('getSelected'); //获取选中行
+	 	if (null == selectedRow) {
+			alert("请选择需要删除的记录！");
+	 	}
+	 	if (null == selectedRow.id) {
+			alert("请选择需要删除的记录！");
+	 	}
+		if (0 == selectedRow.id) {
+			alert("请选择需要删除的记录！");
+	 	}
 		$.messager.confirm('Confirm','确认删除?',function(r){
 			if (r){
-			 	var selectedRow = $('#datagrid').datagrid('getSelected'); //获取选中行
 				$('#datagrid').datagrid('deleteRow', getRowIndex(target));
 					$.ajax({
                     type: "POST",

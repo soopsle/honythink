@@ -7,6 +7,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.sun.tools.internal.ws.processor.model.Request;
+
 /**
  * 
  * @author
@@ -30,5 +32,9 @@ public class BaseController {
     @RequestMapping(value = "/index")
     public String index(HttpSession session) {
         return "index";
+    }
+    @RequestMapping(value = "/login")
+    public String login(HttpSession session) {
+        return "login";
     }
 }

@@ -13,7 +13,7 @@ public class Resume {
 
     private String position;
 
-    private String resume_name;
+    private String resumeName;
 
     private String gender;
 
@@ -68,9 +68,11 @@ public class Resume {
     private String path4;
 
     private Integer uid;
-
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
+    
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private Date time;
+
+    private String username;
 
     public Integer getId() {
         return id;
@@ -104,12 +106,12 @@ public class Resume {
         this.position = position;
     }
 
-    public String getResume_name() {
-        return resume_name;
+    public String getResumeName() {
+        return resumeName;
     }
 
-    public void setResume_name(String resume_name) {
-        this.resume_name = resume_name;
+    public void setResumeName(String resumeName) {
+        this.resumeName = resumeName;
     }
 
     public String getGender() {
@@ -327,11 +329,20 @@ public class Resume {
     public void setUid(Integer uid) {
         this.uid = uid;
     }
+
     public Date getTime() {
         return time;
     }
 
     public void setTime(Date time) {
         this.time = time;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 }

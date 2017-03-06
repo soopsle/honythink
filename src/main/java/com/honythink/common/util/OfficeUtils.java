@@ -50,7 +50,7 @@ public class OfficeUtils {
           BufferedReader br;
           String line;
           for (InputStream is : ises) {
-             br = new BufferedReader(new InputStreamReader(is, "UTF-8"));
+             br = new BufferedReader(new InputStreamReader(is, "utf-8"));
              while ((line=br.readLine()) != null) {
                  result.append(line);
              }

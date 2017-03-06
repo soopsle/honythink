@@ -15,6 +15,7 @@ public class Constants {
     /********************* 公用常量 start *********************************/
     // 成功
     public static final String RET_SUCCESS = "SUCCESS";
+    public static final String PATH_SEPERATOR = "/";
     public static final String TEMPLATE_HONYTHINK = "template_honythink";
     public static final String TEMPLATE_CSIX = "template_csix";
     public static final String TEMPLATE_YINGU = "template_yingu";
@@ -22,5 +23,9 @@ public class Constants {
     public static final String RESUME_UPLOAD = "upload/";
     public static final String RESUME_TEMPLATE = "template/";
     public static final String RESUME_ZIP = "zip/";
+    public static final String XLS_WORKBOOK_TEMPLATE = "template_summary.xls";
+    public static final String XLS_WORKBOOK_EXPORT = "summary.xls";
+    public static final String SUFFIX_ZIP = ".zip";
+    
     
 }

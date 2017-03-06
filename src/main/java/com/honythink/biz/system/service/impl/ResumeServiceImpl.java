@@ -4,6 +4,7 @@ import java.util.List;
 import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 import com.honythink.biz.system.dto.BaseDto;
+import com.honythink.biz.system.dto.ResumeDto;
 import com.honythink.biz.system.service.ResumeService;
 import com.honythink.db.entity.Resume;
 import com.honythink.db.mapper.ResumeMapper;
@@ -47,7 +48,7 @@ public class ResumeServiceImpl implements ResumeService{
     }
 
     @Override
-    public List<Resume> list(BaseDto dto) {
+    public List<Resume> list(ResumeDto dto) {
         return resumeMapper.list(dto);
     }
 
