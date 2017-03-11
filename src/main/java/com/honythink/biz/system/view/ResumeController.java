@@ -20,6 +20,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -34,15 +36,22 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.honythink.Constants;
 import com.honythink.biz.base.controller.BaseController;
+import com.honythink.biz.system.dto.BaseDto;
 import com.honythink.biz.system.dto.ResumeDto;
 import com.honythink.biz.system.service.ResumeService;
 import com.honythink.common.util.FileUtils;
 import com.honythink.common.util.OfficeUtils;
 import com.honythink.common.util.OfficeWriteUtils;
+import com.honythink.db.entity.Customer;
 import com.honythink.db.entity.Resume;
+import com.honythink.db.entity.SysUser;
+import com.honythink.db.mapper.CustomerMapper;
+import com.honythink.db.mapper.InterviewMapper;
+import com.honythink.db.mapper.SysUserMapper;
 
 /**
  * 
@@ -57,13 +66,35 @@ import com.honythink.db.entity.Resume;
 @Controller
 @RequestMapping(value = "/resume")
 public class ResumeController extends BaseController {
+    
+    private static final Logger log = LoggerFactory.getLogger("ResumeController");
 
     @Autowired
     private ResumeService resumeService;
+    
+    @Autowired
+    private SysUserMapper sysUserMapper;
+    
+    @Autowired
+    private CustomerMapper customerMapper;
 
     @RequestMapping("/resume_index")
-    public String resume_index() {
-        return "/resume_index";
+    public ModelAndView resume_index() {
+        ModelAndView mav = new ModelAndView("resume_index");
+        
+        //hr
+        List<SysUser> hrs = sysUserMapper.getUsersByRole(Constants.ROLE_HR);
+        mav.addObject("hrs", hrs);
+        
+        //seller
+        List<SysUser> sellers = sysUserMapper.getUsersByRole(Constants.ROLE_SELLER);
+        mav.addObject("sellers", sellers);
+        
+        //客户
+        BaseDto dto = new BaseDto();
+        List<Customer> customers = customerMapper.list(dto);
+        mav.addObject("customers", customers);
+        return mav;
     }
 
     @RequestMapping("/singefile")
@@ -96,11 +127,11 @@ public class ResumeController extends BaseController {
                 out.close();
                 dealResume(file.getOriginalFilename(),resumeFile, datas);
             } catch (FileNotFoundException e) {
-                e.printStackTrace();
+                log.error(e.getMessage());
                 datas.put("ret", false);
                 datas.put("msg", e.getMessage());
             } catch (IOException e) {
-                e.printStackTrace();
+                log.error(e.getMessage());
                 datas.put("ret", false);
                 datas.put("msg", e.getMessage());
             }
@@ -137,11 +168,11 @@ public class ResumeController extends BaseController {
                     out.close();
                     dealResume(file.getOriginalFilename(),resumeFile, datas);
                 } catch (FileNotFoundException e) {
-                    e.printStackTrace();
+                    log.error(e.getMessage());
                     datas.put("ret", false);
                     datas.put("msg", e.getMessage());
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    log.error(e.getMessage());
                     datas.put("ret", false);
                     datas.put("msg", e.getMessage());
                 }
@@ -203,11 +234,13 @@ public class ResumeController extends BaseController {
             resumeService.insertSelective(record);
             datas.put("ret", true);
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            log.error(e.getMessage());
             datas.put("ret", false);
             datas.put("msg", e.getMessage());
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error(e.getMessage());
+            datas.put("ret", false);
+            datas.put("msg", e.getMessage());
         }
         return datas;
     }
@@ -287,21 +320,30 @@ public class ResumeController extends BaseController {
             Resume record = resumeService.selectByPrimaryKey(id);
             resumes.add(record);
             //生成word
-            String paths = OfficeWriteUtils.templateResume(base,record);
-            for (String path : paths.split("@@@@")) {
-                File file = new File(base+path);
-                files.add(file);
+            String paths;
+            try {
+                paths = OfficeWriteUtils.templateResume(base,record);
+                for (String path : paths.split("@@@@")) {
+                    File file = new File(base+path);
+                    files.add(file);
+                }
+            } catch (IOException e) {
+                log.error(e.getMessage());
             }
         }
         //生成excel
-        OfficeWriteUtils.writeExcel(uuidName,resumes);
-        files.add(new File(Constants.RESUME_TEMPLATE+uuidName+Constants.XLS_WORKBOOK_EXPORT));
+//        try {
+//            OfficeWriteUtils.writeExcel(uuidName,resumes);
+//        } catch (IOException e) {
+//            log.error(e.getMessage());
+//        }
+//        files.add(new File(Constants.RESUME_TEMPLATE+uuidName+Constants.PATH_SEPERATOR+Constants.XLS_WORKBOOK_EXPORT));
        
         //打包zip
         String fileName = uuidName + Constants.SUFFIX_ZIP;
-        FileUtils.createFile(baseZip, fileName);
-        File fileZip = new File(baseZip + fileName);
         try {
+            FileUtils.createFile(baseZip, fileName);
+            File fileZip = new File(baseZip + fileName);
             // 文件输出流
             FileOutputStream outStream = new FileOutputStream(fileZip);
             // 压缩流
@@ -309,10 +351,10 @@ public class ResumeController extends BaseController {
             FileUtils.zipFile(files, toClient);
             toClient.close();
             outStream.close();
+            FileUtils.downloadFile(fileZip, response, true);
         } catch (IOException | ServletException e) {
-            e.printStackTrace();
+            log.error(e.getMessage());
         }
-        FileUtils.downloadFile(fileZip, response, true);
     }
 
 }

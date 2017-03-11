@@ -1,8 +1,14 @@
 package com.honythink.biz.base.controller;
 
+import java.util.Collection;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -36,5 +42,28 @@ public class BaseController {
     @RequestMapping(value = "/login")
     public String login(HttpSession session) {
         return "login";
+    }
+    
+    
+    public static boolean hasRole(String role) {
+        Authentication authentication = getAuthentication();
+        if (authentication == null) {
+            return false;
+        }
+        Collection<GrantedAuthority> grantedAuthorityList = (Collection<GrantedAuthority>) authentication.getAuthorities();
+        for (GrantedAuthority authority : grantedAuthorityList) {
+            if (role.equals(authority.getAuthority())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private static Authentication getAuthentication() {
+        SecurityContext context = SecurityContextHolder.getContext();
+        if (context == null) {
+            return null;
+        }
+        return context.getAuthentication();
     }
 }

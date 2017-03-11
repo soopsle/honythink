@@ -13,9 +13,12 @@ import java.util.zip.ZipOutputStream;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class FileUtils {
     // 创建文件
-    public static File createFile(String path, String fileName) {
+    public static File createFile(String path, String fileName) throws IOException {
         // path表示你所创建文件的路径
         File f = new File(path);
 
@@ -28,7 +31,7 @@ public class FileUtils {
             try {
                 file.createNewFile();
             } catch (IOException e) {
-                e.printStackTrace();
+                throw(e);
             }
         }
         return file;
@@ -94,7 +97,7 @@ public class FileUtils {
         }
     }
     
-    public static void downloadFile(File file, HttpServletResponse response, boolean isDelete) {
+    public static void downloadFile(File file, HttpServletResponse response, boolean isDelete) throws IOException {
         try {
             // 以流的形式下载文件。
             BufferedInputStream fis = new BufferedInputStream(new FileInputStream(file.getPath()));
@@ -112,8 +115,8 @@ public class FileUtils {
             if (isDelete) {
                 file.delete(); // 是否将生成的服务器端文件删除
             }
-        } catch (IOException ex) {
-            ex.printStackTrace();
+        } catch (IOException e) {
+            throw(e);
         }
     }
 }

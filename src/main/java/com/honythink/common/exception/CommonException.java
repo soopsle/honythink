@@ -10,7 +10,7 @@ package com.honythink.common.exception;
  * @History：Editor　　　version　　　Time　　　　　Operation　　　　　　　Description*
  *
  */
-public class APIException extends RuntimeException {
+public class CommonException extends RuntimeException {
 
     private static final long serialVersionUID = 2548943619717022268L;
     //错误code
@@ -34,16 +34,16 @@ public class APIException extends RuntimeException {
         this.errorMsg = errorMsg;
     }
 
-    public APIException() {
+    public CommonException() {
         super();
     }
 
-    public APIException(String errorCode, String errorMsg) {
+    public CommonException(String errorCode, String errorMsg) {
         super();
         this.errorCode = errorCode;
         this.errorMsg = errorMsg;
     }
-    public APIException(String errorCode, String errorMsg,Throwable cause) {
+    public CommonException(String errorCode, String errorMsg,Throwable cause) {
         super(errorMsg,cause);
         this.errorCode = errorCode;
         this.errorMsg = errorMsg;

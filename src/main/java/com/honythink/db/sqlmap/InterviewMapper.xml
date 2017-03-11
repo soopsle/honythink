@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.honythink.db.mapper.InterviewMapper" >
+  <resultMap id="BaseResultMap" type="com.honythink.db.entity.Interview" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="recommend_time" property="recommendTime" jdbcType="TIMESTAMP" />
+    <result column="position" property="position" jdbcType="VARCHAR" />
+    <result column="resume_id" property="resumeId" jdbcType="INTEGER" />
+    <result column="customer_id" property="customerId" jdbcType="INTEGER" />
+    <result column="username_sell" property="usernameSell" jdbcType="VARCHAR" />
+    <result column="username_hr" property="usernameHr" jdbcType="VARCHAR" />
+    <result column="salary" property="salary" jdbcType="REAL" />
+    <result column="cover" property="cover" jdbcType="REAL" />
+    <result column="work_time" property="workTime" jdbcType="VARCHAR" />
+    <result column="interview_date" property="interviewDate" jdbcType="TIMESTAMP" />
+    <result column="interview_time" property="interviewTime" jdbcType="TIMESTAMP" />
+    <result column="present" property="present" jdbcType="VARCHAR" />
+    <result column="result" property="result" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="time" property="time" jdbcType="TIMESTAMP" />
+  </resultMap>
+  
+   <resultMap id="DtoResultMap" type="com.honythink.biz.system.dto.InterviewDto" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="recommend_time" property="recommendTime" jdbcType="TIMESTAMP" />
+    <result column="position" property="position" jdbcType="VARCHAR" />
+    <result column="resume_id" property="resumeId" jdbcType="INTEGER" />
+    <result column="resume_name" property="resumeName" jdbcType="VARCHAR" />
+    <result column="resume_mobile" property="resumeMobile" jdbcType="VARCHAR" />
+    <result column="customer_id" property="customerId" jdbcType="INTEGER" />
+    <result column="username_sell" property="usernameSell" jdbcType="VARCHAR" />
+    <result column="username_hr" property="usernameHr" jdbcType="VARCHAR" />
+    <result column="work_time" property="workTime" jdbcType="VARCHAR" />
+    <result column="interview_date" property="interviewDate" jdbcType="TIMESTAMP" />
+    <result column="interview_time" property="interviewTime" jdbcType="TIMESTAMP" />
+    <result column="present" property="present" jdbcType="VARCHAR" />
+    <result column="result" property="result" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="time" property="time" jdbcType="TIMESTAMP" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="salary" property="salary" jdbcType="REAL" />
+    <result column="cover" property="cover" jdbcType="REAL" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="gender" property="resumeGender" jdbcType="VARCHAR" />
+    <result column="seniority" property="resumeSeniority" jdbcType="VARCHAR" />
+    <result column="school" property="resumeSchool" jdbcType="VARCHAR" />
+    <result column="self" property="resumeSelf" jdbcType="VARCHAR" />
+    
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, recommend_time, position,resume_id,customer_id, username_sell, username_hr, salary,cover, work_time,
+    interview_date, interview_time, present, result, remark, time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from interview
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  
+    <select id="selectDtoByPrimaryKey" resultMap="DtoResultMap" parameterType="java.lang.Integer" >
+	  SELECT
+			r.*,c.`name` as name,re.name as resumeName,re.education,re.educationtime,re.gender,re.seniority,re.school,re.self,re.mobile as resume_mobile
+		FROM
+			interview r
+		LEFT JOIN customer c ON c.id = r.customer_id
+		LEFT JOIN resume re on re.id = r.resume_id
+	    where r.id = #{id,jdbcType=INTEGER}
+  </select>
+  
+    <select id="list" parameterType="com.honythink.biz.system.dto.BaseDto" resultMap="DtoResultMap">
+    SELECT
+		r.*,c.`name` as name,re.name as resumeName,re.education,re.educationtime,re.gender,re.seniority,re.school,re.self,re.mobile as resume_mobile
+	FROM
+		interview r
+	LEFT JOIN customer c ON c.id = r.customer_id
+	LEFT JOIN resume re on re.id = r.resume_id
+    where 1=1
+     <if test="username != null" >
+       and r.username_hr = #{username}
+     </if>
+     order by r.id desc
+     limit #{page}, #{rows}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from interview
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.honythink.db.entity.Interview" >
+    insert into interview (id, recommend_time, position, 
+      resume_id,customer_id, username_sell, username_hr, 
+      salary,cover, work_time, interview_date, 
+      interview_time, present, result, 
+      remark, time)
+    values (#{id,jdbcType=INTEGER}, #{recommendTime,jdbcType=TIMESTAMP}, #{position,jdbcType=VARCHAR}, 
+      #{resumeId,jdbcType=INTEGER},#{customerId,jdbcType=INTEGER}, #{usernameSell,jdbcType=VARCHAR}, #{usernameHr,jdbcType=VARCHAR}, 
+      #{salary,jdbcType=REAL},#{cover,jdbcType=REAL}, #{workTime,jdbcType=VARCHAR}, #{interviewDate,jdbcType=TIMESTAMP}, 
+      #{interviewTime,jdbcType=TIMESTAMP}, #{present,jdbcType=VARCHAR}, #{result,jdbcType=VARCHAR}, 
+      #{remark,jdbcType=VARCHAR}, #{time,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.honythink.db.entity.Interview" >
+    insert into interview
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="recommendTime != null" >
+        recommend_time,
+      </if>
+      <if test="position != null" >
+        position,
+      </if>
+      <if test="resumeId != null" >
+        resume_id,
+      </if>
+      <if test="customerId != null" >
+        customer_id,
+      </if>
+      <if test="usernameSell != null" >
+        username_sell,
+      </if>
+      <if test="usernameHr != null" >
+        username_hr,
+      </if>
+      <if test="salary != null" >
+        salary,
+      </if>
+      <if test="cover != null" >
+        cover,
+      </if>
+      <if test="workTime != null" >
+        work_time,
+      </if>
+      <if test="interviewDate != null" >
+        interview_date,
+      </if>
+      <if test="interviewTime != null" >
+        interview_time,
+      </if>
+      <if test="present != null" >
+        present,
+      </if>
+      <if test="result != null" >
+        result,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="time != null" >
+        time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="recommendTime != null" >
+        #{recommendTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="position != null" >
+        #{position,jdbcType=VARCHAR},
+      </if>
+      <if test="resumeId != null" >
+        #{resumeId,jdbcType=INTEGER},
+      </if>
+      <if test="customerId != null" >
+        #{customerId,jdbcType=INTEGER},
+      </if>
+      <if test="usernameSell != null" >
+        #{usernameSell,jdbcType=VARCHAR},
+      </if>
+      <if test="usernameHr != null" >
+        #{usernameHr,jdbcType=VARCHAR},
+      </if>
+      <if test="salary != null" >
+        #{salary,jdbcType=REAL},
+      </if>
+      <if test="cover != null" >
+        #{cover,jdbcType=REAL},
+      </if>
+      <if test="workTime != null" >
+        #{workTime,jdbcType=VARCHAR},
+      </if>
+      <if test="interviewDate != null" >
+        #{interviewDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="interviewTime != null" >
+        #{interviewTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="present != null" >
+        #{present,jdbcType=VARCHAR},
+      </if>
+      <if test="result != null" >
+        #{result,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="time != null" >
+        #{time,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.honythink.db.entity.Interview" >
+    update interview
+    <set >
+      <if test="recommendTime != null" >
+        recommend_time = #{recommendTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="position != null" >
+        position = #{position,jdbcType=VARCHAR},
+      </if>
+      <if test="resumeId != null" >
+        resume_id = #{resumeId,jdbcType=INTEGER},
+      </if>
+      <if test="customerId != null" >
+        customer_id = #{customerId,jdbcType=INTEGER},
+      </if>
+      <if test="usernameSell != null" >
+        username_sell = #{usernameSell,jdbcType=VARCHAR},
+      </if>
+      <if test="usernameHr != null" >
+        username_hr = #{usernameHr,jdbcType=VARCHAR},
+      </if>
+      <if test="salary != null" >
+        salary = #{salary,jdbcType=REAL},
+      </if>
+      <if test="cover != null" >
+        cover = #{cover,jdbcType=REAL},
+      </if>
+      <if test="workTime != null" >
+        work_time = #{workTime,jdbcType=VARCHAR},
+      </if>
+      <if test="interviewDate != null" >
+        interview_date = #{interviewDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="interviewTime != null" >
+        interview_time = #{interviewTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="present != null" >
+        present = #{present,jdbcType=VARCHAR},
+      </if>
+      <if test="result != null" >
+        result = #{result,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="time != null" >
+        time = #{time,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.honythink.db.entity.Interview" >
+    update interview
+    set recommend_time = #{recommendTime,jdbcType=TIMESTAMP},
+      position = #{position,jdbcType=VARCHAR},
+      resume_id = #{resumeId,jdbcType=INTEGER},
+      customer_id = #{customerId,jdbcType=INTEGER},
+      username_sell = #{usernameSell,jdbcType=VARCHAR},
+      username_hr = #{usernameHr,jdbcType=VARCHAR},
+      salary = #{salary,jdbcType=REAL},
+      cover = #{cover,jdbcType=REAL},
+      work_time = #{workTime,jdbcType=VARCHAR},
+      interview_date = #{interviewDate,jdbcType=TIMESTAMP},
+      interview_time = #{interviewTime,jdbcType=TIMESTAMP},
+      present = #{present,jdbcType=VARCHAR},
+      result = #{result,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      time = #{time,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

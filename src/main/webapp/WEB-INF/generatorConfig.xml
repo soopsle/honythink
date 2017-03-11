@@ -15,7 +15,7 @@
     <javaClientGenerator targetPackage="com.honythink.db.mapper" targetProject="honythink" type="XMLMAPPER" />
     
     
-	<table  schema="" tableName="resume" domainObjectName="Resume"  
+	<table  schema="" tableName="interview" domainObjectName="Interview"  
     	enableSelectByPrimaryKey="true"
     	enableInsert="true"
     	enableUpdateByPrimaryKey="true"
@@ -26,30 +26,12 @@
 	    enableDeleteByExample="false" 
 	    enableSelectByExample="false" 
 	    selectByExampleQueryId="false">
-<!-- 	    <property name="useActualColumnNames" value="true"/> -->
+<!-- 	    <property name="useActualColumnNames" value="true"/>
 		<columnOverride column="self" javaType="java.lang.String" jdbcType="VARCHAR" /> 
 		<columnOverride column="work" javaType="java.lang.String" jdbcType="VARCHAR" /> 
 		<columnOverride column="project" javaType="java.lang.String" jdbcType="VARCHAR" /> 
 		<columnOverride column="train" javaType="java.lang.String" jdbcType="VARCHAR" /> 
+-->
     </table>
-<!-- 	<table  schema="" tableName="user" domainObjectName="User"  
-    	enableSelectByPrimaryKey="true"
-    	enableInsert="true"
-    	enableUpdateByPrimaryKey="true"
-    	enableDeleteByPrimaryKey="true"
-    	selectByPrimaryKeyQueryId="true"
-	    enableCountByExample="false" 
-	    enableUpdateByExample="false" 
-	    enableDeleteByExample="false" 
-	    enableSelectByExample="false" 
-	    selectByExampleQueryId="false">
-	    <property name="useActualColumnNames" value="true"/>
-		<columnOverride column="self" javaType="java.lang.String" jdbcType="VARCHAR" /> 
-		<columnOverride column="work" javaType="java.lang.String" jdbcType="VARCHAR" /> 
-		<columnOverride column="project" javaType="java.lang.String" jdbcType="VARCHAR" /> 
-		<columnOverride column="train" javaType="java.lang.String" jdbcType="VARCHAR" /> 
-    </table> -->
-    
-    
   </context>
 </generatorConfiguration>

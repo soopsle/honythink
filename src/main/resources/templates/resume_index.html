@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" th:href="@{/easyui/1.3.4/themes/default/easyui.css}" />
+<link rel="stylesheet" type="text/css" th:href="@{/css/wu.css}" />
+<link rel="stylesheet" type="text/css" th:href="@{/css/icon.css}" />
+<script type="text/javascript" th:src="@{/js/jquery-1.8.0.min.js}"></script>
+<script type="text/javascript" th:src="@{/easyui/1.3.4/jquery.easyui.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/resume.js}"></script>
+</head>
+<body>
+<div class="easyui-layout" data-options="fit:true">
+	<!-- Begin of toolbar -->
+	<div id="wu-toolbar-2">
+		<div class="wu-toolbar-button">
+			<a href="#" class="easyui-linkbutton" iconCls="icon-add"
+				onclick="openAdd()" plain="true">上传简历</a> 
+			<a href="#" class="easyui-linkbutton"
+				iconCls="icon-remove" onclick="openDelete()" plain="true">删除</a>
+			<a href="#" class="easyui-linkbutton"
+				iconCls="icon-save" onclick="down()" plain="true">简历模板</a>
+			<a href="#" class="easyui-linkbutton"
+				iconCls="icon-redo" onclick="openPush()" plain="true">推荐面试</a>
+		</div>
+	</div>
+	<!-- End of toolbar -->
+	<table id="datagrid"  toolbar="#wu-toolbar-2"></table>
+</div>
+
+<div id="dialog_add" class="easyui-dialog" data-options="closed:true,iconCls:'icon-save'" style="width:400px; padding:10px;">
+	<form id="form_add" method="POST" enctype="multipart/form-data"
+		action="batch/upload">
+		<p>
+			文件：<input type="file" name="file" />
+		</p>
+		<p>
+			文件：<input type="file" name="file" />
+		</p>
+		<p>
+			文件：<input type="file" name="file" />
+		</p>
+		<p>
+			文件：<input type="file" name="file" />
+		</p>
+		<p>
+			文件：<input type="file" name="file" />
+		</p>
+	</form>
+</div>
+
+<div id="dialog_down" class="easyui-dialog" data-options="closed:true,iconCls:'icon-save'" style="width:400px; padding:10px;">
+		<form id="form_down" method="POST">
+				<div style="margin-bottom:10px">
+					<div>客户：</div>
+					<select id="customerId" name="customerId" class="easyui-combobox">
+						<option value="" disabled="true" th:selected="selected">请选择</option>
+		                <option th:each="customer:${customers}" th:value="${customer.id}" th:text="${customer.name}"></option>
+		            </select>
+				</div>
+				<div style="margin-bottom:10px">
+					<div>销售：</div>
+						<select id="username" name="username" class="easyui-combobox">
+							<option value="" selected="selected">请选择</option>
+			                <option th:each="seller:${sellers}" th:value="${seller.username}" th:text="${seller.realname}"></option>
+			            </select>
+				</div>
+				<div style="margin-bottom:10px">
+					<div>推荐时间：</div>
+					<input id="recommendTime" name="recommendTime" class="easyui-datebox"></input>
+				</div>
+				<div style="margin-bottom:10px">
+					<div>职位：</div>
+					<input name="position" id="position" class="easyui-textbox"></input>
+				</div>
+				<div style="margin-bottom:10px">
+					<div>薪水：</div>
+					<input name="salary" id="salary" class="easyui-textbox"/>
+				</div>
+				<div style="margin-bottom:10px">
+					<div>到岗：</div>
+					<input name="workTime" id="workTime" class="easyui-textbox"/>
+				</div>
+				<div style="margin-bottom:10px">
+					<div>面试时间：</div>
+					<input name="interviewTime" id="interviewTime" class="easyui-datetimebox" data-options="formatter:ww3,parser:w3"/>
+				</div>
+				<div style="margin-bottom:10px">
+					<div>是否到场：</div>
+						<select id="present" name="present" class="easyui-combobox">
+							<option value="否"  geselecteerd="selected">否</option>
+							<option value="是">是</option>
+			            </select>
+				</div>
+				<div style="margin-bottom:10px">
+					<div>结果：</div>
+					<input name="result" id="result" class="easyui-textbox"/>
+				</div>
+				<div style="margin-bottom:10px">
+					<div>备注：</div>
+					<input name="remark" id="remark" class="easyui-textbox"/>
+				</div>
+	</form>
+</div>
+
+<!-- 表单详情 -->
+	<div id="directionDialog" title="详情" data-options="modal:true,closed:true,iconCls:'icon-edit'"
+		style="width:800px;height:450px;">
+		<div id="direction" style="margin-left: 15px"></div>
+	</div>
+</body>
+</html>

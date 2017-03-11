@@ -1,42 +1,15 @@
 package com.honythink.common.util;
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class OfficeUtils {
-//    public static void main(String[] args) {
-//        try {
-//            for(int i=2;i<3;i++){
-//                InputStream is = new FileInputStream(new File("C:/"+i+".doc"));
-//                String html = getContent(is);
-////                findName(html);
-////                findGender(html);
-////                findAge(html);
-////                findBirthday(html);
-////                findSeniority(html);
-////                findMarried(html);
-////                findCity(html);
-////                findResidence(html);
-////                findCard(html);
-////                findMobile(html); 
-////                findSelf(html);
-////                findWork(html);
-//                findProjects(html);
-////                  findSchool(html);
-////                  findMajor(html);
-////                  findEducation(html);
-////                  findEducationtime(html);
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//    }
-    
+    private static final Logger log = LoggerFactory.getLogger("OfficeUtils");
     /**
      * 把输入流里面的内容以UTF-8编码当文本取出。
      * 不考虑异常，直接抛出
@@ -73,9 +46,9 @@ public class OfficeUtils {
         if (matcher.find()){
             return matcher.group(2);
         }else {
-            System.out.println("fuck,where is the name");
+            log.warn("没有解析到姓名");
+            return "";
         }
-        return "";
     }
     
     public static String findGender(String html){
@@ -84,9 +57,9 @@ public class OfficeUtils {
         if (matcher.find()){
             return matcher.group(2);
         }else {
-            System.out.println("fuck,where is the name");
+            log.warn("没有解析到性别");
+            return "";
         }
-        return "";
     }
     public static String findAge(String html){
         Pattern pattern = Pattern.compile("(\\d{2}岁)"); //中文括号 
@@ -94,9 +67,9 @@ public class OfficeUtils {
         if (matcher.find()){
             return matcher.group(0);
         }else {
-            System.out.println("fuck,where is the name");
+            log.warn("没有解析到年龄");
+            return "";
         }
-        return "";
     }
     public static String findBirthday(String html){
         Pattern pattern = Pattern.compile("(\\d+年\\d+月)"); //中文括号 
@@ -104,9 +77,9 @@ public class OfficeUtils {
         if (matcher.find()){
             return matcher.group(0);
         }else {
-            System.out.println("fuck,where is the name");
+            log.warn("没有解析到生日");
+            return "";
         }
-        return "";
     }
     public static String findSeniority(String html){
         Pattern pattern = Pattern.compile("(\\d+)(年工作经验)"); //中文括号 
@@ -114,9 +87,9 @@ public class OfficeUtils {
         if (matcher.find()){
             return matcher.group(0);
         }else {
-            System.out.println("fuck,where is the findSeniority");
+            log.warn("没有解析到工作年限");
+            return "";
         }
-        return "";
     }
    
     
@@ -126,9 +99,9 @@ public class OfficeUtils {
         if (matcher.find()){
             return matcher.group(1);
         }else {
-            System.out.println("fuck,where is the findEducation");
+            log.warn("没有解析到婚姻状况");
+            return "";
         }
-        return "";
     }
     public static String findCity(String html){
         Pattern pattern = Pattern.compile("(现居住地：)([\u4E00-\u9FA5|\\s]+)(\\|)"); //中文括号 
@@ -136,9 +109,9 @@ public class OfficeUtils {
         if (matcher.find()){
             return matcher.group(2);
         }else {
-            System.out.println("fuck,where is the findEducation");
+            log.warn("没有解析到现居住地");
+            return "";
         }
-        return "";
     }
     public static String findResidence(String html){
         Pattern pattern = Pattern.compile("(户口：)([\u4E00-\u9FA5]+)"); //中文括号 
@@ -146,9 +119,9 @@ public class OfficeUtils {
         if (matcher.find()){
             return matcher.group(2);
         }else {
-            System.out.println("fuck,where is the findEducation");
+            log.warn("没有解析到户籍");
+            return "";
         }
-        return "";
     }
     public static String findCard(String html){
         Pattern pattern = Pattern.compile("(身份证：)(\\d+)"); //中文括号 
@@ -156,6 +129,7 @@ public class OfficeUtils {
         if (matcher.find()){
             return matcher.group(2);
         }else {
+            log.warn("没有解析到身份证");
             return "";
         }
     }
@@ -165,6 +139,7 @@ public class OfficeUtils {
         if (matcher.find()){
             return matcher.group(2);
         }else {
+            log.warn("没有解析到手机号");
             return "";
         }
     }
@@ -179,7 +154,7 @@ public class OfficeUtils {
                 return matcher1.group(2);
             }
         }else {
-            System.out.println("fuck,where is the findSelf");
+            log.warn("没有解析到自我评价");
         }
         return "";
     }
@@ -193,7 +168,7 @@ public class OfficeUtils {
                 return matcher1.group(0);
             }
         }else {
-            System.out.println("fuck,where is the findWork");
+            log.warn("没有解析到工作经历");
         }
         return "";
     }
@@ -207,9 +182,10 @@ public class OfficeUtils {
                 return matcher1.group(0);
             }
         }else {
-            System.out.println("fuck,where is the findProjects");
+            log.warn("没有解析到项目经历");
         }
         return "";
+        
     }
 
     public static String findSchool(String html){
@@ -218,6 +194,7 @@ public class OfficeUtils {
         if (matcher.find()){
             return matcher.group(2);
         }else {
+            log.warn("没有解析到学校");
             return "";
         }
     }
@@ -227,6 +204,7 @@ public class OfficeUtils {
         if (matcher.find()){
             return matcher.group(3);
         }else {
+            log.warn("没有解析到专业");
             return "";
         }
     }
@@ -236,9 +214,9 @@ public class OfficeUtils {
         if (matcher.find()){
             return matcher.group(2);
         }else {
-            System.out.println("fuck,where is the findEducation");
+            log.warn("没有解析到学历");
+            return "";
         }
-        return "";
     }
     public static String findEducationtime(String html){
         Pattern pattern = Pattern.compile("\\s(\\d{4}.\\d{2} - \\d{4}.\\d{2})&nbsp;&nbsp;([\u4E00-\u9FA5]+)&nbsp;&nbsp;([\u4E00-\u9FA5]+)&nbsp;&nbsp;([\u4E00-\u9FA5]+)"); //中文括号 
@@ -246,6 +224,7 @@ public class OfficeUtils {
         if (matcher.find()){
             return matcher.group(1);
         }else {
+            log.warn("没有解析到在校时间");
             return "";
         }
     }
