@@ -1,7 +1,7 @@
 项目架构：
 spring boot    项目基础架构，由springmvc+mybatis优化而来，可作为microservice前提
 mybatis+mysql+druid  实现持久层功能
-redis 通过api路径以及api key，实现 api限频
+redis 
 logback 实现api访问报文以及错误日志记录
 actuator 项目基本信息监控
 #docker  项目持续交付  待定
