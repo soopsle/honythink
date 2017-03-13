@@ -5,6 +5,8 @@ public class SysRole {
 
     private String name;
 
+    private String realname;
+
     public Integer getRid() {
         return rid;
     }
@@ -19,5 +21,13 @@ public class SysRole {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getRealname() {
+        return realname;
+    }
+
+    public void setRealname(String realname) {
+        this.realname = realname;
     }
 }

@@ -6,7 +6,7 @@
     <result column="uid" property="uid" jdbcType="INTEGER" />
     <result column="rid" property="rid" jdbcType="INTEGER" />
   </resultMap>
-   <resultMap id="userMap" type="com.honythink.db.entity.SysUser">
+   <resultMap id="UserMap" type="com.honythink.db.entity.SysUser">
        <id property="id" column="ID"/>
        <result property="username" column="username"/>
        <result property="password" column="password"/>
@@ -14,7 +14,8 @@
            <result column="name" property="name"/>
        </collection>
    </resultMap>
-    <select id="findByUserName" parameterType="String" resultMap="userMap">
+   
+    <select id="findByUserName" parameterType="String" resultMap="UserMap">
         select u.*
         ,r.name
         from sys_user u
@@ -22,6 +23,7 @@
         LEFT JOIN sys_role r on sru.rid=r.rid
         where username= #{username}
     </select>
+    
   <sql id="Base_Column_List" >
     id, uid, rid
   </sql>

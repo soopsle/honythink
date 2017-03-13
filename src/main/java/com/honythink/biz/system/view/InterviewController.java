@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -28,6 +29,7 @@ import com.honythink.Constants;
 import com.honythink.biz.base.controller.BaseController;
 import com.honythink.biz.system.dto.BaseDto;
 import com.honythink.biz.system.dto.InterviewDto;
+import com.honythink.biz.system.service.MailService;
 import com.honythink.biz.system.service.ResumeService;
 import com.honythink.common.util.FileUtils;
 import com.honythink.common.util.OfficeWriteUtils;
@@ -66,6 +68,15 @@ public class InterviewController extends BaseController {
 
     @Autowired
     private ResumeService resumeService;
+    
+    @Autowired
+    private MailService mailService;
+    
+    
+    @Value("${spring.mail.username}")  
+    private String from;  
+    @Value("${spring.mail.cc}")  
+    private String cc;  
     
     @RequestMapping(value = "/interview_index", method = RequestMethod.GET)
     public ModelAndView interview_index() {
@@ -139,13 +150,61 @@ public class InterviewController extends BaseController {
         return record;
     }
     
-    @RequestMapping(value = "/download", method = RequestMethod.GET)
-    public void download(Integer[] ids, HttpServletRequest request, HttpServletResponse response) {
+    @RequestMapping(value = "/push",method = RequestMethod.POST)
+    @ResponseBody
+    public void push(Integer[] ids,Integer[] sellerIds){
+        String to;
+        for(Integer sellerId:sellerIds){
+            SysUser seller = sysUserMapper.selectByPrimaryKey(sellerId);
+            to = seller.getUsername()+Constants.MAIL_EXTENTIONS;
+            //获取信息 拼装table
+            StringBuffer content = new StringBuffer();  
+            content.append("<h2><font color=red>推荐列表</font></h2>");  
+            content.append("<hr>");  
+            content.append("<table border='1px'>");
+            content.append("<tr>");  
+            content.append("<td><strong>姓名</strong></td>");  
+            content.append("<td><strong>电话</strong></td>");  
+            content.append("<td><strong>岗位</strong></td>");  
+            content.append("<td><strong>客户名称</strong></td>");  
+            content.append("<td><strong>推荐人</strong></td>");  
+            content.append("<td><strong>最高学历</strong></td>");  
+            content.append("<td><strong>毕业日期</strong></td>");  
+            content.append("<td><strong>期望薪资</strong></td>");  
+            content.append("<td><strong>到岗时间</strong></td>");  
+            content.append("</tr>");  
+            for(Integer id:ids){
+                InterviewDto dto = interviewMapper.selectDtoByPrimaryKey(id);
+                content.append("<tr>");  
+                content.append("<td>"+(dto.getResumeName()==null?"":dto.getResumeName())+"</td>");  
+                content.append("<td>"+(dto.getResumeMobile()==null?"":dto.getResumeMobile())+"</td>");  
+                content.append("<td>"+(dto.getPosition()==null?"":dto.getPosition())+"</td>");  
+                content.append("<td>"+(dto.getName()==null?"":dto.getName())+"</td>");  
+                content.append("<td>"+(dto.getUsernameHr()==null?"":dto.getUsernameHr())+"</td>");  
+                content.append("<td>"+(dto.getEducation()==null?"":dto.getEducation())+"</td>");  
+                content.append("<td>"+(dto.getEducationtime()==null?"":dto.getEducationtime())+"</td>");  
+                content.append("<td>"+(dto.getSalary()==null?"":dto.getSalary())+"</td>");  
+                content.append("<td>"+(dto.getWorkTime()==null?"":dto.getWorkTime())+"</td>");  
+                content.append("</tr>"); 
+            }
+            content.append("</table>");  
+            //打包zip
+            File fileZip = generateZip(ids);
+            //发送邮件
+            UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext()
+                    .getAuthentication()
+                    .getPrincipal();
+            String copys = cc+","+userDetails.getUsername()+Constants.MAIL_EXTENTIONS;
+            mailService.sendAttachmentsMail(to,copys,Constants.MAIL_SUBJECT,content.toString(),fileZip.getPath());  
+        }
+    }
+    
+    public File generateZip(Integer[] ids){
         List<File> files = new ArrayList<File>();
         String uuidName = UUID.randomUUID().toString();
         String base = Constants.RESUME_TEMPLATE+uuidName+Constants.PATH_SEPERATOR;
         String baseZip = Constants.RESUME_ZIP;
-//        List<Resume> resumes = new ArrayList<Resume>();
+        File fileZip;
         List<InterviewDto> interviews = new ArrayList<InterviewDto>();
         for (Integer id : ids) {
             // 套用模板 生成简历
@@ -153,7 +212,6 @@ public class InterviewController extends BaseController {
             Integer resumeid = interview.getResumeId();
             Resume resume = resumeService.selectByPrimaryKey(resumeid);
             interviews.add(interview);
-//            resumes.add(resume);
             //生成word
             String paths;
             try {
@@ -182,7 +240,7 @@ public class InterviewController extends BaseController {
         String fileName = uuidName + Constants.SUFFIX_ZIP;
         try {
             FileUtils.createFile(baseZip, fileName);
-            File fileZip = new File(baseZip + fileName);
+            fileZip = new File(baseZip + fileName);
             // 文件输出流
             FileOutputStream outStream = new FileOutputStream(fileZip);
             // 压缩流
@@ -190,9 +248,21 @@ public class InterviewController extends BaseController {
             FileUtils.zipFile(files, toClient);
             toClient.close();
             outStream.close();
-            FileUtils.downloadFile(fileZip, response, true);
+            return fileZip;
         } catch (IOException | ServletException e) {
             log.error(e.getMessage());
         }
+        return null;
     }
+    
+    @RequestMapping(value = "/download", method = RequestMethod.GET)
+    public void download(Integer[] ids, HttpServletRequest request, HttpServletResponse response) {
+        File fileZip = generateZip(ids);
+        try {
+            FileUtils.downloadFile(fileZip, response, true);
+        } catch (IOException e) {
+            log.error(e.getMessage());
+        }
+    }
+        
 }

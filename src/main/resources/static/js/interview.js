@@ -74,93 +74,136 @@ function myparser(s){
 		return new Date();
 	}
 }
+var setting = {
+	check: {
+		enable: true
+	},
+	data: {
+		simpleData: {
+			enable: true
+		}
+	}
+};
 
-	$(document).ready(function() {
-		$('#datagrid').datagrid({
-			url:'list',
-			rownumbers:true,
-			singleSelect:false,
-			pageSize:20, 
-			pagination:true,
-			multiSort:true,
-			//autoRowHeight:false,
-			editorHeight:24,
-			//fitColumns:true,
-			fit:true,
-			queryParams : {//查询参数		
-				//"a":b
+var code;
+
+function setCheck() {
+	var zTree = $.fn.zTree.getZTreeObj("treeDemo"),
+	type = { "Y":"ps", "N":"ps"};
+	zTree.setting.check.chkboxType = type;
+	showCode('setting.check.chkboxType = { "Y" : "' + type.Y + '", "N" : "' + type.N + '" };');
+}
+function showCode(str) {
+	if (!code) code = $("#code");
+	code.empty();
+	code.append("<li>"+str+"</li>");
+}
+$(document).ready(function() {	
+	init();
+	 $.ajax({
+         type: "POST",
+         url: "../generateTree",
+         success: function(zNodes){
+        		$.fn.zTree.init($("#treeDemo"), setting, zNodes);
+        		setCheck();
+        		$("#py").bind("change", setCheck);
+        		$("#sy").bind("change", setCheck);
+        		$("#pn").bind("change", setCheck);
+        		$("#sn").bind("change", setCheck);
+         }
+      });
+})
+	
+	function init(){
+	$('#datagrid').datagrid({
+		url:'list',
+		rownumbers:true,
+		singleSelect:false,
+		pageSize:20, 
+		pagination:true,
+		multiSort:true,
+		//autoRowHeight:false,
+		editorHeight:24,
+		//fitColumns:true,
+		fit:true,
+		queryParams : {//查询参数		
+			//"a":b
+		},
+		frozenColumns:[[ 
+		{field:'id',checkbox:true},
+		{field:'action',title:'操作',width:70,align:'right',
+					formatter:function(value,row,index){
+						if (row.editing){
+								var s = '<a href="#" onclick="saverow(this)">保存</a> ';
+								var c = '<a href="#" onclick="cancelrow(this)">取消</a>';
+								return s+c;
+							} else {
+								var e = '<a href="#" onclick="editrow(this)">修改</a> ';
+								return e;
+							}
+					}
+		},
+		{ field:'resumeName',title:'姓名',width:100,editor:'text'},
+		{ field:'resumeMobile',title:'电话',width:100,editor:'text'},
+		]],
+		columns:[[
+		{ field:'recommendTime',title:'推荐时间',width:100,editor:'datebox'},
+		{ field:'position',title:'职位',width:100,editor:'text'},
+		{ field:'name',title:'客户',width:100},
+		{ field:'usernameHr',title:'推荐人',width:100},
+		{ field:'salary',title:'薪水',width:100,editor:'text'},
+		{ field:'cover',title:'服务费',width:100,editor:'text'},
+		{ field:'workTime',title:'到岗时间',width:100,editor:'text'},
+		{ field:'interviewTime',title:'面试时间',width:150, editor : {  
+                type:'datetimebox',//Extension of time for selecting type  
+                options:{  
+                    required: true,  
+                }  
+            }
+        },
+		{ field:'present',title:'是否到场',width:100,editor:'text'},
+		{ field:'result',title:'推荐结果',width:100,editor:'text'},
+		{ field:'remark',title:'备注',width:100,editor:'text'}
+		]],
+			onBeforeEdit:function(index,row){
+				row.editing = true;
+				updateActions(index);
 			},
-			columns:[[
-			{field:'id',checkbox:true},
-			{field:'action',title:'操作',width:70,align:'right',
-						formatter:function(value,row,index){
-							if (row.editing){
-									var s = '<a href="#" onclick="saverow(this)">保存</a> ';
-									var c = '<a href="#" onclick="cancelrow(this)">取消</a>';
-									return s+c;
-								} else {
-									var e = '<a href="#" onclick="editrow(this)">修改</a> ';
-									var d = '<a href="#" onclick="deleterow(this)">删除</a>';
-									return e+d;
-								}
-						}
+			onAfterEdit:function(index,row){
+				row.editing = false;
+				updateActions(index);
+				 $.ajax({
+                    type: "POST",
+                    url: "update",
+                    data: {
+                    	"id":row.id,
+                    	"resumeName":row.resumeName,
+                    	"resumeMobile":row.resumeMobile,
+                        "recommendTime":row.recommendTime,
+                        "position":row.position,
+                        "salary":row.salary,
+                        "cover":row.cover,
+                        "workTime":row.workTime,
+                        "interviewTime":row.interviewTime,
+                        "present":row.present,
+                        "result":row.result,
+                        "remark":row.remark
+                    },
+                    success: function(msg){
+                      alert("数据修改成功...");
+                      $('#datagrid').datagrid('load');//重新加载datagrid，刷新功能
+                    }
+                 });
+        	 },
+			onCancelEdit:function(index,row){
+				row.editing = false;
+				updateActions(index);
 			},
-			
-			{ field:'resumeName',title:'姓名',width:100,editor:'text'},
-			{ field:'resumeMobile',title:'电话',width:100,editor:'text'},
-			{ field:'recommendTime',title:'推荐时间',width:100,editor:'datebox'},
-			{ field:'position',title:'职位',width:100,editor:'text'},
-			{ field:'name',title:'客户',width:100},
-			{ field:'usernameHr',title:'推荐人',width:100},
-			{ field:'salary',title:'薪水',width:100,editor:'text'},
-			{ field:'workTime',title:'到岗时间',width:100,editor:'text'},
-			{ field:'interviewTime',title:'面试时间',width:150, editor : {  
-                    type:'datetimebox',//Extension of time for selecting type  
-                    options:{  
-                        required: true,  
-                    }  
-                }
-            },
-			{ field:'present',title:'是否到场',width:100,editor:'text'},
-			{ field:'result',title:'推荐结果',width:100,editor:'text'},
-			{ field:'remark',title:'备注',width:100,editor:'text'}
-			]],
-				onBeforeEdit:function(index,row){
-					row.editing = true;
-					updateActions(index);
-				},
-				onAfterEdit:function(index,row){
-					row.editing = false;
-					updateActions(index);
-					 $.ajax({
-	                    type: "POST",
-	                    url: "update",
-	                    data: {
-	                    	"id":row.id,
-	                        "recommendTime":row.recommendTime,
-	                        "position":row.position,
-	                        "salary":row.salary,
-	                        "workTime":row.workTime,
-	                        "interviewTime":row.interviewTime,
-	                        "present":row.present,
-	                        "result":row.result,
-	                        "remark":row.remark
-	                    },
-	                    success: function(msg){
-	                      alert("数据修改成功...");
-	                      $('#datagrid').datagrid('load');//重新加载datagrid，刷新功能
-	                    }
-	                 });
-	        	 },
-				onCancelEdit:function(index,row){
-					row.editing = false;
-					updateActions(index);
-				},
-				onDblClickRow: function (rowIndex, rowData) {
-					openDialogViewDetail("viewDialog",rowData.id);
-				}//双击事件
-		});
+			onDblClickRow: function (rowIndex, rowData) {
+				openDialogViewDetail("viewDialog",rowData.id);
+			}//双击事件
 	});
+}
 
 	function add(){
 		$('#form_add').form('submit', {
@@ -286,22 +329,90 @@ function myparser(s){
 			$.messager.confirm('Confirm','确认删除?',function(r){
 				if (r){
 					var vals = valArr.join(','); //转换为逗号隔开的字符串 
-					 $.ajax({
-                    type: "POST",
-                    url: "delete",
-                    data: {
-                    	"ids":vals,
-                    },
-                    success: function(msg){
-                      $('#datagrid').datagrid('load');//重新加载datagrid，刷新功能
-                      alert("删除成功...");
-                    }
-                 });
+					$.ajax({
+						type: "POST",
+						url: "delete",
+						data: {
+							"ids":vals,
+						},
+						success: function(msg){
+							$('#datagrid').datagrid('load');//重新加载datagrid，刷新功能
+							alert("删除成功...");
+						}
+					});
 				}
 			});
 		}
 	}	
+	function openPush(){
+		var c=0;
+		$('input[name="id"]:checked').each(function(i) {
+			c++;
+		});
+		if (c == 0) {
+			alert("请选择人员！");
+			return;
+		} 
+		$('#form_push').form('clear');
+		$('#dialog_push').dialog({
+			closed: false,
+			modal:true,
+            title: "选择",
+            buttons: [{
+            	id:"pushBT",
+                text: '确定',
+                iconCls: 'icon-ok',
+                handler: push
+            }, {
+                text: '取消',
+                iconCls: 'icon-cancel',
+                handler: function () {
+                    $('#dialog_push').dialog('close');                    
+                }
+            }]
+        });
+	}	
 	
+	function push(){
+		var valArr = new Array; 
+		$('input[name="id"]:checked').each(function(i) {
+			valArr[i] = $(this).val();
+		});
+		$.messager.confirm('Confirm','确认执行操作?',function(r){
+			if (r){
+				$("#pushBT").hide();
+				var sellerIds = treeIds();
+				var vals = valArr.join(','); //转换为逗号隔开的字符串 
+				$.ajax({
+                type: "POST",
+                url: "push",
+                data: {
+                	"ids":vals,
+                	"sellerIds":sellerIds
+                },
+                success: function(msg){
+                	$('#datagrid').datagrid('load');//重新加载datagrid，刷新功能
+                	alert("成功...");
+                  $('#dialog_push').dialog('close');         
+                }
+             });
+			}
+		});
+	}
+	
+	function treeIds(){                      //这是将选中的节点的id用;分割拼接起来,用于持久化到数据库  
+		   var zTreeO =  $.fn.zTree.getZTreeObj("treeDemo").getNodesByFilter(filter);  
+		   var idListStr = "";  
+		   for (var i = 0; i < zTreeO.length; i++) {  
+		      if (zTreeO[i].id != null) {  
+		     idListStr+= (i == (zTreeO.length-1))?Number(zTreeO[i].id)/10000:Number(zTreeO[i].id)/10000+";";  
+		      }  
+		   };  
+		   return idListStr;
+	};  
+	function filter(node) {   //过滤器直选中2级节点累加  
+	    return (node.level == 2 && node.checked == true);  
+	}  
 	
 	
 	function updateActions(index){

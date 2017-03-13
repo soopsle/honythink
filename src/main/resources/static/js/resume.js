@@ -16,18 +16,6 @@ $(document).ready(function() {
 		url:'list',
 		columns:[[
 		{ field:'resumeName',title:'简历名称',width:100,editor:'text'},
-		{ field:'gender',title:'性别',width:60,editor:{
-						type:'combobox',
-						options:{
-							valueField:'value',
-							textField:'key',
-							data:genders,
-							required:true
-						}
-					}},
-		{ field:'birthday',title:'出生日期',width:100,editor:'text'},
-		{ field:'age',title:'年龄',width:35,editor:'text'},
-		{ field:'seniority',title:'工作年限',width:100,editor:'text'},
 		{ field:'card',title:'身份证',width:100,editor:'text'},
 		{ field:'mobile',title:'手机',width:100,editor:'text'},
 		{ field:'marriage',title:'婚姻状况',width:60,editor:{
@@ -43,7 +31,6 @@ $(document).ready(function() {
          { field:'residence',title:'户口',width:100,editor:'text'},
          { field:'school',title:'学校',width:100,editor:'text'},
          { field:'major',title:'专业',width:100,editor:'text'},
-         { field:'education',title:'最高学历',width:100,editor:'text'},
          { field:'educationtime',title:'在校时间',width:100,editor:'text'},
          { field:'self',title:'自我评价',width:100,
 				formatter:function(value,rowData,rowIndex){
@@ -95,12 +82,25 @@ $(document).ready(function() {
 									return s+c;
 								} else {
 									var e = '<a href="#" onclick="editrow(this)">修改</a> ';
-									var d = '<a href="#" onclick="deleterow(this)">删除</a>';
-									return e+d;
+									return e;
 								}
 						}
 			},
-			{ field:'name',title:'姓名',width:100,sortable:true,editor:'text'}
+			{ field:'name',title:'姓名',width:100,sortable:true,editor:'text'},
+			{ field:'gender',title:'性别',width:60,editor:{
+				type:'combobox',
+				options:{
+					valueField:'value',
+					textField:'key',
+					data:genders,
+					required:true
+				}
+			}},
+			{ field:'birthday',title:'出生日期',width:100,editor:'text'},
+			{ field:'age',title:'年龄',width:35,editor:'text'},
+			{ field:'seniority',title:'工作年限',width:100,editor:'text'},
+			{ field:'education',title:'最高学历',width:100,editor:'text'}
+			
 	    ]],
 			onBeforeEdit:function(index,row){
 				row.editing = true;

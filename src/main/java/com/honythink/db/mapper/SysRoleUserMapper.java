@@ -1,5 +1,8 @@
 package com.honythink.db.mapper;
 
+import java.util.List;
+
+import com.honythink.biz.system.dto.TreeDto;
 import com.honythink.db.entity.SysRoleUser;
 import com.honythink.db.entity.SysUser;
 
@@ -15,5 +18,6 @@ public interface SysRoleUserMapper {
     int updateByPrimaryKeySelective(SysRoleUser record);
 
     int updateByPrimaryKey(SysRoleUser record);
+    
     SysUser findByUserName(String username);
 }

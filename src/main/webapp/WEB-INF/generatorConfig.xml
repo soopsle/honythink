@@ -15,7 +15,7 @@
     <javaClientGenerator targetPackage="com.honythink.db.mapper" targetProject="honythink" type="XMLMAPPER" />
     
     
-	<table  schema="" tableName="interview" domainObjectName="Interview"  
+	<table  schema="" tableName="sys_role" domainObjectName="SysRole"  
     	enableSelectByPrimaryKey="true"
     	enableInsert="true"
     	enableUpdateByPrimaryKey="true"

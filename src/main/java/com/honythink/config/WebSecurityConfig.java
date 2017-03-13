@@ -24,7 +24,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private  CustomUserServiceImpl customUserService;
 
 //    public static void main(String[] args) {
-//        System.out.println(new BCryptPasswordEncoder().encode("zhangxu"));
+//        System.out.println(new BCryptPasswordEncoder().encode("jiangminglei"));
 //    }
     
     @Override

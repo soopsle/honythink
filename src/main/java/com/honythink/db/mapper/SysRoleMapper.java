@@ -1,5 +1,7 @@
 package com.honythink.db.mapper;
 
+import java.util.List;
+
 import com.honythink.db.entity.SysRole;
 
 public interface SysRoleMapper {
@@ -14,4 +16,6 @@ public interface SysRoleMapper {
     int updateByPrimaryKeySelective(SysRole record);
 
     int updateByPrimaryKey(SysRole record);
+    
+    List<SysRole> selectRoles();
 }

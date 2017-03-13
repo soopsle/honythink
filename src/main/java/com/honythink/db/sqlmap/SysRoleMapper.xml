@@ -4,9 +4,10 @@
   <resultMap id="BaseResultMap" type="com.honythink.db.entity.SysRole" >
     <id column="rid" property="rid" jdbcType="INTEGER" />
     <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="realname" property="realname" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    rid, name
+    rid, name, realname
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 'true' as QUERYID,
@@ -14,13 +15,21 @@
     from sys_role
     where rid = #{rid,jdbcType=INTEGER}
   </select>
+    <select id="selectRoles" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from sys_role
+  </select>
+  
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from sys_role
     where rid = #{rid,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.honythink.db.entity.SysRole" >
-    insert into sys_role (rid, name)
-    values (#{rid,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR})
+    insert into sys_role (rid, name, realname
+      )
+    values (#{rid,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{realname,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.honythink.db.entity.SysRole" >
     insert into sys_role
@@ -31,6 +40,9 @@
       <if test="name != null" >
         name,
       </if>
+      <if test="realname != null" >
+        realname,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="rid != null" >
@@ -38,6 +50,9 @@
       </if>
       <if test="name != null" >
         #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="realname != null" >
+        #{realname,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -47,12 +62,16 @@
       <if test="name != null" >
         name = #{name,jdbcType=VARCHAR},
       </if>
+      <if test="realname != null" >
+        realname = #{realname,jdbcType=VARCHAR},
+      </if>
     </set>
     where rid = #{rid,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.honythink.db.entity.SysRole" >
     update sys_role
-    set name = #{name,jdbcType=VARCHAR}
+    set name = #{name,jdbcType=VARCHAR},
+      realname = #{realname,jdbcType=VARCHAR}
     where rid = #{rid,jdbcType=INTEGER}
   </update>
 </mapper>
