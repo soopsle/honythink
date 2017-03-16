@@ -22,24 +22,6 @@
 			});
 			$("#main").click();	
 		})
-		
-		/**
-		* Name 载入树形菜单 
-		*/
-/* 		$('#wu-side-tree').tree({
-			url:'temp/menu.php',
-			cache:false,
-			onClick:function(node){
-				var url = node.attributes['url'];
-				if(url==null || url == ""){
-					return false;
-				}
-				else{
-					addTab(node.text, url, '', node.attributes['iframe']);
-				}
-			}
-		}); */
-		
 		/**
 		* Name 选项卡初始化
 		*/
@@ -71,7 +53,14 @@
 						iconCls:iconCls,
 						fit:true,
 						cls:'pd3',
-						closable:true
+						closable:true,
+						tools:[{
+							iconCls:'icon-refresh',
+							handler:function(){
+							  var tab = $('#wu-tabs').tabs('getSelected');
+							    tab.panel('refresh');
+							}
+					    }]
 					});
 				}
 				else{
@@ -81,7 +70,14 @@
 						iconCls:iconCls,
 						fit:true,
 						cls:'pd3',
-						closable:true
+						closable:true,
+						tools:[{
+							iconCls:'icon-mini-refresh',
+							handler:function(){
+								 var tab = $('#wu-tabs').tabs('getSelected');
+							    tab.panel('refresh');
+							}
+					    }]
 					});
 				}
 			}
@@ -125,7 +121,7 @@
         </div>
         <div class="wu-header-right">
 	        <form th:action="@{/logout}" method="post">
-		            <input type="submit" value="注销"/>
+		            <input type="submit"  value="注销"/>
 		    </form>
         </div>
     </div>

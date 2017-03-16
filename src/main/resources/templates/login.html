@@ -2,21 +2,66 @@
 <html xmlns="http://www.w3.org/1999/xhtml"  
       xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
-    <head>
-        <title>弘毅知行</title>
-    </head>
+<head>
+<title>弘毅知行</title>
+<meta charset="UTF-8" />
+<title>Login and Registration Form with HTML5 and CSS3</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/> 
+<meta name="description" content="Login and Registration Form with HTML5 and CSS3" />
+<meta name="keywords" content="html5, css3, form, switch, animation, :target, pseudo-class" />
+<meta name="author" content="Codrops" />
+<link rel="stylesheet" type="text/css" th:href="@{css/demo.css}" />
+<link rel="stylesheet" type="text/css" th:href="@{css/style.css}" />
+<link rel="stylesheet" type="text/css" th:href="@{/css/animate-custom.css}" />
+</head>
     <body>
-        <div th:if="${param.error}">
-            	用户名或密码错
+    <div class="container">
+            <div class="codrops-top">
+                <a href="http://www.honythink.com">
+                    <strong>&laquo;</strong>Honythink.com
+                </a>
+                  <span class="right">
+                    <a href="">
+                        <strong>Honythink.com</strong>
+                    </a>
+                </span>
+            </div>
+            <header>
+                <h1>弘毅知行<span>EHR</span></h1>
+            </header>
+            <section>				
+                <div id="container_demo" >
+                    <a class="hiddenanchor" id="toregister"></a>
+                    <a class="hiddenanchor" id="tologin"></a>
+                    <div id="wrapper">
+                        <div id="login" class="animate form">
+                            <form th:action="@{/login}" method="post" autocomplete="on">
+                                <h1>Log in</h1> 
+                                <p> 
+                                    <label for="username" class="uname" data-icon="u" > username </label>
+                                    <input id="username" name="username" required="required" type="text" placeholder="myusername or mymail@mail.com"/>
+                                </p>
+                                <p> 
+                                    <label for="password" class="youpasswd" data-icon="p"> Your password </label>
+                                    <input id="password" name="password" required="required" type="password" placeholder="eg. X8df!90EO" /> 
+                                </p>
+                                <p class="keeplogin"> 
+									<input type="checkbox" name="remember-me" id="remember-me" value="loginkeeping" /> 
+									<label for="loginkeeping">Keep me logged in</label>
+								</p>
+                                <p class="login button"> 
+                                    <input type="submit" value="Login" /> 
+								</p>
+								 <p class="change_link">
+								    WE ARE HONYTHINKER!
+									<a href="" class="to_register" th:if="${param.error}">用户名或密码错 </a>
+									<a href="" class="to_register" th:if="${param.logout}">您已注销成功</a>
+								</p>
+                            </form>
+                        </div>
+                    </div>
+                </div>  
+            </section>
         </div>
-        <div th:if="${param.logout}">
-         		   您已注销成功
-        </div>
-        <form th:action="@{/login}" method="post">
-            <div><label> 用户名 : <input type="text" name="username"/> </label></div>
-            <div><label> 密    码 : <input type="password" name="password"/> </label></div>
-            <div><label> 记住我 : <input id="remember-me" name="remember-me" type="checkbox" checked="checked"/></label></div>
-            <div><input type="submit" value="登录"/></div>
-        </form>
     </body>
 </html>  

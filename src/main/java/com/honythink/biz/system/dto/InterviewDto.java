@@ -7,7 +7,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 
-public class InterviewDto {
+public class InterviewDto extends BaseDto{
     private Integer id;
 
     @DateTimeFormat(pattern="yyyy-MM-dd")
@@ -39,10 +39,14 @@ public class InterviewDto {
     private String resumeSelf;
     //服务费
     private Float cover;
+    
+    private String status;
 
     private String usernameSell;
+    private String realnameSell;
     
     private String usernameHr;
+    private String realnameHr;
 
 
     private String workTime;
@@ -63,8 +67,43 @@ public class InterviewDto {
     
     //公司名称
     private String name;
+    //简称
+    private String shortname;
     
     
+    
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getShortname() {
+        return shortname;
+    }
+
+    public void setShortname(String shortname) {
+        this.shortname = shortname;
+    }
+
+    public String getRealnameSell() {
+        return realnameSell;
+    }
+
+    public void setRealnameSell(String realnameSell) {
+        this.realnameSell = realnameSell;
+    }
+
+    public String getRealnameHr() {
+        return realnameHr;
+    }
+
+    public void setRealnameHr(String realnameHr) {
+        this.realnameHr = realnameHr;
+    }
+
     public String getResumeGender() {
         return resumeGender;
     }

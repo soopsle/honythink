@@ -73,6 +73,18 @@ public class Resume {
     private Date time;
 
     private String username;
+    
+    private String realname;
+    
+    
+
+    public String getRealname() {
+        return realname;
+    }
+
+    public void setRealname(String realname) {
+        this.realname = realname;
+    }
 
     public Integer getId() {
         return id;

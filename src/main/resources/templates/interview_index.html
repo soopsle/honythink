@@ -13,7 +13,6 @@
 <script type="text/javascript" th:src="@{/easyui/1.3.4/jquery.easyui.min.js}"></script>
 <script type="text/javascript" th:src="@{/easyui/1.3.4/locale/easyui-lang-zh_CN.js}"></script>
 <script type="text/javascript" th:src="@{/js/interview.js}"></script>
-<script type="text/javascript" th:src="@{/js/datagrid-dnd.js}"></script>
 <script type="text/javascript" th:src="@{/ztree/js/jquery.ztree.core.js}"></script>
 <script type="text/javascript" th:src="@{/ztree/js/jquery.ztree.excheck.js}"></script>
 </head>
@@ -25,7 +24,7 @@
 			<a href="#" class="easyui-linkbutton"
 				iconCls="icon-remove" onclick="openDelete()" plain="true">删除</a>
 			<a href="#" class="easyui-linkbutton"
-				iconCls="icon-save" onclick="openDownload()" plain="true">统计</a>
+				iconCls="icon-save" onclick="openDownload()" plain="true">生成推送信息</a>
 			<a href="#" class="easyui-linkbutton"
 				iconCls="icon-redo" onclick="openPush()" plain="true">推送至销售</a>
 		</div>
@@ -34,62 +33,19 @@
 	<table id="datagrid" toolbar="#wu-toolbar-2"></table>
 </div>
 
-<div id="dialog_add" class="easyui-dialog"
-	data-options="closed:true,iconCls:'icon-save'"
-	style="width:400px; padding:10px;">
-	<form id="form_add" method="POST" enctype="multipart/form-data"
-		action="interview/add">
-				<div style="margin-bottom:10px">
-					<div>推荐时间：</div>
-					<input name="recommendTime" id="recommendTime" class="easyui-datebox"/>
-				</div>
-				<div style="margin-bottom:10px">
-					<div>职位：</div>
-					<input name="position" id="position" class="easyui-textbox"/>
-				</div>
-				<div style="margin-bottom:10px">
-					<div>客户：</div>
-					<select id="customerId" name="customerId" class="easyui-combobox">
-						<option value="">请选择</option>
-		                <option th:each="customer:${customers}" th:value="${customer.id}" th:text="${customer.name}"></option>
-		            </select>
-				</div>
-				<div style="margin-bottom:10px">
-					<div>推荐人：</div>
-						<select id="username" name="username" class="easyui-combobox">
-							<option value="">请选择</option>
-			                <option th:each="user:${users}" th:value="${user.username}" th:text="${user.username}"></option>
-			            </select>
-				</div>
-				<div style="margin-bottom:10px">
-					<div>薪水：</div>
-					<input name="salary" id="salary" class="easyui-textbox"/>
-				</div>
-				<div style="margin-bottom:10px">
-					<div>到岗：</div>
-					<input name="workTime" id="workTime" class="easyui-textbox"/>
-				</div>
-				<div style="margin-bottom:10px">
-					<div>面试时间：</div>
-					<input name="interviewTime" id="interviewTime" class="easyui-datetimebox"/>
-				</div>
-				<div style="margin-bottom:10px">
-					<div>是否到场：</div>
-						<select id="present" name="present" class="easyui-combobox">
-							<option value="否">否</option>
-							<option value="是">是</option>
-			            </select>
-				</div>
-				<div style="margin-bottom:10px">
-					<div>结果：</div>
-					<input name="result" id="result" class="easyui-textbox"/>
-				</div>
-				<div style="margin-bottom:10px">
-					<div>备注：</div>
-					<input name="remark" id="remark" class="easyui-textbox"/>
-				</div>
-	</form>
+
+<div id="tb" style="padding:3px">
+	<span>姓名:</span>
+	<input id="resumeName" name="resumeName" style="line-height:26px;border:1px solid #ccc" />
+	<span>手机:</span>
+	<input id="resumeMobile" name="resumeMobile" style="line-height:26px;border:1px solid #ccc" />
+	<span>职位:</span>
+	<input id="position" name="position" style="line-height:26px;border:1px solid #ccc" />
+	<span>客户:</span>
+	<input id="name" name="name" style="line-height:26px;border:1px solid #ccc" />
+	<a href="#" class="easyui-linkbutton" iconCls="icon-search" plain="true" onclick="init()">Search</a>
 </div>
+
 
 <div id="dialog_push" class="easyui-dialog"
 	data-options="closed:true,iconCls:'icon-save'"

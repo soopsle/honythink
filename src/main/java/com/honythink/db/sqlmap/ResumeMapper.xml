@@ -36,6 +36,7 @@
     <result column="uid" property="uid" jdbcType="INTEGER" />
     <result column="time" property="time" jdbcType="TIMESTAMP" />
     <result column="username" property="username" jdbcType="VARCHAR" />
+    <result column="realname" property="realname" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, name, tag, position, resume_name, gender, birthday, age, seniority, card, mobile, 
@@ -45,9 +46,23 @@
   </sql>
   
   <select id="list" parameterType="com.honythink.biz.system.dto.ResumeDto" resultMap="BaseResultMap">
-    select * from resume r where 1=1
+    select r.*,su.realname as realname from resume r 
+    LEFT JOIN sys_user su on su.username = r.username
+    where 1=1
      <if test="username != null" >
        and r.username = #{username}
+     </if>
+     <if test="name != null and name !=''" >
+       and r.name like CONCAT('%',#{name},'%')  
+     </if>
+     <if test="mobile != null and mobile !=''" >
+       and r.mobile = #{mobile}
+     </if>
+     <if test="gender != null and gender !=''" >
+       and r.gender = #{gender}
+     </if>
+     <if test="education != null and education !=''" >
+       and r.education = #{education}
      </if>
      limit #{page}, #{rows}
   </select>

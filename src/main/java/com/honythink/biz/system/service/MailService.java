@@ -1,9 +1,11 @@
 package com.honythink.biz.system.service;
 
 import java.io.File;
+import java.io.UnsupportedEncodingException;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeUtility;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -93,11 +95,12 @@ public class MailService {
   
             FileSystemResource file = new FileSystemResource(new File(filePath));  
             String fileName = filePath.substring(filePath.lastIndexOf(File.separator));  
-            helper.addAttachment(fileName, file);  
-              
+            helper.addAttachment(MimeUtility.encodeText(new String(fileName.getBytes(), "GB2312"), "GB2312", "B"), file);  
             sender.send(message);  
             logger.info("带附件的邮件已经发送。");  
         } catch (MessagingException e) {  
+            logger.error("发送带附件的邮件时发生异常！", e);  
+        } catch (UnsupportedEncodingException e) {
             logger.error("发送带附件的邮件时发生异常！", e);  
         }  
     }  

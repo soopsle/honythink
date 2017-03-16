@@ -7,6 +7,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -39,11 +42,12 @@ public class OfficeWriteUtils {
      * @auther :
      * @Description ：
      */
-    public static String templateResume(String base, Resume record) throws IOException {
+    public static String templateResume(String base, Resume record,List<String> templatePaths) throws IOException {
         InputStream is;
-        String[] paths = Constants.TEMPLATE_ALL;
         StringBuffer sb = new StringBuffer();
-        for (String templatePath : paths) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmssSSS");
+        String now = sdf.format(new Date());
+        for (String templatePath : templatePaths) {
             try {
                 is = new ClassPathResource(templatePath).getInputStream();
                 Map<String, String> replaces = new HashMap<String, String>();
@@ -61,7 +65,7 @@ public class OfficeWriteUtils {
                 replaces.put("\\$\\{major\\}", record.getMajor() == null ? "" : record.getMajor());
                 replaces.put("\\$\\{education\\}", record.getEducation() == null ? "" : record.getEducation());
                 replaces.put("\\$\\{train\\}", record.getTrain() == null ? "" : record.getTrain());
-                String filename = "弘毅知行-" + record.getId() + record.getName() + "-" + templatePath;
+                String filename = "弘毅知行-"+ record.getName() +now+ "-" + templatePath;
                 File f = new File(base);
                 if (!f.exists()) {
                     f.mkdirs();
@@ -161,7 +165,7 @@ public class OfficeWriteUtils {
                 // 工作年限
                 row.createCell(8).setCellValue(record.getResumeSeniority() == null ? "" : record.getResumeSeniority());
                 // 学校
-                row.createCell(9).setCellValue(record.getResumeSchool() == null ? "" : record.getResumeSeniority());
+                row.createCell(9).setCellValue(record.getResumeSchool() == null ? "" : record.getResumeSchool());
                 // 学位
                 row.createCell(10).setCellValue(record.getEducation() == null ? "" : record.getEducation());
                 // 基本情况（工作意向、态度、家庭住址等）
@@ -172,6 +176,10 @@ public class OfficeWriteUtils {
                  row.createCell(13).setCellValue(null == record.getCover()? 0 : record.getCover());
             }
             // ## 将文件写到硬盘上 ##//
+            File f = new File(Constants.RESUME_TEMPLATE + uuidName + Constants.PATH_SEPERATOR);
+            if (!f.exists()) {
+                f.mkdirs();
+            }
             fileOut = new FileOutputStream(Constants.RESUME_TEMPLATE + uuidName + Constants.PATH_SEPERATOR + Constants.XLS_WORKBOOK_EXPORT_CSIX);
             wb.write(fileOut);
             fileOut.close();
@@ -222,7 +230,7 @@ public class OfficeWriteUtils {
                 // 客户
                 row.createCell(4).setCellValue(record.getName() == null ? "" : record.getName());
                 // 推荐人
-                row.createCell(5).setCellValue(record.getUsernameHr() == null ? "" : record.getUsernameHr());
+                row.createCell(5).setCellValue(record.getRealnameHr() == null ? "" : record.getRealnameHr());
                 // 学历
                 row.createCell(6).setCellValue(record.getEducation() == null ? "" : record.getEducation());
                 // 毕业时间
@@ -233,6 +241,10 @@ public class OfficeWriteUtils {
                 row.createCell(9).setCellValue(record.getWorkTime() == null ? "" : record.getWorkTime());
             }
             // ## 将文件写到硬盘上 ##//
+            File f = new File(Constants.RESUME_TEMPLATE + uuidName + Constants.PATH_SEPERATOR);
+            if (!f.exists()) {
+                f.mkdirs();
+            }
             fileOut = new FileOutputStream(Constants.RESUME_TEMPLATE + uuidName + Constants.PATH_SEPERATOR + Constants.XLS_WORKBOOK_EXPORT_SELF);
             wb.write(fileOut);
             fileOut.close();
@@ -282,7 +294,7 @@ public class OfficeWriteUtils {
                 // 客户
                 row.createCell(3).setCellValue(record.getName() == null ? "" : record.getName());
                 // 推荐人
-                row.createCell(4).setCellValue(record.getUsernameHr() == null ? "" : record.getUsernameHr());
+                row.createCell(4).setCellValue(record.getRealnameHr() == null ? "" : record.getRealnameHr());
                 // 学历
                 row.createCell(5).setCellValue(record.getEducation() == null ? "" : record.getEducation());
                 // 毕业时间
@@ -291,6 +303,10 @@ public class OfficeWriteUtils {
                 row.createCell(7).setCellValue(record.getWorkTime() == null ? "" : record.getWorkTime());
             }
             // ## 将文件写到硬盘上 ##//
+            File f = new File(Constants.RESUME_TEMPLATE + uuidName + Constants.PATH_SEPERATOR);
+            if (!f.exists()) {
+                f.mkdirs();
+            }
             fileOut = new FileOutputStream(Constants.RESUME_TEMPLATE + uuidName + Constants.PATH_SEPERATOR + Constants.XLS_WORKBOOK_EXPORT_CUSTOMER);
             wb.write(fileOut);
             fileOut.close();

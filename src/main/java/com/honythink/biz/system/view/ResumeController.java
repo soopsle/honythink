@@ -7,6 +7,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -307,12 +308,12 @@ public class ResumeController extends BaseController {
         return context.getAuthentication();
     }
         
-    
     @RequestMapping(value = "/download", method = RequestMethod.GET)
     public void download(Integer[] ids, HttpServletRequest request, HttpServletResponse response) {
         List<File> files = new ArrayList<File>();
-        String uuidName = UUID.randomUUID().toString();
-        String base = Constants.RESUME_TEMPLATE+uuidName+Constants.PATH_SEPERATOR;
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmssSSS");
+        String now = sdf.format(new Date());
+        String base = Constants.RESUME_TEMPLATE+now+Constants.PATH_SEPERATOR;
         String baseZip = Constants.RESUME_ZIP;
         List<Resume> resumes = new ArrayList<Resume>();
         for (Integer id : ids) {
@@ -321,8 +322,12 @@ public class ResumeController extends BaseController {
             resumes.add(record);
             //生成word
             String paths;
+            List<String> templatePaths = new ArrayList<String>();
+            templatePaths.add(Constants.TEMPLATE_HONYTHINK+Constants.SUFFIX_DOC);
+            templatePaths.add(Constants.TEMPLATE_CSIX+Constants.SUFFIX_DOC);
+            templatePaths.add(Constants.TEMPLATE_YINGU+Constants.SUFFIX_DOC);
             try {
-                paths = OfficeWriteUtils.templateResume(base,record);
+                paths = OfficeWriteUtils.templateResume(base,record,templatePaths);
                 for (String path : paths.split("@@@@")) {
                     File file = new File(base+path);
                     files.add(file);
@@ -331,16 +336,8 @@ public class ResumeController extends BaseController {
                 log.error(e.getMessage());
             }
         }
-        //生成excel
-//        try {
-//            OfficeWriteUtils.writeExcel(uuidName,resumes);
-//        } catch (IOException e) {
-//            log.error(e.getMessage());
-//        }
-//        files.add(new File(Constants.RESUME_TEMPLATE+uuidName+Constants.PATH_SEPERATOR+Constants.XLS_WORKBOOK_EXPORT));
-       
         //打包zip
-        String fileName = uuidName + Constants.SUFFIX_ZIP;
+        String fileName = Constants.FREFIX_ZIP+now + Constants.SUFFIX_ZIP;
         try {
             FileUtils.createFile(baseZip, fileName);
             File fileZip = new File(baseZip + fileName);

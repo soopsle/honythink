@@ -25,6 +25,8 @@ public class Interview {
     private Float salary;
     
     private Float cover;
+    
+    private String status;
 
     private String workTime;
 
@@ -40,6 +42,16 @@ public class Interview {
     private String remark;
 
     private Date time;
+
+    
+    
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
     public Integer getId() {
         return id;

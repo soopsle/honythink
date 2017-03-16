@@ -4,6 +4,7 @@
   <resultMap id="BaseResultMap" type="com.honythink.db.entity.Customer" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="shortname" property="shortname" jdbcType="VARCHAR" />
     <result column="leader" property="leader" jdbcType="VARCHAR" />
     <result column="mobile" property="mobile" jdbcType="VARCHAR" />
     <result column="phone" property="phone" jdbcType="VARCHAR" />
@@ -11,7 +12,7 @@
     <result column="username" property="username" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, name, leader, mobile, phone, remark, username
+    id, name, shortname, leader, mobile, phone, remark, username
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 'true' as QUERYID,
@@ -35,12 +36,12 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.honythink.db.entity.Customer" >
-    insert into customer (id, name, leader, 
-      mobile, phone, remark, 
-      username)
-    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{leader,jdbcType=VARCHAR}, 
-      #{mobile,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
-      #{username,jdbcType=VARCHAR})
+    insert into customer (id, name, shortname, 
+      leader, mobile, phone, 
+      remark, username)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{shortname,jdbcType=VARCHAR}, 
+      #{leader,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
+      #{remark,jdbcType=VARCHAR}, #{username,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.honythink.db.entity.Customer" >
     insert into customer
@@ -50,6 +51,9 @@
       </if>
       <if test="name != null" >
         name,
+      </if>
+      <if test="shortname != null" >
+        shortname,
       </if>
       <if test="leader != null" >
         leader,
@@ -74,6 +78,9 @@
       <if test="name != null" >
         #{name,jdbcType=VARCHAR},
       </if>
+      <if test="shortname != null" >
+        #{shortname,jdbcType=VARCHAR},
+      </if>
       <if test="leader != null" >
         #{leader,jdbcType=VARCHAR},
       </if>
@@ -97,6 +104,9 @@
       <if test="name != null" >
         name = #{name,jdbcType=VARCHAR},
       </if>
+      <if test="shortname != null" >
+        shortname = #{shortname,jdbcType=VARCHAR},
+      </if>
       <if test="leader != null" >
         leader = #{leader,jdbcType=VARCHAR},
       </if>
@@ -118,6 +128,7 @@
   <update id="updateByPrimaryKey" parameterType="com.honythink.db.entity.Customer" >
     update customer
     set name = #{name,jdbcType=VARCHAR},
+      shortname = #{shortname,jdbcType=VARCHAR},
       leader = #{leader,jdbcType=VARCHAR},
       mobile = #{mobile,jdbcType=VARCHAR},
       phone = #{phone,jdbcType=VARCHAR},

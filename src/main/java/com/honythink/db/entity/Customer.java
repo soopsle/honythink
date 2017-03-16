@@ -5,6 +5,8 @@ public class Customer {
 
     private String name;
 
+    private String shortname;
+
     private String leader;
 
     private String mobile;
@@ -29,6 +31,14 @@ public class Customer {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getShortname() {
+        return shortname;
+    }
+
+    public void setShortname(String shortname) {
+        this.shortname = shortname;
     }
 
     public String getLeader() {

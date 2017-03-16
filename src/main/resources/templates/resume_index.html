@@ -30,79 +30,71 @@
 	<table id="datagrid"  toolbar="#wu-toolbar-2"></table>
 </div>
 
+<div id="tb" style="padding:3px">
+	<span>姓名:</span>
+	<input id="name" name="name" style="line-height:26px;border:1px solid #ccc" />
+	<span>手机:</span>
+	<input id="mobile" name="mobile" style="line-height:26px;border:1px solid #ccc" />
+	<span>学历:</span>
+	<select id="education" name="education" class="easyui-validatebox">
+		<option value="" th:selected="selected">请选择</option>
+		<option value="博士">博士</option>
+		<option value="硕士">硕士</option>
+		<option value="本科">本科</option>
+		<option value="大专">大专</option>
+		<option value="中专">中专</option>
+		<option value="中技">中技</option>
+		<option value="高中">高中</option>
+		<option value="初中">初中</option>
+    </select>
+	<span>性别:</span>
+	<select id="gender" name="gender" class="easyui-validatebox">
+		<option value="" th:selected="selected">请选择</option>
+		<option value="男">男</option>
+		<option value="女">女</option>
+    </select>
+	<a href="#" class="easyui-linkbutton" iconCls="icon-search" plain="true" onclick="init()">Search</a>
+</div>
+
 <div id="dialog_add" class="easyui-dialog" data-options="closed:true,iconCls:'icon-save'" style="width:400px; padding:10px;">
 	<form id="form_add" method="POST" enctype="multipart/form-data"
 		action="batch/upload">
 		<p>
-			文件：<input type="file" name="file" />
+			文件：<input type="file" name="file" accept="application/msword"/>
 		</p>
 		<p>
-			文件：<input type="file" name="file" />
+			文件：<input type="file" name="file" accept="application/msword"/>
 		</p>
 		<p>
-			文件：<input type="file" name="file" />
+			文件：<input type="file" name="file" accept="application/msword"/>
 		</p>
 		<p>
-			文件：<input type="file" name="file" />
+			文件：<input type="file" name="file" accept="application/msword"/>
 		</p>
 		<p>
-			文件：<input type="file" name="file" />
+			文件：<input type="file" name="file" accept="application/msword"/>
 		</p>
 	</form>
 </div>
 
 <div id="dialog_down" class="easyui-dialog" data-options="closed:true,iconCls:'icon-save'" style="width:400px; padding:10px;">
-		<form id="form_down" method="POST">
+		<form id="form_down" method="POST" data-options="novalidate:true">
 				<div style="margin-bottom:10px">
 					<div>客户：</div>
-					<select id="customerId" name="customerId" class="easyui-combobox">
+					<select id="customerId" name="customerId" class="easyui-validatebox" data-options="required:true">
 						<option value="" disabled="true" th:selected="selected">请选择</option>
 		                <option th:each="customer:${customers}" th:value="${customer.id}" th:text="${customer.name}"></option>
 		            </select>
 				</div>
 				<div style="margin-bottom:10px">
-					<div>销售：</div>
-						<select id="username" name="username" class="easyui-combobox">
-							<option value="" selected="selected">请选择</option>
-			                <option th:each="seller:${sellers}" th:value="${seller.username}" th:text="${seller.realname}"></option>
-			            </select>
-				</div>
-				<div style="margin-bottom:10px">
 					<div>推荐时间：</div>
-					<input id="recommendTime" name="recommendTime" class="easyui-datebox"></input>
+					<input id="recommendTime" name="recommendTime" class="easyui-datebox" data-options="required:true"></input>
 				</div>
 				<div style="margin-bottom:10px">
 					<div>职位：</div>
-					<input name="position" id="position" class="easyui-textbox"></input>
+					<input name="position" id="position" class="easyui-validatebox" data-options="required:true"></input>
 				</div>
-				<div style="margin-bottom:10px">
-					<div>薪水：</div>
-					<input name="salary" id="salary" class="easyui-textbox"/>
-				</div>
-				<div style="margin-bottom:10px">
-					<div>到岗：</div>
-					<input name="workTime" id="workTime" class="easyui-textbox"/>
-				</div>
-				<div style="margin-bottom:10px">
-					<div>面试时间：</div>
-					<input name="interviewTime" id="interviewTime" class="easyui-datetimebox" data-options="formatter:ww3,parser:w3"/>
-				</div>
-				<div style="margin-bottom:10px">
-					<div>是否到场：</div>
-						<select id="present" name="present" class="easyui-combobox">
-							<option value="否"  geselecteerd="selected">否</option>
-							<option value="是">是</option>
-			            </select>
-				</div>
-				<div style="margin-bottom:10px">
-					<div>结果：</div>
-					<input name="result" id="result" class="easyui-textbox"/>
-				</div>
-				<div style="margin-bottom:10px">
-					<div>备注：</div>
-					<input name="remark" id="remark" class="easyui-textbox"/>
-				</div>
-	</form>
+		</form>
 </div>
 
 <!-- 表单详情 -->

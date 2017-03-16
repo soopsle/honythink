@@ -1,3 +1,11 @@
+$(function(){
+	document.onkeydown = function(e){ 
+	    var ev = document.all ? window.event : e;
+	    if(ev.keyCode==13) {
+	    	init();
+	     }
+	}
+});  
 $.extend($.fn.datagrid.defaults.editors, {
     datetimebox: {// datetimebox就是你要自定义editor的名称
         init: function (container, options) {
@@ -125,12 +133,17 @@ $(document).ready(function() {
 		//autoRowHeight:false,
 		editorHeight:24,
 		//fitColumns:true,
+		toolbar:"#tb",  
 		fit:true,
 		queryParams : {//查询参数		
-			//"a":b
+			"resumeName":$("#resumeName").val(),
+			"resumeMobile":$("#resumeMobile").val(),
+			"position":$("#position").val(),
+			"name":$("#name").val()
 		},
 		frozenColumns:[[ 
 		{field:'id',checkbox:true},
+		{field:'resumeId'},
 		{field:'action',title:'操作',width:70,align:'right',
 					formatter:function(value,row,index){
 						if (row.editing){
@@ -143,17 +156,50 @@ $(document).ready(function() {
 							}
 					}
 		},
-		{ field:'resumeName',title:'姓名',width:100,editor:'text'},
-		{ field:'resumeMobile',title:'电话',width:100,editor:'text'},
+		{ field:'resumeName',title:'姓名',width:100,editor : {
+		    type : 'validatebox',
+		    options : {
+		       required : true
+		    }
+		}},
+		{ field:'resumeMobile',title:'电话',width:100,editor : {
+		    type : 'validatebox',
+		    options : {
+		       required : true
+		    }
+		}},
 		]],
 		columns:[[
 		{ field:'recommendTime',title:'推荐时间',width:100,editor:'datebox'},
-		{ field:'position',title:'职位',width:100,editor:'text'},
+		{ field:'position',title:'职位',width:100,editor : {
+		    type : 'validatebox',
+		    options : {
+		       required : true
+		    }
+		}},
 		{ field:'name',title:'客户',width:100},
-		{ field:'usernameHr',title:'推荐人',width:100},
-		{ field:'salary',title:'薪水',width:100,editor:'text'},
-		{ field:'cover',title:'服务费',width:100,editor:'text'},
-		{ field:'workTime',title:'到岗时间',width:100,editor:'text'},
+		{ field:'realnameHr',title:'推荐人',width:100},
+		{ field:'salary',title:'薪水',width:100,editor : {
+		    type : 'validatebox',
+		    options : {
+		       required : true
+		    }
+		}},
+		{ field:'cover',title:'服务费',width:100,editor : {
+			type : 'validatebox',
+			options : {
+				required : true
+			}
+		}},
+		{ field:'status',title:'工作状态',width:100,editor : {
+		    type : 'validatebox'
+		}},
+		{ field:'workTime',title:'到岗时间',width:100,editor : {
+		    type : 'validatebox',
+		    options : {
+		       required : true
+		    }
+		}},
 		{ field:'interviewTime',title:'面试时间',width:150, editor : {  
                 type:'datetimebox',//Extension of time for selecting type  
                 options:{  
@@ -161,10 +207,17 @@ $(document).ready(function() {
                 }  
             }
         },
-		{ field:'present',title:'是否到场',width:100,editor:'text'},
-		{ field:'result',title:'推荐结果',width:100,editor:'text'},
+		{ field:'present',title:'是否到场',width:100,editor : {
+		    type : 'validatebox',
+		}},
+		{ field:'result',title:'推荐结果',width:100,editor : {
+		    type : 'validatebox',
+		}},
 		{ field:'remark',title:'备注',width:100,editor:'text'}
 		]],
+			onLoadSuccess:function(data){    
+		            $("#datagrid").datagrid("hideColumn", "resumeId"); // 设置隐藏列    
+		    },    
 			onBeforeEdit:function(index,row){
 				row.editing = true;
 				updateActions(index);
@@ -173,27 +226,39 @@ $(document).ready(function() {
 				row.editing = false;
 				updateActions(index);
 				 $.ajax({
-                    type: "POST",
-                    url: "update",
-                    data: {
-                    	"id":row.id,
-                    	"resumeName":row.resumeName,
-                    	"resumeMobile":row.resumeMobile,
-                        "recommendTime":row.recommendTime,
-                        "position":row.position,
-                        "salary":row.salary,
-                        "cover":row.cover,
-                        "workTime":row.workTime,
-                        "interviewTime":row.interviewTime,
-                        "present":row.present,
-                        "result":row.result,
-                        "remark":row.remark
-                    },
-                    success: function(msg){
-                      alert("数据修改成功...");
-                      $('#datagrid').datagrid('load');//重新加载datagrid，刷新功能
-                    }
-                 });
+	                    type: "POST",
+	                    url: "../resume/update",
+	                    data: {
+	                    	"id":row.resumeId,
+	                    	"name":row.resumeName,
+	                    	"mobile":row.resumeMobile
+	                    },
+	                    success: function(msg){
+	                      $.ajax({
+	                          type: "POST",
+	                          url: "update",
+	                          data: {
+	                          	  "id":row.id,
+	                          	  "resumeName":row.resumeName,
+	                          	  "resumeMobile":row.resumeMobile,
+	                              "recommendTime":row.recommendTime,
+	                              "position":row.position,
+	                              "salary":row.salary,
+	                              "cover":row.cover,
+	                              "status":row.status,
+	                              "workTime":row.workTime,
+	                              "interviewTime":row.interviewTime,
+	                              "present":row.present,
+	                              "result":row.result,
+	                              "remark":row.remark
+	                          },
+	                          success: function(msg){
+	                            $.messager.alert('信息提示','数据修改成功...','info');
+	                            $('#datagrid').datagrid('load');//重新加载datagrid，刷新功能
+	                          }
+	                       });
+	                    }
+	                 });
         	 },
 			onCancelEdit:function(index,row){
 				row.editing = false;
@@ -308,11 +373,29 @@ $(document).ready(function() {
 			c++;
 		});
 		if (c == 0) {
-			alert("请选择需要处理的文件！");
+			$.messager.alert('信息提示','请选择需要处理的文件！','info');
 			return;
 		} else {
-			var vals = valArr.join(','); //转换为逗号隔开的字符串 
-			window.location.href = "download/?ids="+vals;
+			$.messager.confirm('Confirm','您确保姓名，电话，推荐时间，岗位，客户，期望薪资，报价，工作状态，到岗时间信息齐全?',function(r){
+				if (r){
+					var vals = valArr.join(','); //转换为逗号隔开的字符串 
+					$.ajax({
+						type: "GET",
+						url: "validate",
+						data: {
+							"ids":vals,
+						},
+						success: function(msg){
+							if(msg == "SUCCESS"){
+								var vals = valArr.join(','); //转换为逗号隔开的字符串 
+								window.location.href = "download/?ids="+vals;
+							}else{
+								$.messager.alert('这里一定有什么不对劲',"参数不完整");
+							}
+						}
+					});
+				}
+			});
 		}
 	}	
 	function openDelete(){
@@ -323,7 +406,7 @@ $(document).ready(function() {
 			c++;
 		});
 		if (c == 0) {
-			alert("请选择删除下载的文件！");
+			$.messager.alert('信息提示','请选择删除下载的文件！','info');
 			return;
 		} else {
 			$.messager.confirm('Confirm','确认删除?',function(r){
@@ -337,7 +420,7 @@ $(document).ready(function() {
 						},
 						success: function(msg){
 							$('#datagrid').datagrid('load');//重新加载datagrid，刷新功能
-							alert("删除成功...");
+							$.messager.alert('信息提示','删除成功...','info');
 						}
 					});
 				}
@@ -350,7 +433,7 @@ $(document).ready(function() {
 			c++;
 		});
 		if (c == 0) {
-			alert("请选择人员！");
+			$.messager.alert('信息提示','请选择人员！','info');
 			return;
 		} 
 		$('#form_push').form('clear');
@@ -379,23 +462,38 @@ $(document).ready(function() {
 			valArr[i] = $(this).val();
 		});
 		$.messager.confirm('Confirm','确认执行操作?',function(r){
+			var sellerIds = treeIds();
+			var vals = valArr.join(','); //转换为逗号隔开的字符串 
 			if (r){
 				$("#pushBT").hide();
-				var sellerIds = treeIds();
-				var vals = valArr.join(','); //转换为逗号隔开的字符串 
 				$.ajax({
-                type: "POST",
-                url: "push",
-                data: {
-                	"ids":vals,
-                	"sellerIds":sellerIds
-                },
-                success: function(msg){
-                	$('#datagrid').datagrid('load');//重新加载datagrid，刷新功能
-                	alert("成功...");
-                  $('#dialog_push').dialog('close');         
-                }
-             });
+					type: "GET",
+					url: "validate",
+					data: {
+						"ids":vals,
+					},
+					success: function(msg){
+						if(msg == "SUCCESS"){
+							$.ajax({
+				                type: "POST",
+				                url: "push",
+				                data: {
+				                	"ids":vals,
+				                	"sellerIds":sellerIds
+				                },
+				                success: function(msg){
+				                	$.messager.alert('info',msg);
+				                	$("#pushBT").hide();
+				                	$('#datagrid').datagrid('load');//重新加载datagrid，刷新功能
+				                   $('#dialog_push').dialog('close');         
+				                }
+				             });
+						}else{
+							$("#pushBT").show();
+							$.messager.alert('这里一定有什么不对劲',"参数不完整");
+						}
+					}
+				});
 			}
 		});
 	}
@@ -405,7 +503,7 @@ $(document).ready(function() {
 		   var idListStr = "";  
 		   for (var i = 0; i < zTreeO.length; i++) {  
 		      if (zTreeO[i].id != null) {  
-		     idListStr+= (i == (zTreeO.length-1))?Number(zTreeO[i].id)/10000:Number(zTreeO[i].id)/10000+";";  
+		     idListStr+= (i == (zTreeO.length-1))?Number(zTreeO[i].id)/10000:Number(zTreeO[i].id)/10000+",";  
 		      }  
 		   };  
 		   return idListStr;
@@ -430,14 +528,8 @@ $(document).ready(function() {
 	}
 	function deleterow(target){
 	 	var selectedRow = $('#datagrid').datagrid('getSelected'); //获取选中行
-	 	if (null == selectedRow) {
-			alert("请选择需要删除的记录！");
-	 	}
-	 	if (null == selectedRow.id) {
-			alert("请选择需要删除的记录！");
-	 	}
-		if (0 == selectedRow.id) {
-			alert("请选择需要删除的记录！");
+	 	if (null == selectedRow.id ||0 == selectedRow.id||null == selectedRow) {
+	 		$.messager.alert('信息提示','请选择需要删除的记录！','info');
 	 	}
 		$.messager.confirm('Confirm','确认删除?',function(r){
 			if (r){
@@ -446,7 +538,7 @@ $(document).ready(function() {
                     type: "POST",
                     url: "delete/"+selectedRow.id,
                     success: function(msg){
-                      alert("数据删除成功...");
+                      $.messager.alert('信息提示','数据删除成功...','info');
                       $('#datagrid').datagrid('load');//重新加载datagrid，刷新功能
                     }
                  });

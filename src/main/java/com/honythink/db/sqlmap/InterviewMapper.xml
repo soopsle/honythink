@@ -11,6 +11,7 @@
     <result column="username_hr" property="usernameHr" jdbcType="VARCHAR" />
     <result column="salary" property="salary" jdbcType="REAL" />
     <result column="cover" property="cover" jdbcType="REAL" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
     <result column="work_time" property="workTime" jdbcType="VARCHAR" />
     <result column="interview_date" property="interviewDate" jdbcType="TIMESTAMP" />
     <result column="interview_time" property="interviewTime" jdbcType="TIMESTAMP" />
@@ -29,7 +30,9 @@
     <result column="resume_mobile" property="resumeMobile" jdbcType="VARCHAR" />
     <result column="customer_id" property="customerId" jdbcType="INTEGER" />
     <result column="username_sell" property="usernameSell" jdbcType="VARCHAR" />
+    <result column="realname_sell" property="realnameSell" jdbcType="VARCHAR" />
     <result column="username_hr" property="usernameHr" jdbcType="VARCHAR" />
+    <result column="realname_hr" property="realnameHr" jdbcType="VARCHAR" />
     <result column="work_time" property="workTime" jdbcType="VARCHAR" />
     <result column="interview_date" property="interviewDate" jdbcType="TIMESTAMP" />
     <result column="interview_time" property="interviewTime" jdbcType="TIMESTAMP" />
@@ -40,7 +43,9 @@
     <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="salary" property="salary" jdbcType="REAL" />
     <result column="cover" property="cover" jdbcType="REAL" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
     <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="shortname" property="shortname" jdbcType="VARCHAR" />
     <result column="gender" property="resumeGender" jdbcType="VARCHAR" />
     <result column="seniority" property="resumeSeniority" jdbcType="VARCHAR" />
     <result column="school" property="resumeSchool" jdbcType="VARCHAR" />
@@ -48,7 +53,7 @@
     
   </resultMap>
   <sql id="Base_Column_List" >
-    id, recommend_time, position,resume_id,customer_id, username_sell, username_hr, salary,cover, work_time,
+    id, recommend_time, position,resume_id,customer_id, username_sell, username_hr, salary,cover,status, work_time,
     interview_date, interview_time, present, result, remark, time
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
@@ -60,24 +65,40 @@
   
     <select id="selectDtoByPrimaryKey" resultMap="DtoResultMap" parameterType="java.lang.Integer" >
 	  SELECT
-			r.*,c.`name` as name,re.name as resumeName,re.education,re.educationtime,re.gender,re.seniority,re.school,re.self,re.mobile as resume_mobile
+			r.*,su.realname as realname_hr,su1.realname as realname_sell,c.`name` as name,c.shortname as shortname,re.name as resumeName,re.education,re.educationtime,re.gender,re.seniority,re.school,re.self,re.mobile as resume_mobile
 		FROM
 			interview r
 		LEFT JOIN customer c ON c.id = r.customer_id
 		LEFT JOIN resume re on re.id = r.resume_id
+		LEFT JOIN sys_user su on r.username_hr = su.username
+		LEFT JOIN sys_user su1 on r.username_hr = su1.username
 	    where r.id = #{id,jdbcType=INTEGER}
   </select>
   
     <select id="list" parameterType="com.honythink.biz.system.dto.BaseDto" resultMap="DtoResultMap">
     SELECT
-		r.*,c.`name` as name,re.name as resumeName,re.education,re.educationtime,re.gender,re.seniority,re.school,re.self,re.mobile as resume_mobile
+		r.*,su.realname as realname_hr,su1.realname as realname_sell,c.`name` as name,re.name as resumeName,re.education,re.educationtime,re.gender,re.seniority,re.school,re.self,re.mobile as resume_mobile
 	FROM
 		interview r
 	LEFT JOIN customer c ON c.id = r.customer_id
 	LEFT JOIN resume re on re.id = r.resume_id
+	LEFT JOIN sys_user su on r.username_hr = su.username
+	LEFT JOIN sys_user su1 on r.username_hr = su1.username
     where 1=1
-     <if test="username != null" >
+     <if test="username != null and username !=''" >
        and r.username_hr = #{username}
+     </if>
+     <if test="resumeName != null and resumeName !=''" >
+       and re.name like CONCAT('%',#{resumeName},'%')  
+     </if>
+     <if test="resumeMobile != null and resumeMobile !=''" >
+       and re.mobile like CONCAT('%',#{resumeMobile},'%')  
+     </if>
+     <if test="position != null and position !=''" >
+       and r.position like CONCAT('%',#{position},'%')  
+     </if>
+     <if test="name != null and name !=''" >
+       and c.name like CONCAT('%',#{name},'%')  
      </if>
      order by r.id desc
      limit #{page}, #{rows}
@@ -90,12 +111,12 @@
   <insert id="insert" parameterType="com.honythink.db.entity.Interview" >
     insert into interview (id, recommend_time, position, 
       resume_id,customer_id, username_sell, username_hr, 
-      salary,cover, work_time, interview_date, 
+      salary,cover,status, work_time, interview_date, 
       interview_time, present, result, 
       remark, time)
     values (#{id,jdbcType=INTEGER}, #{recommendTime,jdbcType=TIMESTAMP}, #{position,jdbcType=VARCHAR}, 
       #{resumeId,jdbcType=INTEGER},#{customerId,jdbcType=INTEGER}, #{usernameSell,jdbcType=VARCHAR}, #{usernameHr,jdbcType=VARCHAR}, 
-      #{salary,jdbcType=REAL},#{cover,jdbcType=REAL}, #{workTime,jdbcType=VARCHAR}, #{interviewDate,jdbcType=TIMESTAMP}, 
+      #{salary,jdbcType=REAL},#{cover,jdbcType=REAL},#{status,jdbcType=VARCHAR}, #{workTime,jdbcType=VARCHAR}, #{interviewDate,jdbcType=TIMESTAMP}, 
       #{interviewTime,jdbcType=TIMESTAMP}, #{present,jdbcType=VARCHAR}, #{result,jdbcType=VARCHAR}, 
       #{remark,jdbcType=VARCHAR}, #{time,jdbcType=TIMESTAMP})
   </insert>
@@ -128,6 +149,9 @@
       </if>
       <if test="cover != null" >
         cover,
+      </if>
+      <if test="status != null" >
+        status,
       </if>
       <if test="workTime != null" >
         work_time,
@@ -179,6 +203,9 @@
       <if test="cover != null" >
         #{cover,jdbcType=REAL},
       </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
       <if test="workTime != null" >
         #{workTime,jdbcType=VARCHAR},
       </if>
@@ -229,6 +256,9 @@
       <if test="cover != null" >
         cover = #{cover,jdbcType=REAL},
       </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=VARCHAR},
+      </if>
       <if test="workTime != null" >
         work_time = #{workTime,jdbcType=VARCHAR},
       </if>
@@ -263,6 +293,7 @@
       username_hr = #{usernameHr,jdbcType=VARCHAR},
       salary = #{salary,jdbcType=REAL},
       cover = #{cover,jdbcType=REAL},
+      status = #{status,jdbcType=VARCHAR},
       work_time = #{workTime,jdbcType=VARCHAR},
       interview_date = #{interviewDate,jdbcType=TIMESTAMP},
       interview_time = #{interviewTime,jdbcType=TIMESTAMP},

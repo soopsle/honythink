@@ -1,9 +1,18 @@
+$(function(){
+	document.onkeydown = function(e){ 
+	    var ev = document.all ? window.event : e;
+	    if(ev.keyCode==13) {
+	    	init();
+	     }
+	}
+});
 $(document).ready(function() {
 	init()
 	$('#recommendTime').datebox('setValue', myformatter(new Date()));
 });
 	function init(){
 		$('#datagrid').datagrid({
+		url:'list',
 		rownumbers:true,
 		singleSelect:false,
 		pageSize:20,           
@@ -11,9 +20,15 @@ $(document).ready(function() {
 		multiSort:true,
 		//autoRowHeight:false,
 		editorHeight:24,
+		toolbar:"#tb",  
 		//fitColumns:true,
 		fit:true,
-		url:'list',
+		queryParams : {//查询参数		
+			"name":$("#name").val(),
+			"mobile":$("#mobile").val(),
+			"gender":$("#gender").val(),
+			"education":$("#education").val()
+		},
 		columns:[[
 		{ field:'resumeName',title:'简历名称',width:100,editor:'text'},
 		{ field:'card',title:'身份证',width:100,editor:'text'},
@@ -69,7 +84,7 @@ $(document).ready(function() {
 							}	
 		 }, 
          { field:'time',title:'录入时间',width:130},
-         { field:'username',title:'录入人员',width:130}
+         { field:'realname',title:'录入人员',width:130}
 		]],
 		frozenColumns:[[ 
 			{field:'id',checkbox:true},
@@ -131,7 +146,7 @@ $(document).ready(function() {
                         "educationtime":row.educationtime
                     },
                     success: function(msg){
-                      alert("数据修改成功...");
+                      $.messager.alert('信息提示','数据修改成功...','info');
                       $('#datagrid').datagrid('load');//重新加载datagrid，刷新功能
                     }
                  });
@@ -230,7 +245,7 @@ $(document).ready(function() {
 		$('#dialog_add').dialog({
 			closed: false,
 			modal:true,
-            title: "上传简历",
+            title: "上传简历(请使用标准的智联下载的Word简历!!!!!)",
             buttons: [{
             	id:"saveBT",
                 text: '确定',
@@ -246,30 +261,35 @@ $(document).ready(function() {
         });
 	}
 	function openPush(){
-		$('#dialog_down').dialog({
-			closed: false,
-			modal:true,
-            title: "推荐",
-            buttons: [
-//                      {
-//            	id:"saveDownBT",
-//                text: '生成下载',
-//                iconCls: 'icon-save',
-//                handler: down
-//            },
-            {
-            	id:"saveDownBT",
-                text: '推送',
-                iconCls: 'icon-ok',
-                handler: push
-            }, {
-                text: '取消',
-                iconCls: 'icon-cancel',
-                handler: function () {
-                    $('#dialog_down').dialog('close');                    
-                }
-            }]
-        });
+		var valArr = new Array; 
+		var c=0;
+		$('input[name="id"]:checked').each(function(i) {
+			valArr[i] = $(this).val();
+			c++;
+		});
+		if (c == 0) {
+			 $.messager.alert('信息提示','请选择需要下载的文件！','info');
+			return;
+		} else {
+			$('#dialog_down').dialog({
+				closed: false,
+				modal:true,
+	            title: "推荐",
+	            buttons: [
+	            {
+	            	id:"saveDownBT",
+	                text: '推送',
+	                iconCls: 'icon-ok',
+	                handler: push
+	            }, {
+	                text: '取消',
+	                iconCls: 'icon-cancel',
+	                handler: function () {
+	                    $('#dialog_down').dialog('close');                    
+	                }
+	            }]
+	        });
+		}
 	}
 	function down(){
 		var valArr = new Array; 
@@ -279,7 +299,7 @@ $(document).ready(function() {
 			c++;
 		});
 		if (c == 0) {
-			alert("请选择需要下载的文件！");
+			 $.messager.alert('信息提示','请选择需要下载的文件！','info');
 			return;
 		} else {
 			var vals = valArr.join(','); //转换为逗号隔开的字符串 
@@ -287,31 +307,34 @@ $(document).ready(function() {
 		}
 	}
 	function push(){
-		var valArr = new Array; 
-		var c=0;
-		$('input[name="id"]:checked').each(function(i) {
-			valArr[i] = $(this).val();
-			c++;
-		});
-		var vals = valArr.join(','); //转换为逗号隔开的字符串 
-		$('#form_down').form('submit', {
-			 url:'../interview/add?ids='+vals,
-			 onSubmit: function(){  
-				$("#saveDownBT").hide();
-				return true;
-				},
-			success:function(data){
-				if(data){
-					$.messager.alert('信息提示','提交成功！','info');
-					$('#datagrid').datagrid('load');//重新加载datagrid，刷新功能
-					$('#dialog_down').dialog('close');
+			var valArr = new Array; 
+			var c=0;
+			$('input[name="id"]:checked').each(function(i) {
+				valArr[i] = $(this).val();
+				c++;
+			});
+			var vals = valArr.join(','); //转换为逗号隔开的字符串 
+			$('#form_down').form('submit', {
+				 url:'../interview/add?ids='+vals,
+				 onSubmit: function(){  
+					 if($(this).form('enableValidation').form('validate')){
+						 $("#saveDownBT").hide();
+					 }
+					return $(this).form('enableValidation').form('validate');
+					},
+				success:function(data){
+					if(data){
+						$.messager.alert('信息提示','提交成功！','info');
+						$('#datagrid').datagrid('load');//重新加载datagrid，刷新功能
+						$('#dialog_down').dialog('close');
+					}
+					else
+					{
+						$.messager.alert('信息提示','提交失败！','info');
+					}
 				}
-				else
-				{
-					$.messager.alert('信息提示','提交失败！','info');
-				}
-			}
-		});
+			});
+		
 	}
 	
 	function openDelete(){
@@ -336,7 +359,7 @@ $(document).ready(function() {
                     },
                     success: function(msg){
                       $('#datagrid').datagrid('load');//重新加载datagrid，刷新功能
-                      alert("删除成功...");
+                      $.messager.alert('信息提示','删除成功...','info');
                     }
                  });
 				}
@@ -368,14 +391,8 @@ $(document).ready(function() {
 	}
 	function deleterow(target){
 	 	var selectedRow = $('#datagrid').datagrid('getSelected'); //获取选中行
-	 	if (null == selectedRow) {
-			alert("请选择需要删除的记录！");
-	 	}
-	 	if (null == selectedRow.id) {
-			alert("请选择需要删除的记录！");
-	 	}
-		if (0 == selectedRow.id) {
-			alert("请选择需要删除的记录！");
+	 	if (null == selectedRow.id ||0 == selectedRow.id||null == selectedRow) {
+	 		$.messager.alert('信息提示','请选择需要删除的记录！','info');
 	 	}
 		$.messager.confirm('Confirm','确认删除?',function(r){
 			if (r){
@@ -384,7 +401,7 @@ $(document).ready(function() {
                     type: "POST",
                     url: "delete/"+selectedRow.id,
                     success: function(msg){
-                      alert("数据删除成功...");
+                      $.messager.alert('信息提示','数据删除成功...','info');
                       $('#datagrid').datagrid('load');//重新加载datagrid，刷新功能
                     }
                  });
