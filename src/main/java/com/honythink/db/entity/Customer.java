@@ -17,6 +17,8 @@ public class Customer {
 
     private String username;
 
+    private String template;
+
     public Integer getId() {
         return id;
     }
@@ -79,5 +81,13 @@ public class Customer {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String getTemplate() {
+        return template;
+    }
+
+    public void setTemplate(String template) {
+        this.template = template;
     }
 }

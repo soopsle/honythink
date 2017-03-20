@@ -54,11 +54,19 @@ public class Constants {
     
     
     public static final Map<String, String> CUSTOMER_TEMPLATE_WORD = new HashMap<String, String>();
-
+    
     static {
         CUSTOMER_TEMPLATE_WORD.put("honythink", "template_honythink.doc");
         CUSTOMER_TEMPLATE_WORD.put("yingu", "template_yingu.doc");
         CUSTOMER_TEMPLATE_WORD.put("csix", "template_csix.doc");
+    }
+    
+    public static final Map<String, String> CUSTOMER_TEMPLATE_NAME = new HashMap<String, String>();
+
+    static {
+        CUSTOMER_TEMPLATE_NAME.put("honythink", "弘毅知行模板");
+        CUSTOMER_TEMPLATE_NAME.put("yingu", "银谷模板");
+        CUSTOMER_TEMPLATE_NAME.put("csix", "软交所模板");
     }
     
     

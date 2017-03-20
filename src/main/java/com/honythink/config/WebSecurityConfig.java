@@ -41,17 +41,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http
-            .authorizeRequests()
-                .antMatchers("/home").permitAll()
+        http.authorizeRequests()
                 .anyRequest().authenticated()
-                .antMatchers(HttpMethod.POST)
-                .authenticated()
-                .antMatchers(HttpMethod.GET)
-                .authenticated()
                 .and()
-//            .httpBasic()
-//                .and()
             .formLogin()
                 .loginPage("/login")
                 .permitAll()
@@ -62,6 +54,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll()
                 .and()
             .rememberMe()
+                .tokenValiditySeconds(31536000)
                 .and()
             .headers()
                 // do not use any default headers unless explicitly listed

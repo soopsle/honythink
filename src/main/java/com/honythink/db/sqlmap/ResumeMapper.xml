@@ -55,6 +55,9 @@
      <if test="name != null and name !=''" >
        and r.name like CONCAT('%',#{name},'%')  
      </if>
+     <if test="resumeName != null and resumeName !=''" >
+       and r.resume_name like CONCAT('%',#{resumeName},'%')  
+     </if>
      <if test="mobile != null and mobile !=''" >
        and r.mobile = #{mobile}
      </if>
@@ -64,7 +67,10 @@
      <if test="education != null and education !=''" >
        and r.education = #{education}
      </if>
-     limit #{page}, #{rows}
+     order by r.id desc
+       <if test="page != null and rows != null" >
+      	 limit #{page}, #{rows}
+      </if>
   </select>
   
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >

@@ -13,24 +13,17 @@
 </head>
 <body>
 <div class="easyui-layout" data-options="fit:true">
-	<!-- Begin of toolbar -->
-	<div id="wu-toolbar-2">
-		<div class="wu-toolbar-button">
-			<a href="#" class="easyui-linkbutton" iconCls="icon-add"
-				onclick="openAdd()" plain="true">上传简历</a> 
-			<a href="#" class="easyui-linkbutton"
-				iconCls="icon-remove" onclick="openDelete()" plain="true">删除</a>
-			<a href="#" class="easyui-linkbutton"
-				iconCls="icon-save" onclick="down()" plain="true">生成模板简历</a>
-			<a href="#" class="easyui-linkbutton"
-				iconCls="icon-redo" onclick="openPush()" plain="true">推荐面试</a>
-		</div>
-	</div>
-	<!-- End of toolbar -->
-	<table id="datagrid"  toolbar="#wu-toolbar-2"></table>
+	<table id="datagrid"></table>
 </div>
-
 <div id="tb" style="padding:3px">
+	<a href="#" class="easyui-linkbutton" iconCls="icon-add"
+		onclick="openAdd()" plain="true">上传简历</a> 
+	<a href="#" class="easyui-linkbutton"
+		iconCls="icon-remove" onclick="openDelete()" plain="true">删除</a>
+	<a href="#" class="easyui-linkbutton"
+		iconCls="icon-save" onclick="down()" plain="true">生成模板简历</a>
+	<a href="#" class="easyui-linkbutton"
+		iconCls="icon-redo" onclick="openPush()" plain="true">推荐面试</a>
 	<span>姓名:</span>
 	<input id="name" name="name" style="line-height:26px;border:1px solid #ccc" />
 	<span>手机:</span>
@@ -53,6 +46,8 @@
 		<option value="男">男</option>
 		<option value="女">女</option>
     </select>
+	<span>简历名称:</span>
+    <input id="resumeName" name="resumeName" style="line-height:26px;border:1px solid #ccc" />
 	<a href="#" class="easyui-linkbutton" iconCls="icon-search" plain="true" onclick="init()">Search</a>
 </div>
 

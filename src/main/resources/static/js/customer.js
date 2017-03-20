@@ -26,6 +26,8 @@ $(document).ready(function() {
 					}
 		},
 		{ field:'name',title:'公司名称',width:100,editor:'text'},
+		{ field:'shortname',title:'公司简称',width:100,editor:'text'},
+		{ field:'template',title:'简历模板',width:100,editor:'text'},
 		{ field:'leader',title:'负责人',width:100,editor:'text'},
 		{ field:'mobile',title:'手机',width:35,editor:'text'},
 		{ field:'phone',title:'座机',width:100,editor:'text'},
@@ -43,7 +45,9 @@ $(document).ready(function() {
 	                url: "update",
 	                data: {
 	                	"id":row.id,
-	                    "name":row.name,
+	                	"name":row.name,
+	                	"shortname":row.shortname,
+	                    "template":row.template,
 	                    "resume_name":row.resume_name,
 	                    "gender":row.gender,
 	                    "birthday":row.birthday,
@@ -264,19 +268,12 @@ function getRowIndex(target){
 	return parseInt(tr.attr('datagrid-row-index'));
 }
 function editrow(target){
+	$('#datagrid').datagrid("selectRow", getRowIndex(target));
 	$('#datagrid').datagrid('beginEdit', getRowIndex(target));
 }
 function deleterow(target){
+ 	$('#datagrid').datagrid("selectRow", getRowIndex(target));
  	var selectedRow = $('#datagrid').datagrid('getSelected'); //获取选中行
- 	if (null == selectedRow) {
-		alert("请选择需要删除的记录！");
- 	}
- 	if (null == selectedRow.id) {
-		alert("请选择需要删除的记录！");
- 	}
-	if (0 == selectedRow.id) {
-		alert("请选择需要删除的记录！");
- 	}
 	$.messager.confirm('Confirm','确认删除?',function(r){
 		if (r){
 			$('#datagrid').datagrid('deleteRow', getRowIndex(target));

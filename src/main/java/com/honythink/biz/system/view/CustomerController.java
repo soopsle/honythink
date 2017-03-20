@@ -82,7 +82,7 @@ public class CustomerController extends BaseController {
         //hr
         List<SysUser> users = sysUserMapper.getUsersByRole(Constants.ROLE_HR);
         mav.addObject("users", users);
-        
+        mav.addObject("templates", Constants.CUSTOMER_TEMPLATE_NAME);
         return mav;
     }
 

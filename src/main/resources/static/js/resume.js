@@ -6,6 +6,14 @@ $(function(){
 	     }
 	}
 });
+
+function myformatter(date){
+    var y = date.getFullYear();
+    var m = date.getMonth()+1;
+    var d = date.getDate();
+    return y+'-'+(m<10?('0'+m):m)+'-'+(d<10?('0'+d):d);
+}
+
 $(document).ready(function() {
 	init()
 	$('#recommendTime').datebox('setValue', myformatter(new Date()));
@@ -13,24 +21,27 @@ $(document).ready(function() {
 	function init(){
 		$('#datagrid').datagrid({
 		url:'list',
-		rownumbers:true,
 		singleSelect:false,
-		pageSize:20,           
-		pagination:true,
+		pageSize:20,
+		pageList: [10, 20, 50, 100],
+		pagination : true,//分页
+        rownumbers : true,//行数
+		striped : true,//设置为true将交替显示行背景。
 		multiSort:true,
-		//autoRowHeight:false,
+		autoRowHeight:true,
 		editorHeight:24,
 		toolbar:"#tb",  
-		//fitColumns:true,
+//		fitColumns:true,
 		fit:true,
 		queryParams : {//查询参数		
 			"name":$("#name").val(),
 			"mobile":$("#mobile").val(),
 			"gender":$("#gender").val(),
-			"education":$("#education").val()
+			"education":$("#education").val(),
+			"resumeName":$("#resumeName").val()
 		},
 		columns:[[
-		{ field:'resumeName',title:'简历名称',width:100,editor:'text'},
+		{ field:'resumeName',title:'简历名称',width:200,editor:'text'},
 		{ field:'card',title:'身份证',width:100,editor:'text'},
 		{ field:'mobile',title:'手机',width:100,editor:'text'},
 		{ field:'marriage',title:'婚姻状况',width:60,editor:{
@@ -160,13 +171,7 @@ $(document).ready(function() {
 			}//双击事件
 	});
 	}
-	
-    function myformatter(date){
-        var y = date.getFullYear();
-        var m = date.getMonth()+1;
-        var d = date.getDate();
-        return y+'-'+(m<10?('0'+m):m)+'-'+(d<10?('0'+d):d);
-    }
+
 
 	function add(){
 		$('#form_add').form('submit', {
@@ -387,9 +392,11 @@ $(document).ready(function() {
 		return parseInt(tr.attr('datagrid-row-index'));
 	}
 	function editrow(target){
+		$('#datagrid').datagrid("selectRow", getRowIndex(target));
 		$('#datagrid').datagrid('beginEdit', getRowIndex(target));
 	}
 	function deleterow(target){
+	 	var selectedRow = $('#datagrid').datagrid('getSelected'); //获取选中行
 	 	var selectedRow = $('#datagrid').datagrid('getSelected'); //获取选中行
 	 	if (null == selectedRow.id ||0 == selectedRow.id||null == selectedRow) {
 	 		$.messager.alert('信息提示','请选择需要删除的记录！','info');

@@ -10,9 +10,10 @@
     <result column="phone" property="phone" jdbcType="VARCHAR" />
     <result column="remark" property="remark" jdbcType="VARCHAR" />
     <result column="username" property="username" jdbcType="VARCHAR" />
+    <result column="template" property="template" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, name, shortname, leader, mobile, phone, remark, username
+    id, name, shortname, leader, mobile, phone, remark, username, template
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 'true' as QUERYID,
@@ -21,15 +22,16 @@
     where id = #{id,jdbcType=INTEGER}
   </select>
   
-    <select id="list" parameterType="com.honythink.biz.system.dto.BaseDto" resultMap="BaseResultMap">
+  <select id="list" parameterType="com.honythink.biz.system.dto.BaseDto" resultMap="BaseResultMap">
     select * from customer r where 1=1
      <if test="username != null" >
        and r.username = #{username}
      </if>
       <if test="page != null and rows != null" >
-       limit #{page}, #{rows}
+      	 limit #{page}, #{rows}
       </if>
   </select>
+  
   
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from customer
@@ -38,10 +40,12 @@
   <insert id="insert" parameterType="com.honythink.db.entity.Customer" >
     insert into customer (id, name, shortname, 
       leader, mobile, phone, 
-      remark, username)
+      remark, username, template
+      )
     values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{shortname,jdbcType=VARCHAR}, 
       #{leader,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
-      #{remark,jdbcType=VARCHAR}, #{username,jdbcType=VARCHAR})
+      #{remark,jdbcType=VARCHAR}, #{username,jdbcType=VARCHAR}, #{template,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.honythink.db.entity.Customer" >
     insert into customer
@@ -70,6 +74,9 @@
       <if test="username != null" >
         username,
       </if>
+      <if test="template != null" >
+        template,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -95,6 +102,9 @@
       </if>
       <if test="username != null" >
         #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="template != null" >
+        #{template,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -122,6 +132,9 @@
       <if test="username != null" >
         username = #{username,jdbcType=VARCHAR},
       </if>
+      <if test="template != null" >
+        template = #{template,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -133,7 +146,8 @@
       mobile = #{mobile,jdbcType=VARCHAR},
       phone = #{phone,jdbcType=VARCHAR},
       remark = #{remark,jdbcType=VARCHAR},
-      username = #{username,jdbcType=VARCHAR}
+      username = #{username,jdbcType=VARCHAR},
+      template = #{template,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

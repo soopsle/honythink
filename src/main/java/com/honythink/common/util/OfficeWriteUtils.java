@@ -45,7 +45,7 @@ public class OfficeWriteUtils {
     public static String templateResume(String base, Resume record,List<String> templatePaths) throws IOException {
         InputStream is;
         StringBuffer sb = new StringBuffer();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmssSSS");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
         String now = sdf.format(new Date());
         for (String templatePath : templatePaths) {
             try {
@@ -155,13 +155,13 @@ public class OfficeWriteUtils {
                 // 推荐职位
                  row.createCell(3).setCellValue(record.getPosition() == null ? "" : record.getPosition());
                 // 姓名
-                row.createCell(4).setCellValue(record.getName() == null ? "" : record.getName());
+                row.createCell(4).setCellValue(record.getResumeName() == null ? "" : record.getResumeName());
                 // 性别
                 row.createCell(5).setCellValue(record.getResumeGender()== null ? "" : record.getResumeGender());
                 // 电话
                 row.createCell(6).setCellValue(record.getResumeMobile() == null ? "" : record.getResumeMobile());
                 // 工作状态（在职、离职）
-                // row.createCell(7).setCellValue(record.getResidence() == null ? "" : record.getGender());
+                 row.createCell(7).setCellValue(record.getStatus() == null ? "" : record.getStatus());
                 // 工作年限
                 row.createCell(8).setCellValue(record.getResumeSeniority() == null ? "" : record.getResumeSeniority());
                 // 学校

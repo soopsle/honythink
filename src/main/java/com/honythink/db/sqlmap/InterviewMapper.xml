@@ -46,6 +46,7 @@
     <result column="status" property="status" jdbcType="VARCHAR" />
     <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="shortname" property="shortname" jdbcType="VARCHAR" />
+    <result column="template" property="template" jdbcType="VARCHAR" />
     <result column="gender" property="resumeGender" jdbcType="VARCHAR" />
     <result column="seniority" property="resumeSeniority" jdbcType="VARCHAR" />
     <result column="school" property="resumeSchool" jdbcType="VARCHAR" />
@@ -65,7 +66,7 @@
   
     <select id="selectDtoByPrimaryKey" resultMap="DtoResultMap" parameterType="java.lang.Integer" >
 	  SELECT
-			r.*,su.realname as realname_hr,su1.realname as realname_sell,c.`name` as name,c.shortname as shortname,re.name as resumeName,re.education,re.educationtime,re.gender,re.seniority,re.school,re.self,re.mobile as resume_mobile
+			r.*,su.realname as realname_hr,su1.realname as realname_sell,c.`name` as name,c.shortname as shortname,c.template,re.name as resumeName,re.education,re.educationtime,re.gender,re.seniority,re.school,re.self,re.mobile as resume_mobile
 		FROM
 			interview r
 		LEFT JOIN customer c ON c.id = r.customer_id
@@ -101,7 +102,10 @@
        and c.name like CONCAT('%',#{name},'%')  
      </if>
      order by r.id desc
-     limit #{page}, #{rows}
+      <if test="page != null and rows != null" >
+      	 limit #{page}, #{rows}
+      </if>
+    
   </select>
   
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >

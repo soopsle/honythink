@@ -34,6 +34,29 @@ public class OfficeUtils {
        }
        return null;
     }
+    
+    /**
+     * 把输入流里面的内容以UTF-8编码当文本取出。
+     * 不考虑异常，直接抛出
+     * @param ises
+     * @return
+     * @throws IOException
+     */
+    public static  String getContentNoBr(InputStream... ises) throws IOException {
+       if (ises != null) {
+          StringBuilder result = new StringBuilder();
+          BufferedReader br;
+          String line;
+          for (InputStream is : ises) {
+             br = new BufferedReader(new InputStreamReader(is, "utf-8"));
+             while ((line=br.readLine()) != null) {
+                 result.append(line);
+             }
+          }
+          return result.toString();
+       }
+       return null;
+    }
     /**
      * 
      * @param html
@@ -211,7 +234,7 @@ public class OfficeUtils {
         }
     }
     public static String findEducation(String html){
-        Pattern pattern = Pattern.compile("(&nbsp;)([大专|本科|硕士|博士|中专|中技|高中|初中|其他]+)(&nbsp;)"); //中文括号 
+        Pattern pattern = Pattern.compile("(&nbsp;)([大专|本科|硕士|博士|中专|中技|高中|初中|其他]+)"); //中文括号 
         Matcher matcher = pattern.matcher(html);
         if (matcher.find()){
             return matcher.group(2);
@@ -229,6 +252,22 @@ public class OfficeUtils {
             log.warn("没有解析到在校时间");
             return "";
         }
+    }
+    
+    public static String findTrain(String html){
+        Pattern pattern = Pattern.compile("专业技能[\\s\\S]*?<table[\\s\\S]*?</table>"); //中文括号 
+        Matcher matcher = pattern.matcher(html);
+        if (matcher.find()){
+            Pattern pattern1 = Pattern.compile("<table[\\s\\S]*<o:p></o:p></span></span></p>  </td> </tr></table>"); //中文括号 
+            Matcher matcher1 = pattern1.matcher(matcher.group(0));
+            if (matcher1.find()){
+                return matcher1.group(0);
+            }
+        }else {
+            log.warn("没有解析到项目经历");
+        }
+        return "";
+        
     }
   
 }

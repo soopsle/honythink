@@ -201,7 +201,7 @@ public class ResumeController extends BaseController {
         try {
             is = new FileInputStream(resumeFile);
             String html;
-            html = OfficeUtils.getContent(is);
+            html = OfficeUtils.getContentNoBr(is);
             Resume record = new Resume();
             record.setName(OfficeUtils.findName(html));
             record.setGender(OfficeUtils.findGender(html));
@@ -224,7 +224,7 @@ public class ResumeController extends BaseController {
             record.setWork(OfficeUtils.findWork(html));
             record.setProject(OfficeUtils.findProjects(html));
             record.setResumeName(originalName);
-            // record.setTrain(OfficeUtils.find);
+            record.setTrain(OfficeUtils.findTrain(html));
             record.setTime(new Date());
             
             UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext()
@@ -274,7 +274,8 @@ public class ResumeController extends BaseController {
      */
     @RequestMapping(value = "/list", method = RequestMethod.POST)
     @ResponseBody
-    public List<Resume> list(ResumeDto dto) {
+    public Map<String,Object> list(ResumeDto dto) {
+        Map<String,Object> result = new HashMap<String,Object>();
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext()
                 .getAuthentication()
                 .getPrincipal();
@@ -283,7 +284,12 @@ public class ResumeController extends BaseController {
         }
         dto.setPage(dto.getPage()-1);
         List<Resume> record = resumeService.list(dto);
-        return record;
+        
+        dto.setPage(null);
+        dto.setRows(null);
+        result.put("total",resumeService.list(dto).size());
+        result.put("rows",record);
+        return result;
     }
 
     public static boolean hasRoleAdmin() {
@@ -311,7 +317,7 @@ public class ResumeController extends BaseController {
     @RequestMapping(value = "/download", method = RequestMethod.GET)
     public void download(Integer[] ids, HttpServletRequest request, HttpServletResponse response) {
         List<File> files = new ArrayList<File>();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmssSSS");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
         String now = sdf.format(new Date());
         String base = Constants.RESUME_TEMPLATE+now+Constants.PATH_SEPERATOR;
         String baseZip = Constants.RESUME_ZIP;

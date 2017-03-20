@@ -47,14 +47,12 @@ public class InterviewDto extends BaseDto{
     
     private String usernameHr;
     private String realnameHr;
-
-
     private String workTime;
 
     private Date interviewDate;
 
-    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
-    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm")
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm")
     private Date interviewTime;
 
     private String present;
@@ -69,9 +67,17 @@ public class InterviewDto extends BaseDto{
     private String name;
     //简称
     private String shortname;
+    //模板 
+    private String template;
     
-    
-    
+    public String getTemplate() {
+        return template;
+    }
+
+    public void setTemplate(String template) {
+        this.template = template;
+    }
+
     public String getStatus() {
         return status;
     }

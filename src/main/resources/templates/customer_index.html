@@ -33,10 +33,18 @@
 		action="customer/add">
 		<p>
 			公司名称：<input type="text" name="name" id="name" /><br/>
+			简称:<input type="text" name="shortname" id="shortname" /><br/>
+			<span>简历模板:</span>
+			<select id="template" name="template" class="easyui-validatebox" data-options="required:true">
+						<option value="honythink" disabled="true" th:selected="selected">请选择</option>
+		                <option th:each="template:${templates}" th:value="${template.key}" th:text="${template.value}"></option>
+            </select>
+            <br/>
 			负责人：<input type="text" name="leader" id="leader" /><br/>
 			手机：<input type="text" name="mobile" id="mobile" /><br/>
 			座机：<input type="text" name="phone" id="phone" /><br/>
 			备注：<input type="text" name="remark" id="remark" />
+			
 		</p>
 	</form>
 </div>

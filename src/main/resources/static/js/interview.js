@@ -12,7 +12,7 @@ $.extend($.fn.datagrid.defaults.editors, {
             var input = $('<input class="easyuidatetimebox" />').appendTo(container);
             return input.datetimebox({
                 formatter: function (date) {
-                    return new Date(date).format("yyyy-MM-dd hh:mm:ss");
+                    return new Date(date).format("yyyy-MM-dd hh:mm");
                 }
             });
         },
@@ -186,10 +186,7 @@ $(document).ready(function() {
 		    }
 		}},
 		{ field:'cover',title:'服务费',width:100,editor : {
-			type : 'validatebox',
-			options : {
-				required : true
-			}
+			type : 'validatebox'
 		}},
 		{ field:'status',title:'工作状态',width:100,editor : {
 		    type : 'validatebox'
@@ -386,6 +383,7 @@ $(document).ready(function() {
 							"ids":vals,
 						},
 						success: function(msg){
+							console.log(msg);
 							if(msg == "SUCCESS"){
 								var vals = valArr.join(','); //转换为逗号隔开的字符串 
 								window.location.href = "download/?ids="+vals;
@@ -436,7 +434,7 @@ $(document).ready(function() {
 			$.messager.alert('信息提示','请选择人员！','info');
 			return;
 		} 
-		$('#form_push').form('clear');
+//		$('#form_push').form('clear');
 		$('#dialog_push').dialog({
 			closed: false,
 			modal:true,
@@ -473,6 +471,7 @@ $(document).ready(function() {
 						"ids":vals,
 					},
 					success: function(msg){
+						console.log(msg);
 						if(msg == "SUCCESS"){
 							$.ajax({
 				                type: "POST",
@@ -482,6 +481,7 @@ $(document).ready(function() {
 				                	"sellerIds":sellerIds
 				                },
 				                success: function(msg){
+				                	console.log(msg);
 				                	$.messager.alert('info',msg);
 				                	$("#pushBT").hide();
 				                	$('#datagrid').datagrid('load');//重新加载datagrid，刷新功能
@@ -524,11 +524,13 @@ $(document).ready(function() {
 		return parseInt(tr.attr('datagrid-row-index'));
 	}
 	function editrow(target){
+		$('#datagrid').datagrid("selectRow", getRowIndex(target));
 		$('#datagrid').datagrid('beginEdit', getRowIndex(target));
 	}
 	function deleterow(target){
-	 	var selectedRow = $('#datagrid').datagrid('getSelected'); //获取选中行
-	 	if (null == selectedRow.id ||0 == selectedRow.id||null == selectedRow) {
+		$('#datagrid').datagrid("selectRow", getRowIndex(target));
+		var selectedRow = $('#datagrid').datagrid('getSelected'); //获取选中行
+		if (null == selectedRow.id ||0 == selectedRow.id||null == selectedRow) {
 	 		$.messager.alert('信息提示','请选择需要删除的记录！','info');
 	 	}
 		$.messager.confirm('Confirm','确认删除?',function(r){
