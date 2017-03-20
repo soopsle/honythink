@@ -146,6 +146,9 @@ public class InterviewController extends BaseController {
             dto.setUsername(userDetails.getUsername());
             dto.setRole(Constants.ROLE_HR);
         }
+        if(!hasRoleAdmin()){
+          dto.setUsername(userDetails.getUsername());
+      }
         dto.setPage(dto.getPage() - 1);
         List<InterviewDto> record = interviewMapper.list(dto);
         dto.setPage(null);
@@ -205,7 +208,6 @@ public class InterviewController extends BaseController {
                 content.append("<td><strong>推荐人</strong></td>");
                 content.append("<td><strong>最高学历</strong></td>");
                 content.append("<td><strong>毕业日期</strong></td>");
-                content.append("<td><strong>期望薪资</strong></td>");
                 content.append("<td><strong>到岗时间</strong></td>");
                 content.append("</tr>");
                 for (InterviewDto dto : entry.getValue()) {
@@ -217,7 +219,6 @@ public class InterviewController extends BaseController {
                     content.append("<td>" + (dto.getRealnameHr() == null ? "" : dto.getRealnameHr()) + "</td>");
                     content.append("<td>" + (dto.getEducation() == null ? "" : dto.getEducation()) + "</td>");
                     content.append("<td>" + (dto.getEducationtime() == null ? "" : dto.getEducationtime()) + "</td>");
-                    content.append("<td>" + (dto.getSalary() == null ? "" : dto.getSalary()) + "</td>");
                     content.append("<td>" + (dto.getWorkTime() == null ? "" : dto.getWorkTime()) + "</td>");
                     content.append("</tr>");
                 }

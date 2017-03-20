@@ -13,6 +13,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
 
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFDataFormat;
@@ -65,6 +66,7 @@ public class OfficeWriteUtils {
                 replaces.put("\\$\\{major\\}", record.getMajor() == null ? "" : record.getMajor());
                 replaces.put("\\$\\{education\\}", record.getEducation() == null ? "" : record.getEducation());
                 replaces.put("\\$\\{train\\}", record.getTrain() == null ? "" : record.getTrain());
+                replaces.put("\\$\\{language\\}", record.getLanguage() == null ? "" : record.getLanguage());
                 String filename = "弘毅知行-"+ record.getName() +now+ "-" + templatePath;
                 File f = new File(base);
                 if (!f.exists()) {
@@ -109,7 +111,7 @@ public class OfficeWriteUtils {
         try {
             content = OfficeUtils.getContent(in);
             for (Map.Entry<String, String> entry : replaces.entrySet()) {
-                content = content.replaceAll(entry.getKey(), entry.getValue());
+                content = content.replaceAll(entry.getKey(), Matcher.quoteReplacement(entry.getValue()));
             }
             return content;
         } catch (IOException e) {

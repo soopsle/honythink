@@ -225,6 +225,7 @@ public class ResumeController extends BaseController {
             record.setProject(OfficeUtils.findProjects(html));
             record.setResumeName(originalName);
             record.setTrain(OfficeUtils.findTrain(html));
+            record.setLanguage(OfficeUtils.findLanguage(html));
             record.setTime(new Date());
             
             UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext()
@@ -292,28 +293,6 @@ public class ResumeController extends BaseController {
         return result;
     }
 
-    public static boolean hasRoleAdmin() {
-        Authentication authentication = getAuthentication();
-        if (authentication == null) {
-            return false;
-        }
-        Collection<GrantedAuthority> grantedAuthorityList = (Collection<GrantedAuthority>) authentication.getAuthorities();
-        for (GrantedAuthority authority : grantedAuthorityList) {
-            if ("ROLE_ADMIN".equals(authority.getAuthority())) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private static Authentication getAuthentication() {
-        SecurityContext context = SecurityContextHolder.getContext();
-        if (context == null) {
-            return null;
-        }
-        return context.getAuthentication();
-    }
-        
     @RequestMapping(value = "/download", method = RequestMethod.GET)
     public void download(Integer[] ids, HttpServletRequest request, HttpServletResponse response) {
         List<File> files = new ArrayList<File>();

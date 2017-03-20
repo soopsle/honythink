@@ -20,17 +20,17 @@ w\:* {behavior:url(#default#VML);}
  <o:DocumentProperties>
   <o:Author>ling.li</o:Author>
   <o:LastAuthor>stary</o:LastAuthor>
-  <o:Revision>30</o:Revision>
+  <o:Revision>31</o:Revision>
   <o:TotalTime>266</o:TotalTime>
   <o:Created>2012-09-04T02:30:00Z</o:Created>
-  <o:LastSaved>2017-03-16T14:12:00Z</o:LastSaved>
+  <o:LastSaved>2017-03-20T09:00:00Z</o:LastSaved>
   <o:Pages>1</o:Pages>
-  <o:Words>69</o:Words>
-  <o:Characters>394</o:Characters>
+  <o:Words>70</o:Words>
+  <o:Characters>401</o:Characters>
   <o:Company>China</o:Company>
   <o:Lines>3</o:Lines>
   <o:Paragraphs>1</o:Paragraphs>
-  <o:CharactersWithSpaces>462</o:CharactersWithSpaces>
+  <o:CharactersWithSpaces>470</o:CharactersWithSpaces>
   <o:Version>12.00</o:Version>
  </o:DocumentProperties>
 </xml><![endif]-->
@@ -359,10 +359,11 @@ w\:* {behavior:url(#default#VML);}
 @font-face
 	{font-family:"Cambria Math";
 	panose-1:2 4 5 3 5 4 6 3 2 4;
-	mso-font-charset:0;
+	mso-font-charset:1;
 	mso-generic-font-family:roman;
+	mso-font-format:other;
 	mso-font-pitch:variable;
-	mso-font-signature:-536870145 1107305727 0 0 415 0;}
+	mso-font-signature:0 0 0 0 0 0;}
 @font-face
 	{font-family:Calibri;
 	panose-1:2 15 5 2 2 2 4 3 2 4;
@@ -542,12 +543,6 @@ span.Char1
 	mso-bidi-font-family:"Times New Roman";
 	mso-bidi-theme-font:minor-bidi;
 	mso-font-kerning:0pt;}
- /* Page Definitions */
- @page
-	{mso-footnote-separator:url("template_yingu.files/header.htm") fs;
-	mso-footnote-continuation-separator:url("template_yingu.files/header.htm") fcs;
-	mso-endnote-separator:url("template_yingu.files/header.htm") es;
-	mso-endnote-continuation-separator:url("template_yingu.files/header.htm") ecs;}
 @page WordSection1
 	{size:595.3pt 841.9pt;
 	margin:72.0pt 90.0pt 72.0pt 90.0pt;
@@ -605,7 +600,7 @@ table.MsoTableGrid
 	mso-font-kerning:1.0pt;}
 </style>
 <![endif]--><!--[if gte mso 9]><xml>
- <o:shapedefaults v:ext="edit" spidmax="7170" fillcolor="#f2f2f2" stroke="f"
+ <o:shapedefaults v:ext="edit" spidmax="8194" fillcolor="#f2f2f2" stroke="f"
   strokecolor="none [2732]">
   <v:fill color="#f2f2f2"/>
   <v:stroke color="none [2732]" on="f"/>
@@ -752,11 +747,11 @@ lang=EN-US>/</span>专业技能</span></b></p>
 inter-ideograph;line-height:20.0pt'><b><span style='font-size:14.0pt'>语 言 水 平</span></b></p>
 
 <p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
-inter-ideograph;line-height:20.0pt;tab-stops:199.5pt'><span style='font-size:
-9.0pt;mso-ascii-font-family:Calibri;mso-ascii-theme-font:minor-latin;
+inter-ideograph;line-height:20.0pt;tab-stops:199.5pt'><span lang=EN-US
+style='font-size:9.0pt;mso-ascii-font-family:宋体;mso-ascii-theme-font:minor-fareast;
 mso-fareast-font-family:宋体;mso-fareast-theme-font:minor-fareast;mso-hansi-font-family:
-Calibri;mso-hansi-theme-font:minor-latin;mso-bidi-font-family:"Times New Roman";
-mso-bidi-theme-font:minor-bidi;mso-font-kerning:1.0pt'>英语：</span><span
+宋体;mso-hansi-theme-font:minor-fareast;mso-bidi-font-family:"Times New Roman";
+mso-bidi-theme-font:minor-bidi;mso-font-kerning:1.0pt'>${language}</span><span
 lang=EN-US style='font-size:9.0pt;font-family:"Calibri","sans-serif";
 mso-ascii-theme-font:minor-latin;mso-fareast-font-family:宋体;mso-fareast-theme-font:
 minor-fareast;mso-hansi-theme-font:minor-latin;mso-bidi-font-family:"Times New Roman";

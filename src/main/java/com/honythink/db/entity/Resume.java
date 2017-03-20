@@ -54,6 +54,8 @@ public class Resume {
     private String project;
 
     private String train;
+    
+    private String language;
 
     private String filename;
 
@@ -77,6 +79,14 @@ public class Resume {
     private String realname;
     
     
+
+    public String getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(String language) {
+        this.language = language;
+    }
 
     public String getRealname() {
         return realname;

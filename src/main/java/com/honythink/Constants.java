@@ -43,6 +43,7 @@ public class Constants {
     public static final String ROLE_USER = "ROLE_USER";
     public static final String ROLE_HR = "ROLE_HR";
     public static final String ROLE_SELLER = "ROLE_SELLER";
+    public static final String ROLE_ASSISTANT = "ROLE_ASSISTANT";
     
     public static final String MAIL_EXTENTIONS = "@honythink.com";
     public static final String MAIL_SUBJECT = "弘毅知行推荐邮件";

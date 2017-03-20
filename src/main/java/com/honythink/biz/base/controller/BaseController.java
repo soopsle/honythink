@@ -81,8 +81,8 @@ public class BaseController {
         TreeDto third;
         List<SysRole> roles = sysRoleMapper.selectRoles();
         for(SysRole role:roles){
-            //只显示销售 HR
-            if(role.getName().equals(Constants.ROLE_HR)||(role.getName().equals(Constants.ROLE_SELLER))){
+            //不显示管理员
+            if(!role.getName().equals(Constants.ROLE_ADMIN)){
                 second = new TreeDto();
                 second.setId(role.getRid()*10);
                 second.setpId(1);
@@ -110,6 +110,20 @@ public class BaseController {
         Collection<GrantedAuthority> grantedAuthorityList = (Collection<GrantedAuthority>) authentication.getAuthorities();
         for (GrantedAuthority authority : grantedAuthorityList) {
             if (role.equals(authority.getAuthority())) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    public static boolean hasRoleAdmin() {
+        Authentication authentication = getAuthentication();
+        if (authentication == null) {
+            return false;
+        }
+        Collection<GrantedAuthority> grantedAuthorityList = (Collection<GrantedAuthority>) authentication.getAuthorities();
+        for (GrantedAuthority authority : grantedAuthorityList) {
+            if ("ROLE_ADMIN".equals(authority.getAuthority())) {
                 return true;
             }
         }

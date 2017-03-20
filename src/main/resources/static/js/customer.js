@@ -26,7 +26,7 @@ $(document).ready(function() {
 					}
 		},
 		{ field:'name',title:'公司名称',width:100,editor:'text'},
-		{ field:'shortname',title:'公司简称',width:100,editor:'text'},
+		{ field:'shortname',title:'Excel模板',width:100,editor:'text'},
 		{ field:'template',title:'简历模板',width:100,editor:'text'},
 		{ field:'leader',title:'负责人',width:100,editor:'text'},
 		{ field:'mobile',title:'手机',width:35,editor:'text'},

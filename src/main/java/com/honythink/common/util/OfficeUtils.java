@@ -197,6 +197,22 @@ public class OfficeUtils {
         }
         return "";
     }
+    
+    public static String findLanguage(String html){
+        Pattern pattern = Pattern.compile("语言能力[\\s\\S]*?<table[\\s\\S]*?</span></b><b"); //中文括号 
+        Matcher matcher = pattern.matcher(html);
+        if (matcher.find()){
+            Pattern pattern1 = Pattern.compile("<table[\\s\\S]*</span>  <span lang=EN-US style='font-size:9.0pt'><o:p></o:p></span></p>  </td> </tr></table>"); //中文括号 
+            Matcher matcher1 = pattern1.matcher(matcher.group(0));
+            if (matcher1.find()){
+                return matcher1.group(0);
+            }
+        }else {
+            log.warn("没有解析到语言能力");
+        }
+        return "";
+    }
+    
     public static String findProjects(String html){
         Pattern pattern = Pattern.compile("项目经历[\\s\\S]*?<table[\\s\\S]*?经历</span></b><b"); //中文括号 
         Matcher matcher = pattern.matcher(html);
@@ -214,7 +230,7 @@ public class OfficeUtils {
     }
 
     public static String findSchool(String html){
-        Pattern pattern = Pattern.compile("\\s(\\d{4}.\\d{2} - \\d{4}.\\d{2})&nbsp;&nbsp;([\u4E00-\u9FA5]+)&nbsp;&nbsp;([\u4E00-\u9FA5]+)&nbsp;&nbsp;([\u4E00-\u9FA5]+)"); //中文括号 
+        Pattern pattern = Pattern.compile("\\s(\\d{4}.\\d{2} - \\d{4}.\\d{2})&nbsp;&nbsp;([\u4E00-\u9FA5]+)\\s*&nbsp;&nbsp;([\u4E00-\u9FA5]+)\\s*&nbsp;&nbsp;([\u4E00-\u9FA5]+)\\s*"); //中文括号 
         Matcher matcher = pattern.matcher(html);
         if (matcher.find()){
             return matcher.group(2);
@@ -224,7 +240,7 @@ public class OfficeUtils {
         }
     }
     public static String findMajor(String html){
-        Pattern pattern = Pattern.compile("\\s(\\d{4}.\\d{2} - \\d{4}.\\d{2})&nbsp;&nbsp;([\u4E00-\u9FA5]+)&nbsp;&nbsp;([\u4E00-\u9FA5]+)&nbsp;&nbsp;([\u4E00-\u9FA5]+)"); //中文括号 
+        Pattern pattern = Pattern.compile("\\s(\\d{4}.\\d{2} - \\d{4}.\\d{2})&nbsp;&nbsp;([\u4E00-\u9FA5]+)\\s*&nbsp;&nbsp;([\u4E00-\u9FA5]+)\\s*&nbsp;&nbsp;([\u4E00-\u9FA5]+)\\s*"); //中文括号 
         Matcher matcher = pattern.matcher(html);
         if (matcher.find()){
             return matcher.group(3);
@@ -244,7 +260,7 @@ public class OfficeUtils {
         }
     }
     public static String findEducationtime(String html){
-        Pattern pattern = Pattern.compile("\\s(\\d{4}.\\d{2} - \\d{4}.\\d{2})&nbsp;&nbsp;([\u4E00-\u9FA5]+)&nbsp;&nbsp;([\u4E00-\u9FA5]+)&nbsp;&nbsp;([\u4E00-\u9FA5]+)"); //中文括号 
+        Pattern pattern = Pattern.compile("\\s(\\d{4}.\\d{2} - \\d{4}.\\d{2})&nbsp;&nbsp;([\u4E00-\u9FA5]+)\\s*&nbsp;&nbsp;([\u4E00-\u9FA5]+)\\s*&nbsp;&nbsp;([\u4E00-\u9FA5]+)\\s*"); //中文括号 
         Matcher matcher = pattern.matcher(html);
         if (matcher.find()){
             return matcher.group(1);

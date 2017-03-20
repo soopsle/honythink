@@ -27,6 +27,7 @@
     <result column="work" property="work" jdbcType="VARCHAR" />
     <result column="project" property="project" jdbcType="VARCHAR" />
     <result column="train" property="train" jdbcType="VARCHAR" />
+    <result column="language" property="language" jdbcType="VARCHAR" />
     <result column="filename" property="filename" jdbcType="VARCHAR" />
     <result column="path" property="path" jdbcType="VARCHAR" />
     <result column="path1" property="path1" jdbcType="VARCHAR" />
@@ -41,7 +42,7 @@
   <sql id="Base_Column_List" >
     id, name, tag, position, resume_name, gender, birthday, age, seniority, card, mobile, 
     email, marriage, city, addr, residence, school, major, education, educationtime, 
-    money, self, work, project, train, filename, path, path1, path2, path3, path4, uid, 
+    money, self, work, project, train,language, filename, path, path1, path2, path3, path4, uid, 
     time, username
   </sql>
   
@@ -49,9 +50,7 @@
     select r.*,su.realname as realname from resume r 
     LEFT JOIN sys_user su on su.username = r.username
     where 1=1
-     <if test="username != null" >
-       and r.username = #{username}
-     </if>
+
      <if test="name != null and name !=''" >
        and r.name like CONCAT('%',#{name},'%')  
      </if>
@@ -66,6 +65,9 @@
      </if>
      <if test="education != null and education !=''" >
        and r.education = #{education}
+     </if>
+     <if test="username != null" >
+       and r.username = #{username}
      </if>
      order by r.id desc
        <if test="page != null and rows != null" >
@@ -92,7 +94,7 @@
       residence, school, major, 
       education, educationtime, money, 
       self, work, project, 
-      train, filename, path, 
+      train,language, filename, path, 
       path1, path2, path3, 
       path4, uid, time, 
       username)
@@ -104,7 +106,7 @@
       #{residence,jdbcType=VARCHAR}, #{school,jdbcType=VARCHAR}, #{major,jdbcType=VARCHAR}, 
       #{education,jdbcType=VARCHAR}, #{educationtime,jdbcType=VARCHAR}, #{money,jdbcType=VARCHAR}, 
       #{self,jdbcType=VARCHAR}, #{work,jdbcType=VARCHAR}, #{project,jdbcType=VARCHAR}, 
-      #{train,jdbcType=VARCHAR}, #{filename,jdbcType=VARCHAR}, #{path,jdbcType=VARCHAR}, 
+      #{train,jdbcType=VARCHAR},#{language,jdbcType=VARCHAR}, #{filename,jdbcType=VARCHAR}, #{path,jdbcType=VARCHAR}, 
       #{path1,jdbcType=VARCHAR}, #{path2,jdbcType=VARCHAR}, #{path3,jdbcType=VARCHAR}, 
       #{path4,jdbcType=VARCHAR}, #{uid,jdbcType=INTEGER}, #{time,jdbcType=TIMESTAMP}, 
       #{username,jdbcType=VARCHAR})
@@ -186,6 +188,9 @@
       </if>
       <if test="train != null" >
         train,
+      </if>
+      <if test="language != null" >
+        language,
       </if>
       <if test="filename != null" >
         filename,
@@ -291,6 +296,9 @@
       <if test="train != null" >
         #{train,jdbcType=VARCHAR},
       </if>
+      <if test="language != null" >
+        #{language,jdbcType=VARCHAR},
+      </if>
       <if test="filename != null" >
         #{filename,jdbcType=VARCHAR},
       </if>
@@ -395,6 +403,9 @@
       <if test="train != null" >
         train = #{train,jdbcType=VARCHAR},
       </if>
+      <if test="language != null" >
+        train = #{language,jdbcType=VARCHAR},
+      </if>
       <if test="filename != null" >
         filename = #{filename,jdbcType=VARCHAR},
       </if>
@@ -451,6 +462,7 @@
       work = #{work,jdbcType=VARCHAR},
       project = #{project,jdbcType=VARCHAR},
       train = #{train,jdbcType=VARCHAR},
+      language = #{language,jdbcType=VARCHAR},
       filename = #{filename,jdbcType=VARCHAR},
       path = #{path,jdbcType=VARCHAR},
       path1 = #{path1,jdbcType=VARCHAR},

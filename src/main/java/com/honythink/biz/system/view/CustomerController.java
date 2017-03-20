@@ -140,25 +140,5 @@ public class CustomerController extends BaseController {
         return record;
     }
 
-    public static boolean hasRoleAdmin() {
-        Authentication authentication = getAuthentication();
-        if (authentication == null) {
-            return false;
-        }
-        Collection<GrantedAuthority> grantedAuthorityList = (Collection<GrantedAuthority>) authentication.getAuthorities();
-        for (GrantedAuthority authority : grantedAuthorityList) {
-            if ("ROLE_ADMIN".equals(authority.getAuthority())) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private static Authentication getAuthentication() {
-        SecurityContext context = SecurityContextHolder.getContext();
-        if (context == null) {
-            return null;
-        }
-        return context.getAuthentication();
-    }
+ 
 }
