@@ -36,6 +36,7 @@ public class Constants {
     public static final String FREFIX_ZIP = "简历自动生成-";
     public static final String SUFFIX_ZIP = ".zip";
     public static final String SUFFIX_XLS = ".xls";
+    public static final String SUFFIX_XLSX = ".xlsx";
     public static final String SUFFIX_DOC = ".doc";
     
     
