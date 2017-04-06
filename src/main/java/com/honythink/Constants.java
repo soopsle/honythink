@@ -38,6 +38,7 @@ public class Constants {
     public static final String SUFFIX_XLS = ".xls";
     public static final String SUFFIX_XLSX = ".xlsx";
     public static final String SUFFIX_DOC = ".doc";
+    public static final String SUFFIX_DOCX = ".docx";
     
     
     public static final String ROLE_ADMIN = "ROLE_ADMIN";
