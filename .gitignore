@@ -1,8 +1,12 @@
-/target/ 
+/target/
+/bin/
 /logs/
+/upload/
+/template/
+# filter eclipse dir
+/.settings/
 .classpath
-.project
-.settings      
+.project  
  ##filter databfile¡¢sln file##
 *.mdb  
 *.ldb  
@@ -35,9 +39,7 @@
 .Trashes  
 Icon?  
 ehthumbs.db  
-Thumbs.db  
-/target/
+Thumbs.db 
 /.factorypath
 /.springBeans
-/upload/
-/template/
+
