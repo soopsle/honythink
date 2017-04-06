@@ -254,10 +254,10 @@
       <if test="usernameHr != null" >
         username_hr = #{usernameHr,jdbcType=VARCHAR},
       </if>
-      <if test="salary != null" >
+      <if test="salary != 0" >
         salary = #{salary,jdbcType=REAL},
       </if>
-      <if test="cover != null" >
+      <if test="cover != 0" >
         cover = #{cover,jdbcType=REAL},
       </if>
       <if test="status != null" >

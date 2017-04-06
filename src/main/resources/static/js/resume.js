@@ -273,7 +273,7 @@ $(document).ready(function() {
 			c++;
 		});
 		if (c == 0) {
-			 $.messager.alert('信息提示','请选择需要下载的文件！','info');
+			$.messager.alert('信息提示','请先选择！','info');
 			return;
 		} else {
 			$('#dialog_down').dialog({
@@ -304,7 +304,7 @@ $(document).ready(function() {
 			c++;
 		});
 		if (c == 0) {
-			 $.messager.alert('信息提示','请选择需要下载的文件！','info');
+			$.messager.alert('信息提示','请先选择！','info');
 			return;
 		} else {
 			var vals = valArr.join(','); //转换为逗号隔开的字符串 
@@ -350,7 +350,7 @@ $(document).ready(function() {
 			c++;
 		});
 		if (c == 0) {
-			alert("请选择删除下载的文件！");
+			$.messager.alert('信息提示','请先选择！','info');
 			return;
 		} else {
 			$.messager.confirm('Confirm','确认删除?',function(r){

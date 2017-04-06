@@ -283,7 +283,7 @@ public class ResumeController extends BaseController {
         if(!hasRoleAdmin()){
             dto.setUsername(userDetails.getUsername());
         }
-        dto.setPage(dto.getPage()-1);
+        dto.setPage((dto.getPage()-1)*dto.getRows());
         List<Resume> record = resumeService.list(dto);
         
         dto.setPage(null);

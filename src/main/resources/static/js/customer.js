@@ -64,7 +64,7 @@ $(document).ready(function() {
 	                    "educationtime":row.educationtime
 	                },
 	                success: function(msg){
-	                  alert("数据修改成功...");
+	                  $.messager.alert('信息提示','数据修改成功...','info');
 	                  $('#datagrid').datagrid('load');//重新加载datagrid，刷新功能
 	                }
 	             });
@@ -181,7 +181,7 @@ function openDownload(){
 		c++;
 	});
 	if (c == 0) {
-		alert("请选择需要下载的文件！");
+		$.messager.alert('信息提示','请先选择！','info');
 		return;
 	} else {
 		var vals = valArr.join(','); //转换为逗号隔开的字符串 
@@ -196,7 +196,7 @@ function openDelete(){
 		c++;
 	});
 	if (c == 0) {
-		alert("请选择删除下载的文件！");
+		$.messager.alert('信息提示','请先选择！','info');
 		return;
 	} else {
 		$.messager.confirm('Confirm','确认删除?',function(r){
@@ -210,7 +210,7 @@ function openDelete(){
                 },
                 success: function(msg){
                   $('#datagrid').datagrid('load');//重新加载datagrid，刷新功能
-                  alert("删除成功...");
+                  $.messager.alert('信息提示','删除成功！','info');
                 }
              });
 			}
@@ -218,35 +218,6 @@ function openDelete(){
 	}
 }	
 
-/**
-* Name 分页过滤器
-*/
-function pagerFilter(data){            
-	if (typeof data.length == 'number'){// is array                
-		data = {                   
-			total: data.length,                   
-			rows: data               
-		}            
-	}        
-	var dg = $(this);         
-	var opts = dg.datagrid('options');          
-	var pager = dg.datagrid('getPager');          
-	pager.pagination({                
-		onSelectPage:function(pageNum, pageSize){                 
-			opts.pageNumber = pageNum;                   
-			opts.pageSize = pageSize;                
-			pager.pagination('refresh',{pageNumber:pageNum,pageSize:pageSize});                  
-			dg.datagrid('loadData',data);                
-		}          
-	});           
-	if (!data.originalRows){               
-		data.originalRows = (data.rows);       
-	}         
-	var start = (opts.pageNumber-1)*parseInt(opts.pageSize);          
-	var end = start + parseInt(opts.pageSize);        
-	data.rows = (data.originalRows.slice(start, end));         
-	return data;       
-}
 var genders = [
 	    {key:'男',value:'男'},
 	    {key:'女',value:'女'}
@@ -281,7 +252,7 @@ function deleterow(target){
                 type: "POST",
                 url: "delete/"+selectedRow.id,
                 success: function(msg){
-                  alert("数据删除成功...");
+                  $.messager.alert('信息提示','数据删除成功...','info');
                   $('#datagrid').datagrid('load');//重新加载datagrid，刷新功能
                 }
              });

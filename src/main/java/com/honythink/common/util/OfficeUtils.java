@@ -190,7 +190,9 @@ public class OfficeUtils {
             Pattern pattern1 = Pattern.compile("<table[\\s\\S]*</span>  <span lang=EN-US style='font-size:9.0pt'><o:p></o:p></span></p>  </td> </tr></table>"); //中文括号 
             Matcher matcher1 = pattern1.matcher(matcher.group(0));
             if (matcher1.find()){
-                return matcher1.group(0);
+                String result = matcher1.group(0);
+                result = result.replaceAll("(\\d)+-(\\d)+元/月", "");
+                return result;
             }
         }else {
             log.warn("没有解析到工作经历");

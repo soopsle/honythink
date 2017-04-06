@@ -149,7 +149,7 @@ public class InterviewController extends BaseController {
         if(!hasRoleAdmin()){
           dto.setUsername(userDetails.getUsername());
       }
-        dto.setPage(dto.getPage() - 1);
+        dto.setPage((dto.getPage()-1)*dto.getRows());
         List<InterviewDto> record = interviewMapper.list(dto);
         dto.setPage(null);
         dto.setRows(null);

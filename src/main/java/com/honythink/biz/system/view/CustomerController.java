@@ -47,6 +47,7 @@ import com.honythink.common.util.FileUtils;
 import com.honythink.common.util.OfficeUtils;
 import com.honythink.common.util.OfficeWriteUtils;
 import com.honythink.db.entity.Customer;
+import com.honythink.db.entity.Resume;
 import com.honythink.db.entity.SysUser;
 import com.honythink.db.mapper.CustomerMapper;
 import com.honythink.db.mapper.InterviewMapper;
@@ -128,16 +129,23 @@ public class CustomerController extends BaseController {
      */
     @RequestMapping(value = "/list", method = RequestMethod.POST)
     @ResponseBody
-    public List<Customer> list(BaseDto dto) {
+    public Map<String,Object> list(BaseDto dto) {
+        Map<String,Object> result = new HashMap<String,Object>();
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext()
                 .getAuthentication()
                 .getPrincipal();
         if(!hasRoleAdmin()){
 //            dto.setUsername(userDetails.getUsername());
         }
-        dto.setPage(dto.getPage()-1);
+//        dto.setPage(dto.getPage()-1);
+        dto.setPage((dto.getPage()-1)*dto.getRows());
         List<Customer> record = customerMapper.list(dto);
-        return record;
+        dto.setPage(null);
+        dto.setRows(null);
+        result.put("total",customerMapper.list(dto).size());
+        result.put("rows",record);
+        
+        return result;
     }
 
  

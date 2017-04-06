@@ -370,7 +370,7 @@ $(document).ready(function() {
 			c++;
 		});
 		if (c == 0) {
-			$.messager.alert('信息提示','请选择需要处理的文件！','info');
+			$.messager.alert('信息提示','请先选择！','info');
 			return;
 		} else {
 			$.messager.confirm('Confirm','您确保姓名，电话，推荐时间，岗位，客户，期望薪资，报价，工作状态，到岗时间信息齐全?',function(r){
@@ -404,7 +404,7 @@ $(document).ready(function() {
 			c++;
 		});
 		if (c == 0) {
-			$.messager.alert('信息提示','请选择删除下载的文件！','info');
+			$.messager.alert('信息提示','请先选择！','info');
 			return;
 		} else {
 			$.messager.confirm('Confirm','确认删除?',function(r){

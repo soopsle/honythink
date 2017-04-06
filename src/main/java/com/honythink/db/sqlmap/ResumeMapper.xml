@@ -58,7 +58,7 @@
        and r.resume_name like CONCAT('%',#{resumeName},'%')  
      </if>
      <if test="mobile != null and mobile !=''" >
-       and r.mobile = #{mobile}
+      and r.mobile like CONCAT('%',#{mobile},'%') 
      </if>
      <if test="gender != null and gender !=''" >
        and r.gender = #{gender}
