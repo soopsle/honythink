@@ -18,7 +18,7 @@ public class Constants {
     // 成功
     public static final String RET_SUCCESS = "SUCCESS";
     public static final String RET_ERROR = "ERROR";
-    public static final String HONYTHINK = "北京弘毅知行科技有限公司";
+    public static final String HONYTHINK = "北京弘毅知行科技有限公司1";
     public static final String PATH_SEPERATOR = "/";
     public static final String TEMPLATE_HONYTHINK = "template_honythink";
     public static final String TEMPLATE_CSIX = "template_csix";
