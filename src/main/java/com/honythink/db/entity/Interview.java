@@ -42,9 +42,19 @@ public class Interview {
     private String remark;
 
     private Date time;
+    
+    private String process;
 
     
     
+    public String getProcess() {
+        return process;
+    }
+
+    public void setProcess(String process) {
+        this.process = process;
+    }
+
     public String getStatus() {
         return status;
     }

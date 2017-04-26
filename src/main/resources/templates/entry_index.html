@@ -11,25 +11,25 @@
 <script type="text/javascript" th:src="@{/js/jquery-1.8.0.min.js}"></script>
 <script type="text/javascript" th:src="@{/easyui/1.3.4/jquery.easyui.min.js}"></script>
 <script type="text/javascript" th:src="@{/easyui/1.3.4/locale/easyui-lang-zh_CN.js}"></script>
-<script type="text/javascript" th:src="@{/js/interview.js}"></script>
+<script type="text/javascript" th:src="@{/js/entry.js}"></script>
 <script type="text/javascript" th:src="@{/ztree/js/jquery.ztree.core.js}"></script>
 <script type="text/javascript" th:src="@{/ztree/js/jquery.ztree.excheck.js}"></script>
+<script th:inline="javascript">  
+</script>  
 </head>
 <body class="easyui-layout">
 <div class="easyui-layout" data-options="fit:true">
 	<table id="datagrid"></table>
+		<input type="hidden" th:value="${taxs}" id="taxs" />  
+		<input type="hidden" th:value="${isfund}" id="isfund" />  
+		<input type="hidden" th:value="${probation}" id="probation" />  
+		<input type="hidden" th:value="${probation_percent}" id="probation_percent" />  
+		<input type="hidden" th:value="${grant}" id="grant" />  
+		<input type="hidden" th:value="${computer}" id="computer" />  
 </div>
 
 
 <div id="tb" style="padding:3px">
-	<a href="#" class="easyui-linkbutton"
-		iconCls="icon-remove" onclick="openDelete()" plain="true">删除</a>
-	<a href="#" class="easyui-linkbutton"
-		iconCls="icon-ok" onclick="pass()" plain="true">通过</a>
-	<a href="#" class="easyui-linkbutton"
-		iconCls="icon-save" onclick="openDownload()" plain="true">生成推送信息</a>
-	<a href="#" class="easyui-linkbutton"
-		iconCls="icon-redo" onclick="openPush()" plain="true">推送至销售</a>
 	<span>姓名:</span>
 	<input id="resumeName" name="resumeName" style="line-height:26px;border:1px solid #ccc" />
 	<span>手机:</span>
@@ -41,13 +41,6 @@
 	<a href="#" class="easyui-linkbutton" iconCls="icon-search" plain="true" onclick="init()">Search</a>
 </div>
 
-<div id="dialog_push" class="easyui-dialog"
-	data-options="closed:true,iconCls:'icon-save'"
-	style="width:400px; padding:10px;">
-	<form id="form_push" method="POST" enctype="multipart/form-data" action="interview/push">
-		<ul id="treeDemo" class="ztree"></ul>
-	</form>
-</div>
 
 <!-- 表单详情 -->
 	<div id="directionDialog" title="详情" data-options="modal:true,closed:true,iconCls:'icon-edit'"

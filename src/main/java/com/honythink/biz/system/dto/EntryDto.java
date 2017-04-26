@@ -1,5 +1,6 @@
 package com.honythink.biz.system.dto;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 import org.springframework.format.annotation.DateTimeFormat;
@@ -7,9 +8,34 @@ import org.springframework.format.annotation.DateTimeFormat;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 
-public class InterviewDto extends BaseDto{
+public class EntryDto extends BaseDto{
     private Integer id;
 
+    private Integer interviewId;
+
+    private Integer resumeId;
+
+    private Date entrytime;
+
+    private Float salary;
+
+    private String afterBeforeTax;
+
+    private String isfund;
+
+    private String probation;
+
+    private String probationPercent;
+
+    private String grant;
+
+    private String computer;
+
+    private String profit;
+
+    private String profitRate;
+    
+    /////////////////////////////////
     @DateTimeFormat(pattern="yyyy-MM-dd")
     @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
     private Date recommendTime;
@@ -17,8 +43,6 @@ public class InterviewDto extends BaseDto{
     private String position;
 
     private Integer customerId;
-    //简历
-    private Integer resumeId;
     //人名
     private String resumeName;
     //人名
@@ -27,8 +51,6 @@ public class InterviewDto extends BaseDto{
     private String education;
     //毕业时间
     private String educationtime;
-    //薪水
-    private Float salary;
     //性别
     private String resumeGender;
     //工作年限
@@ -50,8 +72,6 @@ public class InterviewDto extends BaseDto{
     private String workTime;
 
     private Date interviewDate;
-    
-    private String process;
 
     @DateTimeFormat(pattern="yyyy-MM-dd HH:mm")
     @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm")
@@ -75,15 +95,105 @@ public class InterviewDto extends BaseDto{
     public String getTemplate() {
         return template;
     }
-
     
-    public String getProcess() {
-        return process;
+
+    public Integer getInterviewId() {
+        return interviewId;
     }
 
 
-    public void setProcess(String process) {
-        this.process = process;
+    public void setInterviewId(Integer interviewId) {
+        this.interviewId = interviewId;
+    }
+
+
+    public Date getEntrytime() {
+        return entrytime;
+    }
+
+
+    public void setEntrytime(Date entrytime) {
+        this.entrytime = entrytime;
+    }
+
+
+    public String getAfterBeforeTax() {
+        return afterBeforeTax;
+    }
+
+
+    public void setAfterBeforeTax(String afterBeforeTax) {
+        this.afterBeforeTax = afterBeforeTax;
+    }
+
+
+    public String getIsfund() {
+        return isfund;
+    }
+
+
+    public void setIsfund(String isfund) {
+        this.isfund = isfund;
+    }
+
+
+    public String getProbation() {
+        return probation;
+    }
+
+
+    public void setProbation(String probation) {
+        this.probation = probation;
+    }
+
+
+    public String getProbationPercent() {
+        return probationPercent;
+    }
+
+
+    public void setProbationPercent(String probationPercent) {
+        this.probationPercent = probationPercent;
+    }
+
+
+    public String getGrant() {
+        return grant;
+    }
+
+
+    public void setGrant(String grant) {
+        this.grant = grant;
+    }
+
+
+    public String getComputer() {
+        return computer;
+    }
+
+
+    public void setComputer(String computer) {
+        this.computer = computer;
+    }
+
+
+    public String getProfit() {
+        return profit;
+    }
+
+
+    public void setProfit(String profit) {
+        this.profit = profit;
+    }
+
+
+    public String getProfitRate() {
+        return profitRate;
+    }
+
+
+    public void setProfitRate(String profitRate) {
+        this.profitRate = profitRate;
     }
 
 

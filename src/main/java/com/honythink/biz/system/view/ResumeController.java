@@ -227,7 +227,6 @@ public class ResumeController extends BaseController {
             record.setTrain(OfficeUtils.findTrain(html));
             record.setLanguage(OfficeUtils.findLanguage(html));
             record.setTime(new Date());
-            
             UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext()
                     .getAuthentication()
                     .getPrincipal();
@@ -248,7 +247,7 @@ public class ResumeController extends BaseController {
     }
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     @ResponseBody
-    public String list(Resume record) {
+    public String update(Resume record) {
         resumeService.updateByPrimaryKeySelective(record);
         return Constants.RET_SUCCESS;
     }

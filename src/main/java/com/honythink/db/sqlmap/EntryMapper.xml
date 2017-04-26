@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.honythink.db.mapper.EntryMapper" >
+  <resultMap id="BaseResultMap" type="com.honythink.db.entity.Entry" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="interview_id" property="interviewId" jdbcType="INTEGER" />
+    <result column="resume_id" property="resumeId" jdbcType="INTEGER" />
+    <result column="entrytime" property="entrytime" jdbcType="TIMESTAMP" />
+    <result column="salary" property="salary" jdbcType="DECIMAL" />
+    <result column="after_before_tax" property="afterBeforeTax" jdbcType="VARCHAR" />
+    <result column="isfund" property="isfund" jdbcType="VARCHAR" />
+    <result column="probation" property="probation" jdbcType="VARCHAR" />
+    <result column="probation_percent" property="probationPercent" jdbcType="VARCHAR" />
+    <result column="grant" property="grant" jdbcType="VARCHAR" />
+    <result column="computer" property="computer" jdbcType="VARCHAR" />
+    <result column="profit" property="profit" jdbcType="VARCHAR" />
+    <result column="profit_rate" property="profitRate" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <resultMap id="DtoResultMap" type="com.honythink.biz.system.dto.EntryDto" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="recommend_time" property="recommendTime" jdbcType="TIMESTAMP" />
+    <result column="position" property="position" jdbcType="VARCHAR" />
+    <result column="resume_name" property="resumeName" jdbcType="VARCHAR" />
+    <result column="resume_mobile" property="resumeMobile" jdbcType="VARCHAR" />
+    <result column="customer_id" property="customerId" jdbcType="INTEGER" />
+    <result column="username_sell" property="usernameSell" jdbcType="VARCHAR" />
+    <result column="realname_sell" property="realnameSell" jdbcType="VARCHAR" />
+    <result column="username_hr" property="usernameHr" jdbcType="VARCHAR" />
+    <result column="realname_hr" property="realnameHr" jdbcType="VARCHAR" />
+    <result column="work_time" property="workTime" jdbcType="VARCHAR" />
+    <result column="interview_date" property="interviewDate" jdbcType="TIMESTAMP" />
+    <result column="interview_time" property="interviewTime" jdbcType="TIMESTAMP" />
+    <result column="present" property="present" jdbcType="VARCHAR" />
+    <result column="result" property="result" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="time" property="time" jdbcType="TIMESTAMP" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="salary" property="salary" jdbcType="REAL" />
+    <result column="cover" property="cover" jdbcType="REAL" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="shortname" property="shortname" jdbcType="VARCHAR" />
+    <result column="template" property="template" jdbcType="VARCHAR" />
+    <result column="gender" property="resumeGender" jdbcType="VARCHAR" />
+    <result column="seniority" property="resumeSeniority" jdbcType="VARCHAR" />
+    <result column="school" property="resumeSchool" jdbcType="VARCHAR" />
+    <result column="self" property="resumeSelf" jdbcType="VARCHAR" />
+    <result column="interview_id" property="interviewId" jdbcType="INTEGER" />
+    <result column="resume_id" property="resumeId" jdbcType="INTEGER" />
+    <result column="entrytime" property="entrytime" jdbcType="TIMESTAMP" />
+    <result column="salary" property="salary" jdbcType="DECIMAL" />
+    <result column="after_before_tax" property="afterBeforeTax" jdbcType="VARCHAR" />
+    <result column="isfund" property="isfund" jdbcType="VARCHAR" />
+    <result column="probation" property="probation" jdbcType="VARCHAR" />
+    <result column="probation_percent" property="probationPercent" jdbcType="VARCHAR" />
+    <result column="grant" property="grant" jdbcType="VARCHAR" />
+    <result column="computer" property="computer" jdbcType="VARCHAR" />
+    <result column="profit" property="profit" jdbcType="VARCHAR" />
+    <result column="profit_rate" property="profitRate" jdbcType="VARCHAR" />
+  </resultMap>
+    
+  <sql id="Base_Column_List" >
+    id, interview_id, resume_id, entrytime, salary, after_before_tax, isfund, probation, 
+    probation_percent, grant, computer, profit, profit_rate
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from entry
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  
+  <select id="list" parameterType="com.honythink.biz.system.dto.BaseDto" resultMap="DtoResultMap" >
+	SELECT
+	    e.*,
+		r.*,su.realname AS realname_hr,
+		su1.realname AS realname_sell,
+		c.`name` AS NAME,
+		re. NAME AS resumeName,
+		re.education,
+		re.educationtime,
+		re.gender,
+		re.seniority,
+		re.school,
+		re.self,
+		re.mobile AS resume_mobile
+	FROM entry e
+	LEFT JOIN interview r on r.id = e.interview_id
+	LEFT JOIN customer c ON c.id = r.customer_id
+	LEFT JOIN resume re ON re.id = r.resume_id
+	LEFT JOIN sys_user su ON r.username_hr = su.username
+	LEFT JOIN sys_user su1 ON r.username_hr = su1.username
+	WHERE 1=1
+     <if test="username != null and username !=''" >
+       and r.username_hr = #{username}
+     </if>
+     <if test="resumeName != null and resumeName !=''" >
+       and re.name like CONCAT('%',#{resumeName},'%')  
+     </if>
+     <if test="resumeMobile != null and resumeMobile !=''" >
+       and re.mobile like CONCAT('%',#{resumeMobile},'%')  
+     </if>
+     <if test="position != null and position !=''" >
+       and r.position like CONCAT('%',#{position},'%')  
+     </if>
+     <if test="name != null and name !=''" >
+       and c.name like CONCAT('%',#{name},'%')  
+     </if>
+     order by r.id desc
+      <if test="page != null and rows != null" >
+      	 limit #{page}, #{rows}
+      </if>
+    
+  </select>
+  
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from entry
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.honythink.db.entity.Entry" >
+    insert into entry (id, interview_id, resume_id, 
+      entrytime, salary, after_before_tax, 
+      isfund, probation, probation_percent, 
+      grant, computer, profit, 
+      profit_rate)
+    values (#{id,jdbcType=INTEGER}, #{interviewId,jdbcType=INTEGER}, #{resumeId,jdbcType=INTEGER}, 
+      #{entrytime,jdbcType=TIMESTAMP}, #{salary,jdbcType=DECIMAL}, #{afterBeforeTax,jdbcType=VARCHAR}, 
+      #{isfund,jdbcType=VARCHAR}, #{probation,jdbcType=VARCHAR}, #{probationPercent,jdbcType=VARCHAR}, 
+      #{grant,jdbcType=VARCHAR}, #{computer,jdbcType=VARCHAR}, #{profit,jdbcType=VARCHAR}, 
+      #{profitRate,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.honythink.db.entity.Entry" >
+    insert into entry
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="interviewId != null" >
+        interview_id,
+      </if>
+      <if test="resumeId != null" >
+        resume_id,
+      </if>
+      <if test="entrytime != null" >
+        entrytime,
+      </if>
+      <if test="salary != null" >
+        salary,
+      </if>
+      <if test="afterBeforeTax != null" >
+        after_before_tax,
+      </if>
+      <if test="isfund != null" >
+        isfund,
+      </if>
+      <if test="probation != null" >
+        probation,
+      </if>
+      <if test="probationPercent != null" >
+        probation_percent,
+      </if>
+      <if test="grant != null" >
+        grant,
+      </if>
+      <if test="computer != null" >
+        computer,
+      </if>
+      <if test="profit != null" >
+        profit,
+      </if>
+      <if test="profitRate != null" >
+        profit_rate,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="interviewId != null" >
+        #{interviewId,jdbcType=INTEGER},
+      </if>
+      <if test="resumeId != null" >
+        #{resumeId,jdbcType=INTEGER},
+      </if>
+      <if test="entrytime != null" >
+        #{entrytime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="salary != null" >
+        #{salary,jdbcType=DECIMAL},
+      </if>
+      <if test="afterBeforeTax != null" >
+        #{afterBeforeTax,jdbcType=VARCHAR},
+      </if>
+      <if test="isfund != null" >
+        #{isfund,jdbcType=VARCHAR},
+      </if>
+      <if test="probation != null" >
+        #{probation,jdbcType=VARCHAR},
+      </if>
+      <if test="probationPercent != null" >
+        #{probationPercent,jdbcType=VARCHAR},
+      </if>
+      <if test="grant != null" >
+        #{grant,jdbcType=VARCHAR},
+      </if>
+      <if test="computer != null" >
+        #{computer,jdbcType=VARCHAR},
+      </if>
+      <if test="profit != null" >
+        #{profit,jdbcType=VARCHAR},
+      </if>
+      <if test="profitRate != null" >
+        #{profitRate,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.honythink.db.entity.Entry" >
+    update entry
+    <set >
+      <if test="interviewId != null" >
+        interview_id = #{interviewId,jdbcType=INTEGER},
+      </if>
+      <if test="resumeId != null" >
+        resume_id = #{resumeId,jdbcType=INTEGER},
+      </if>
+      <if test="entrytime != null" >
+        entrytime = #{entrytime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="salary != null" >
+        salary = #{salary,jdbcType=DECIMAL},
+      </if>
+      <if test="afterBeforeTax != null" >
+        after_before_tax = #{afterBeforeTax,jdbcType=VARCHAR},
+      </if>
+      <if test="isfund != null" >
+        isfund = #{isfund,jdbcType=VARCHAR},
+      </if>
+      <if test="probation != null" >
+        probation = #{probation,jdbcType=VARCHAR},
+      </if>
+      <if test="probationPercent != null" >
+        probation_percent = #{probationPercent,jdbcType=VARCHAR},
+      </if>
+      <if test="grant != null" >
+        grant = #{grant,jdbcType=VARCHAR},
+      </if>
+      <if test="computer != null" >
+        computer = #{computer,jdbcType=VARCHAR},
+      </if>
+      <if test="profit != null" >
+        profit = #{profit,jdbcType=VARCHAR},
+      </if>
+      <if test="profitRate != null" >
+        profit_rate = #{profitRate,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.honythink.db.entity.Entry" >
+    update entry
+    set interview_id = #{interviewId,jdbcType=INTEGER},
+      resume_id = #{resumeId,jdbcType=INTEGER},
+      entrytime = #{entrytime,jdbcType=TIMESTAMP},
+      salary = #{salary,jdbcType=DECIMAL},
+      after_before_tax = #{afterBeforeTax,jdbcType=VARCHAR},
+      isfund = #{isfund,jdbcType=VARCHAR},
+      probation = #{probation,jdbcType=VARCHAR},
+      probation_percent = #{probationPercent,jdbcType=VARCHAR},
+      grant = #{grant,jdbcType=VARCHAR},
+      computer = #{computer,jdbcType=VARCHAR},
+      profit = #{profit,jdbcType=VARCHAR},
+      profit_rate = #{profitRate,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
