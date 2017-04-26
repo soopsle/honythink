@@ -84,6 +84,9 @@ public class StatisticsController extends BaseController {
     @RequestMapping(value = "/statistics_recommend", method = RequestMethod.GET)
     public ModelAndView statistics_index() {
         ModelAndView mav = new ModelAndView("statistics_recommend");
+        BaseDto dto = new BaseDto();
+        List<Customer> customers = customerMapper.list(dto);
+        mav.addObject("customers", customers);
         // 2
         // presentKPI
         // entryKPI
@@ -93,7 +96,7 @@ public class StatisticsController extends BaseController {
 
     @RequestMapping(value = "/recommendKPI", method = RequestMethod.POST)
     @ResponseBody
-    public JSONObject recommendKPI(String start, String end) throws ParseException {
+    public JSONObject recommendKPI(String start, String end, String position, String customerId) throws ParseException {
         // 1
         // 推荐统计
         // recommendKPI
@@ -134,6 +137,12 @@ public class StatisticsController extends BaseController {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("username_hr", hr.getUsername());
                 params.put("recommend_time", sdf.format(date.getTime()));
+                if (null != position && !position.equals("")) {
+                    params.put("position", position);
+                }
+                if (null != customerId && !customerId.equals("")) {
+                    params.put("customerId", customerId);
+                }
                 KPIDto KPIdto = statisticsMapper.selectRecommendKPI(params);
                 if (null == KPIdto) {
                     list.add("0");
@@ -143,13 +152,20 @@ public class StatisticsController extends BaseController {
             }
             Map<String, String> params = new HashMap<String, String>();
             params.put("username_hr", hr.getUsername());
-            params.put("start",start);
-            params.put("end",end);
+            params.put("start", start);
+            params.put("end", end);
+            if (null != position && !position.equals("")) {
+                params.put("position", position);
+
+            }
+            if (null != customerId && !customerId.equals("")) {
+                params.put("customerId", customerId);
+            }
             int count = statisticsMapper.selectRecommendTotal(params);
-            //legend  总数
-            legendData.add(hr.getRealname()+"("+count+")");
-//            legendData.add(hr.getRealname());
-            Series series = new Series(hr.getRealname()+"("+count+")", Series.TYPE_LINE, list);
+            // legend 总数
+            legendData.add(hr.getRealname() + "(" + count + ")");
+            // legendData.add(hr.getRealname());
+            Series series = new Series(hr.getRealname() + "(" + count + ")", Series.TYPE_LINE, list);
             JSONObject jsonObject2 = new JSONObject();
             jsonObject2.put("name", series.toName());
             jsonObject2.put("type", "bar");

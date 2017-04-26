@@ -25,6 +25,20 @@
 			<input id="start" type="text" class="easyui-datebox" required="required" />
 				-	
 			<input id="end" type="text" class="easyui-datebox" required="required" />
+			<span>职位:</span>
+			<select id="position" name="position" class="easyui-validatebox">
+				<option value="" th:selected="selected">请选择</option>
+				<option value="java">java</option>
+				<option value="UI">UI</option>
+				<option value="测试">测试</option>
+				<option value="net">.net</option>
+				<option value="php">php</option>
+		    </select>
+			<span>客户:</span>
+			<select id="customerId" name="customerId" class="easyui-validatebox">
+				<option value="" disabled="true" th:selected="selected">请选择</option>
+                <option th:each="customer:${customers}" th:value="${customer.id}" th:text="${customer.name}"></option>
+            </select>
 		    <a href="#" class="easyui-linkbutton" iconCls="icon-search" plain="true" onclick="init()">Search</a>
 		</div>
 	</form>
@@ -58,7 +72,9 @@
          url: "recommendKPI",
          data: {
               "start":$("#start").datebox('getValue'),
-              "end":$("#end").datebox('getValue')
+              "end":$("#end").datebox('getValue'),
+              "position":$("#position").val(),
+              "customerId":$("#customerId").val()
          },
          success: function(recommendKPI){
             myChart.hideLoading();
