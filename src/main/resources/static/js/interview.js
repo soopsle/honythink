@@ -272,8 +272,9 @@ $(document).ready(function() {
 	});
 }
 
-function exportExcel(){
-	 var url = 'export?resumeName='+$("#resumeName").val()+"&resumeMobile="+$("#resumeMobile").val()+"&position="+$("#position").val()+"&name="+$("#name").val();
+function exportExcel(type){
+	//0 今日 1所有
+	 var url = 'export?type='+type+'&resumeName='+$("#resumeName").val()+"&resumeMobile="+$("#resumeMobile").val()+"&position="+$("#position").val()+"&name="+$("#name").val();
      window.location.href=url;
 }
 

@@ -103,6 +103,9 @@
      <if test="name != null and name !=''" >
        and c.name like CONCAT('%',#{name},'%')  
      </if>
+     <if test="type != null and type !='' and type ==1" >
+       and r.recommend_time  = curdate() 
+     </if>
      order by r.id desc
       <if test="page != null and rows != null" >
       	 limit #{page}, #{rows}

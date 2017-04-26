@@ -72,6 +72,21 @@ public class InterviewDto extends BaseDto{
     //模板 
     private String template;
     
+    //导出 0今日数据 1历史数据
+    private String type;
+    
+    
+    
+    public String getType() {
+        return type;
+    }
+
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+
     public String getTemplate() {
         return template;
     }
