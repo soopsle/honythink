@@ -272,6 +272,12 @@ $(document).ready(function() {
 	});
 }
 
+function exportExcel(){
+	 var url = 'export?resumeName='+$("#resumeName").val()+"&resumeMobile="+$("#resumeMobile").val()+"&position="+$("#position").val()+"&name="+$("#name").val();
+     window.location.href=url;
+}
+
+
 	function add(){
 		$('#form_add').form('submit', {
 			url:'add',
