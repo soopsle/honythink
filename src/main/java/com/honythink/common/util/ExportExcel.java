@@ -24,7 +24,7 @@ public class ExportExcel<T> {
     }
 
     public void exportExcel(String[] headers, Collection<T> dataset, OutputStream out) {
-        exportExcel("sheet1", headers, dataset, out, "yyyy-MM-dd");
+        exportExcel("sheet1", headers, dataset, out, "yyyy-MM-dd HH:mm");
     }
 
     public void exportExcel(String[] headers, Collection<T> dataset, OutputStream out, String pattern) {

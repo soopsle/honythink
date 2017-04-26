@@ -182,6 +182,7 @@ public class InterviewController extends BaseController {
         dto.setPage(null);
         dto.setRows(null);
         List<InterviewDto> record = interviewMapper.list(dto);
+         
         List<InterviewExcelDto> excels = new ArrayList<InterviewExcelDto>();
         for(int i=0;i<record.size();i++){
             InterviewExcelDto target = new InterviewExcelDto();
@@ -207,6 +208,7 @@ public class InterviewController extends BaseController {
                 e.printStackTrace();
             }
         }
+        
     }
 
     public static Map<String, List<InterviewDto>> group(List<InterviewDto> list) {

@@ -106,7 +106,10 @@
      <if test="type != null and type !='' and type ==1" >
        and r.recommend_time  = curdate() 
      </if>
-     order by r.id desc
+     <if test="type != null and type !='' and type ==2" >
+       and DATE_FORMAT(r.interview_time, '%Y-%m-%d') = date_sub(curdate(),interval -1 day) 
+     </if>
+       order by r.id desc
       <if test="page != null and rows != null" >
       	 limit #{page}, #{rows}
       </if>
