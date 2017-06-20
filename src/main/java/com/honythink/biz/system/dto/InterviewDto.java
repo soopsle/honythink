@@ -75,8 +75,18 @@ public class InterviewDto extends BaseDto{
     //导出 0今日数据 1历史数据
     private String type;
     
-    
-    
+    private String date;
+     
+    public String getDate() {
+        return date;
+    }
+
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+
     public String getType() {
         return type;
     }

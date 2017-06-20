@@ -106,6 +106,12 @@ function showCode(str) {
 	code.empty();
 	code.append("<li>"+str+"</li>");
 }
+formatterDate = function(date) {
+var day = date.getDate() > 9 ? date.getDate() : "0" + date.getDate();
+var month = (date.getMonth() + 1) > 9 ? (date.getMonth() + 1) : "0"
++ (date.getMonth() + 1);
+return date.getFullYear() + '-' + month + '-' + day;
+};
 $(document).ready(function() {	
 	init();
 	 $.ajax({
@@ -219,6 +225,8 @@ $(document).ready(function() {
 		]],
 			onLoadSuccess:function(data){    
 		            $("#datagrid").datagrid("hideColumn", "resumeId"); // 设置隐藏列    
+		    		$('#date').datebox('setValue', formatterDate(new Date()));
+		    		
 		    },    
 			onBeforeEdit:function(index,row){
 				row.editing = true;
@@ -273,8 +281,7 @@ $(document).ready(function() {
 }
 
 function exportExcel(type){
-	//0 今日 1所有
-	 var url = 'export?type='+type+'&resumeName='+$("#resumeName").val()+"&resumeMobile="+$("#resumeMobile").val()+"&position="+$("#position").val()+"&name="+$("#name").val();
+	 var url = 'export?date='+$("#date").datebox('getValue')+'&resumeName='+$("#resumeName").val()+"&resumeMobile="+$("#resumeMobile").val()+"&position="+$("#position").val()+"&name="+$("#name").val();
      window.location.href=url;
 }
 

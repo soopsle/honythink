@@ -7,6 +7,8 @@ import java.io.OutputStream;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -167,6 +169,7 @@ public class InterviewController extends BaseController {
         return result;
     }
 
+    //导出excel
     @RequestMapping(value = "/export")
     public void export(InterviewDto dto, HttpServletRequest request, HttpServletResponse response) throws IOException {
         Map<String, Object> result = new HashMap<String, Object>();
@@ -182,23 +185,38 @@ public class InterviewController extends BaseController {
         dto.setPage(null);
         dto.setRows(null);
         List<InterviewDto> record = interviewMapper.list(dto);
-         
         List<InterviewExcelDto> excels = new ArrayList<InterviewExcelDto>();
+        
+        List<InterviewDto> recordTomorrow = interviewMapper.listTomorrow(dto);
+        List<InterviewExcelDto> excelsTomorrow = new ArrayList<InterviewExcelDto>();
+         
         for(int i=0;i<record.size();i++){
             InterviewExcelDto target = new InterviewExcelDto();
             BeanUtils.copyProperties(record.get(i),target);   
             excels.add(target);
         }
-        result.put("rows", record);
+        for(int i=0;i<recordTomorrow.size();i++){
+            InterviewExcelDto target = new InterviewExcelDto();
+            BeanUtils.copyProperties(recordTomorrow.get(i),target);   
+            excelsTomorrow.add(target);
+        }
         String headers[] = new String[] { "序号","推荐时间","姓名","手机","性别","职位","客户","推荐人","学历","学校","毕业时间","服务费","薪资","到岗时间","面试时间","是否到场","面试结果","备注"};
         
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-        String filename = format.format(new Date().getTime()) + ".xls";
+        String filename = dto.getDate() + ".xls";
         response.setContentType("application/ms-excel;charset=UTF-8");
         response.setHeader("Content-Disposition", "attachment;filename=".concat(String.valueOf(URLEncoder.encode(filename, "UTF-8"))));
         OutputStream out = response.getOutputStream();
         try {
-            excelService.exportExcel(headers, excels, out);
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            Date tomorrowDate = sdf.parse(dto.getDate());
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(tomorrowDate);
+            calendar.set(Calendar.DATE, calendar.get(Calendar.DATE) + 1);
+            
+            List<Collection<InterviewExcelDto>> datesets = new ArrayList<Collection<InterviewExcelDto>>();
+            datesets.add(excels);
+            datesets.add(excelsTomorrow);
+            excelService.exportExcelSheets(new String[]{dto.getDate()+"推荐",sdf.format(calendar.getTime())+"面试"},headers, datesets, out);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {

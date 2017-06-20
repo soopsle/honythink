@@ -183,4 +183,94 @@ public class StatisticsController extends BaseController {
         recommendKPI.put("seriesList", seriesList);
         return recommendKPI;
     }
+    
+    @RequestMapping(value = "/presentKPI", method = RequestMethod.POST)
+    @ResponseBody
+    public JSONObject presentKPI(String start, String end, String position, String customerId) throws ParseException {
+        // 1
+        // 推荐统计
+        // recommendKPI
+        // 获取数据
+        Map<String, String[]> map = new HashMap<String, String[]>();
+        List<String> xAxisData = new ArrayList<String>();
+        List<String> legendData = new ArrayList<String>();
+        List<JSONObject> seriesList = new ArrayList<JSONObject>();
+        List<SysUser> hrs = sysUserMapper.getUsersByRole(Constants.ROLE_HR);
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date startDate = sdf.parse(start);
+        Calendar startCalendar = Calendar.getInstance();
+        startCalendar.setTime(startDate);
+        Calendar endCalendar;
+        int days = 30;
+        if (!end.equals("")) {
+            Date endDate = sdf.parse(end);
+            endCalendar = Calendar.getInstance();
+            endCalendar.setTime(endDate);
+            days = (int) ((endCalendar.getTimeInMillis() - startCalendar.getTimeInMillis()) / (1000 * 3600 * 24));
+        } else {
+            endCalendar = Calendar.getInstance();
+        }
+
+        for (int day = days; day >= 0; day--) {
+            Calendar date = Calendar.getInstance();
+            date.set(Calendar.DATE, endCalendar.get(Calendar.DATE) - day);
+            // x-axsis
+            xAxisData.add(sdf.format(date.getTime()));
+        }
+        for (SysUser hr : hrs) {
+            List<String> list = new ArrayList<String>();
+            for (int day = days; day >= 0; day--) {
+                Calendar date = Calendar.getInstance();
+                date.set(Calendar.DATE, endCalendar.get(Calendar.DATE) - day);
+                // y-axsis
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("username_hr", hr.getUsername());
+                params.put("recommend_time", sdf.format(date.getTime()));
+                if (null != position && !position.equals("")) {
+                    params.put("position", position);
+                }
+                if (null != customerId && !customerId.equals("")) {
+                    params.put("customerId", customerId);
+                }
+                KPIDto KPIdto = statisticsMapper.selectRecommendKPI(params);
+                if (null == KPIdto) {
+                    list.add("0");
+                } else {
+                    list.add(KPIdto.getCount());
+                }
+            }
+            Map<String, String> params = new HashMap<String, String>();
+            params.put("username_hr", hr.getUsername());
+            params.put("start", start);
+            params.put("end", end);
+            if (null != position && !position.equals("")) {
+                params.put("position", position);
+
+            }
+            if (null != customerId && !customerId.equals("")) {
+                params.put("customerId", customerId);
+            }
+            int count = statisticsMapper.selectRecommendTotal(params);
+            // legend 总数
+            legendData.add(hr.getRealname() + "(" + count + ")");
+            // legendData.add(hr.getRealname());
+            Series series = new Series(hr.getRealname() + "(" + count + ")", Series.TYPE_LINE, list);
+            JSONObject jsonObject2 = new JSONObject();
+            jsonObject2.put("name", series.toName());
+            jsonObject2.put("type", "bar");
+            jsonObject2.put("data", series.data);
+            seriesList.add(jsonObject2);
+        }
+
+        // x-axis
+
+        // xAxisData和seriesList转为json
+
+        JSONObject recommendKPI = new JSONObject();
+        recommendKPI.put("xAxisData", xAxisData);
+        recommendKPI.put("legendData", legendData);
+        recommendKPI.put("seriesList", seriesList);
+        return recommendKPI;
+    }
 }

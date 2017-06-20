@@ -103,11 +103,8 @@
      <if test="name != null and name !=''" >
        and c.name like CONCAT('%',#{name},'%')  
      </if>
-     <if test="type != null and type !='' and type ==1" >
-       and r.recommend_time  = curdate() 
-     </if>
-     <if test="type != null and type !='' and type ==2" >
-       and DATE_FORMAT(r.interview_time, '%Y-%m-%d') = date_sub(curdate(),interval -1 day) 
+     <if test="date != null and date !=''" >
+       and DATE_FORMAT(r.recommend_time, '%Y-%m-%d') = #{date}
      </if>
        order by r.id desc
       <if test="page != null and rows != null" >
@@ -115,7 +112,40 @@
       </if>
     
   </select>
-  
+   <select id="listTomorrow" parameterType="com.honythink.biz.system.dto.BaseDto" resultMap="DtoResultMap">
+    SELECT
+		r.*,su.realname as realname_hr,su1.realname as realname_sell,c.`name` as name,re.name as resumeName,re.education,re.educationtime,re.gender,re.seniority,re.school,re.self,re.mobile as resume_mobile
+	FROM
+		interview r
+	LEFT JOIN customer c ON c.id = r.customer_id
+	LEFT JOIN resume re on re.id = r.resume_id
+	LEFT JOIN sys_user su on r.username_hr = su.username
+	LEFT JOIN sys_user su1 on r.username_hr = su1.username
+    where 1=1
+     <if test="username != null and username !=''" >
+       and r.username_hr = #{username}
+     </if>
+     <if test="resumeName != null and resumeName !=''" >
+       and re.name like CONCAT('%',#{resumeName},'%')  
+     </if>
+     <if test="resumeMobile != null and resumeMobile !=''" >
+       and re.mobile like CONCAT('%',#{resumeMobile},'%')  
+     </if>
+     <if test="position != null and position !=''" >
+       and r.position like CONCAT('%',#{position},'%')  
+     </if>
+     <if test="name != null and name !=''" >
+       and c.name like CONCAT('%',#{name},'%')  
+     </if>
+     <if test="date != null and date !=''" >
+       and DATE_FORMAT(r.interview_time, '%Y-%m-%d') = date_sub(#{date},interval -1 day) 
+     </if>
+       order by r.id desc
+      <if test="page != null and rows != null" >
+      	 limit #{page}, #{rows}
+      </if>
+    
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from interview
     where id = #{id,jdbcType=INTEGER}

@@ -21,4 +21,5 @@ public interface InterviewMapper {
     int updateByPrimaryKey(Interview record);
     
     List<InterviewDto> list(BaseDto dto);
+    List<InterviewDto> listTomorrow(BaseDto dto);
 }
