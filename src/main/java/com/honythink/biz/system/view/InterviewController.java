@@ -3,8 +3,12 @@ package com.honythink.biz.system.view;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -14,8 +18,11 @@ import java.util.zip.ZipOutputStream;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.apache.poi.ss.formula.functions.T;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -31,8 +38,10 @@ import com.honythink.Constants;
 import com.honythink.biz.base.controller.BaseController;
 import com.honythink.biz.system.dto.BaseDto;
 import com.honythink.biz.system.dto.InterviewDto;
+import com.honythink.biz.system.dto.InterviewExcelDto;
 import com.honythink.biz.system.service.MailService;
 import com.honythink.biz.system.service.ResumeService;
+import com.honythink.common.util.ExportExcel;
 import com.honythink.common.util.FileUtils;
 import com.honythink.common.util.OfficeWriteUtils;
 import com.honythink.db.entity.Customer;
@@ -78,6 +87,8 @@ public class InterviewController extends BaseController {
     private String from;
     @Value("${spring.mail.cc}")
     private String cc;
+    
+    
 
     @RequestMapping(value = "/interview_index", method = RequestMethod.GET)
     public ModelAndView interview_index() {
@@ -146,16 +157,76 @@ public class InterviewController extends BaseController {
             dto.setUsername(userDetails.getUsername());
             dto.setRole(Constants.ROLE_HR);
         }
-        if(!hasRoleAdmin()){
-          dto.setUsername(userDetails.getUsername());
-      }
-        dto.setPage((dto.getPage()-1)*dto.getRows());
+        if (!hasRoleAdmin()) {
+            dto.setUsername(userDetails.getUsername());
+        }
+        dto.setPage((dto.getPage() - 1) * dto.getRows());
         List<InterviewDto> record = interviewMapper.list(dto);
         dto.setPage(null);
         dto.setRows(null);
         result.put("total", interviewMapper.list(dto).size());
         result.put("rows", record);
         return result;
+    }
+
+    //导出excel
+    @RequestMapping(value = "/export")
+    public void export(InterviewDto dto, HttpServletRequest request, HttpServletResponse response) throws IOException {
+        Map<String, Object> result = new HashMap<String, Object>();
+        ExportExcel<InterviewExcelDto>  excelService = new ExportExcel<InterviewExcelDto>();
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (!hasRole(Constants.ROLE_ADMIN)) {
+            dto.setUsername(userDetails.getUsername());
+            dto.setRole(Constants.ROLE_HR);
+        }
+        if (!hasRoleAdmin()) {
+            dto.setUsername(userDetails.getUsername());
+        }
+        dto.setPage(null);
+        dto.setRows(null);
+        List<InterviewDto> record = interviewMapper.list(dto);
+        List<InterviewExcelDto> excels = new ArrayList<InterviewExcelDto>();
+        
+        List<InterviewDto> recordTomorrow = interviewMapper.listTomorrow(dto);
+        List<InterviewExcelDto> excelsTomorrow = new ArrayList<InterviewExcelDto>();
+         
+        for(int i=0;i<record.size();i++){
+            InterviewExcelDto target = new InterviewExcelDto();
+            BeanUtils.copyProperties(record.get(i),target);   
+            excels.add(target);
+        }
+        for(int i=0;i<recordTomorrow.size();i++){
+            InterviewExcelDto target = new InterviewExcelDto();
+            BeanUtils.copyProperties(recordTomorrow.get(i),target);   
+            excelsTomorrow.add(target);
+        }
+        String headers[] = new String[] { "序号","推荐时间","姓名","手机","性别","职位","客户","推荐人","学历","学校","毕业时间","服务费","薪资","到岗时间","面试时间","是否到场","面试结果","备注"};
+        
+        String filename = dto.getDate() + ".xls";
+        response.setContentType("application/ms-excel;charset=UTF-8");
+        response.setHeader("Content-Disposition", "attachment;filename=".concat(String.valueOf(URLEncoder.encode(filename, "UTF-8"))));
+        OutputStream out = response.getOutputStream();
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            Date tomorrowDate = sdf.parse(dto.getDate());
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(tomorrowDate);
+            calendar.set(Calendar.DATE, calendar.get(Calendar.DATE) + 1);
+            
+            List<Collection<InterviewExcelDto>> datesets = new ArrayList<Collection<InterviewExcelDto>>();
+            datesets.add(excels);
+            datesets.add(excelsTomorrow);
+            excelService.exportExcelSheets(new String[]{dto.getDate()+"推荐",sdf.format(calendar.getTime())+"面试"},headers, datesets, out);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                out.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        
     }
 
     public static Map<String, List<InterviewDto>> group(List<InterviewDto> list) {
@@ -305,7 +376,8 @@ public class InterviewController extends BaseController {
             String paths;
             try {
                 List<String> templatePaths = new ArrayList<String>();
-                templatePaths.add(Constants.CUSTOMER_TEMPLATE_WORD.get(interview.getTemplate())==null?Constants.CUSTOMER_TEMPLATE_WORD.get("honythink"):Constants.CUSTOMER_TEMPLATE_WORD.get(interview.getTemplate()));
+                templatePaths.add(Constants.CUSTOMER_TEMPLATE_WORD.get(interview.getTemplate()) == null
+                        ? Constants.CUSTOMER_TEMPLATE_WORD.get("honythink") : Constants.CUSTOMER_TEMPLATE_WORD.get(interview.getTemplate()));
                 paths = OfficeWriteUtils.templateResume(base, resume, templatePaths);
                 if (null != paths && !paths.equals("")) {
                     for (String path : paths.split("@@@@")) {
@@ -323,7 +395,7 @@ public class InterviewController extends BaseController {
             if (customer.equals(Constants.CUSTOMER_NAME_CSIX)) {
                 OfficeWriteUtils.writeExcelSummaryCsix(uuidName, interviews);
                 files.add(new File(Constants.RESUME_TEMPLATE + uuidName + Constants.PATH_SEPERATOR + customer + Constants.SUFFIX_XLS));
-            }else{
+            } else {
                 OfficeWriteUtils.writeExcelSummaryCustomer(uuidName, interviews);
                 files.add(new File(Constants.RESUME_TEMPLATE + uuidName + Constants.PATH_SEPERATOR + Constants.XLS_WORKBOOK_EXPORT_CUSTOMER));
             }
@@ -380,10 +452,10 @@ public class InterviewController extends BaseController {
         }
         files.add(new File(Constants.RESUME_TEMPLATE + uuidName + Constants.PATH_SEPERATOR + Constants.XLS_WORKBOOK_EXPORT_SELF));
         File csixFile = new File(Constants.RESUME_TEMPLATE + uuidName + Constants.PATH_SEPERATOR + Constants.XLS_WORKBOOK_EXPORT_CSIX);
-        if(csixFile.exists()){
+        if (csixFile.exists()) {
             files.add(csixFile);
         }
-        
+
         File fileZip = generateZip(files, "推荐-弘毅知行-" + now);
         if (fileZip == null) {
             return Constants.ERROR_INCOMPLETE_PARAMS;

@@ -82,50 +82,16 @@ function myparser(s){
 		return new Date();
 	}
 }
-var setting = {
-	check: {
-		enable: true
-	},
-	data: {
-		simpleData: {
-			enable: true
-		}
-	}
-};
 
-var code;
-
-function setCheck() {
-	var zTree = $.fn.zTree.getZTreeObj("treeDemo"),
-	type = { "Y":"ps", "N":"ps"};
-	zTree.setting.check.chkboxType = type;
-	showCode('setting.check.chkboxType = { "Y" : "' + type.Y + '", "N" : "' + type.N + '" };');
-}
-function showCode(str) {
-	if (!code) code = $("#code");
-	code.empty();
-	code.append("<li>"+str+"</li>");
-}
-formatterDate = function(date) {
-var day = date.getDate() > 9 ? date.getDate() : "0" + date.getDate();
-var month = (date.getMonth() + 1) > 9 ? (date.getMonth() + 1) : "0"
-+ (date.getMonth() + 1);
-return date.getFullYear() + '-' + month + '-' + day;
-};
 $(document).ready(function() {	
+	var taxs= $("#taxs").val()
+	var isfund= $("#isfund").val()
+	var probation= $("#probation").val()
+	var probation_percent= $("#probation_percent").val()
+	console.log(probation_percent);
+	var grant= $("#grant").val()
+	var computer= $("#computer").val()
 	init();
-	 $.ajax({
-         type: "POST",
-         url: "../generateTree",
-         success: function(zNodes){
-        		$.fn.zTree.init($("#treeDemo"), setting, zNodes);
-        		setCheck();
-        		$("#py").bind("change", setCheck);
-        		$("#sy").bind("change", setCheck);
-        		$("#pn").bind("change", setCheck);
-        		$("#sn").bind("change", setCheck);
-         }
-      });
 })
 	
 	function init(){
@@ -146,11 +112,6 @@ $(document).ready(function() {
 			"resumeMobile":$("#resumeMobile").val(),
 			"position":$("#position").val(),
 			"name":$("#name").val()
-		},
-		rowStyler:function(index,row){
-			if (row.process==3){
-				return 'background-color:green';
-			}
 		},
 		frozenColumns:[[ 
 		{field:'id',checkbox:true},
@@ -181,8 +142,7 @@ $(document).ready(function() {
 		}},
 		]],
 		columns:[[
-		{ field:'recommendTime',title:'推荐时间',width:100,editor:'datebox'},
-		{ field:'position',title:'职位',width:100,editor : {
+		{ field:'position',title:'岗位',width:100,editor : {
 		    type : 'validatebox',
 		    options : {
 		       required : true
@@ -190,60 +150,106 @@ $(document).ready(function() {
 		}},
 		{ field:'name',title:'客户',width:100},
 		{ field:'realnameHr',title:'推荐人',width:100},
-		{ field:'salary',title:'薪水',width:100,editor : {
-		    type : 'validatebox',
-		    options : {
-		       required : true
-		    }
+		{ field:'entrytime',title:'入职时间',width:100,editor:'datebox'},
+		{ field:'afterBeforeTax',title:'税前税后',width:100,editor:{
+			type: 'combobox',  
+			options: {  
+				data:JSON.parse($("#taxs").val()),
+				valueField: "dicKey",  
+				textField: "dicValue",
+				editable: false,  
+				panelHeight:70,  
+				required: true,
+			}  
+		}
+		},
+		{ field:'isfund',title:'公积金',width:100,editor:{
+			type: 'combobox',  
+			options: {  
+				data:JSON.parse($("#isfund").val()),
+				valueField: "dicKey",  
+				textField: "dicValue",
+				editable: false,  
+				panelHeight:70,  
+				required: true  
+			}  
+		}
+		},
+		{ field:'probation',title:'是否试用期',width:100,editor:{
+            type: 'combobox',  
+            options: {  
+               data:JSON.parse($("#probation").val()),
+               valueField: "dicKey",  
+               textField: "dicValue",
+               editable: false,  
+               panelHeight:70,  
+               required: true  
+           }  
+        }
+		},
+		{ field:'probationPercent',title:'试用期薪资比例',width:100,editor:{
+			type: 'combobox',  
+			options: {  
+				data:JSON.parse($("#probation_percent").val()),
+				valueField: "dicKey",  
+				textField: "dicValue",
+				editable: false,  
+				panelHeight:70,  
+				required: true  
+			}  
+		}
+		},
+		{ field:'grant',title:'是否补助',width:100,editor:{
+			type: 'combobox',  
+			options: {  
+				data:JSON.parse($("#grant").val()),
+				valueField: "dicKey",  
+				textField: "dicValue",
+				editable: false,  
+				panelHeight:70,  
+				required: true  
+			}  
+		}
+		},
+		{ field:'computer',title:'是否配电脑',width:100,editor:{
+            type: 'combobox',  
+            options: {  
+               data:JSON.parse($("#computer").val()),
+               valueField: "dicKey",  
+               textField: "dicValue",
+               editable: false,  
+               panelHeight:70, 
+               value:0,  //默认选中value指定的选项
+               required: true  
+           }  
+        }
+		},
+		{ field:'salary',title:'基础薪资',width:100,editor : {
+			type : 'validatebox'
 		}},
 		{ field:'cover',title:'服务费',width:100,editor : {
 			type : 'validatebox'
 		}},
-		{ field:'status',title:'工作状态',width:100,editor : {
-		    type : 'validatebox'
+		{ field:'profit',title:'毛利',width:100,formatter: function(value, row, index){
+			if(row.cover!=null)
+			return row.cover-row.salary;
 		}},
-		{ field:'workTime',title:'到岗时间',width:100,editor : {
-		    type : 'validatebox',
-		    options : {
-		       required : true
-		    }
-		}},
-		{ field:'interviewTime',title:'面试时间',width:150, editor : {  
-                type:'datetimebox',//Extension of time for selecting type  
-                options:{  
-                    required: true,  
-                }  
-            }
-        },
-		{ field:'present',title:'是否到场',width:100,editor : {
-		    type : 'validatebox',
-		}},
-		{ field:'result',title:'推荐结果',width:100,editor : {
-		    type : 'validatebox',
-		}},
-		{ field:'remark',title:'备注',width:100,editor:'text'}
+		{ field:'profitRate',title:'毛利率',width:100,formatter: function(value, row, index){
+			
+			return ((row.cover-row.salary)/row.cover).toFixed(2);
+		}}
 		]],
 			onLoadSuccess:function(data){    
 		            $("#datagrid").datagrid("hideColumn", "resumeId"); // 设置隐藏列    
-		    		$('#date').datebox('setValue', formatterDate(new Date()));
-		    		
 		    },    
 			onBeforeEdit:function(index,row){
 				row.editing = true;
+				$('#afterBeforeTax').combobox('select',"0");
 				updateActions(index);
 			},
 			onAfterEdit:function(index,row){
 				row.editing = false;
 				updateActions(index);
-				 $.ajax({
-	                    type: "POST",
-	                    url: "../resume/update",
-	                    data: {
-	                    	"id":row.resumeId,
-	                    	"name":row.resumeName,
-	                    	"mobile":row.resumeMobile
-	                    },
-	                    success: function(msg){
 	                      $.ajax({
 	                          type: "POST",
 	                          url: "update",
@@ -251,24 +257,22 @@ $(document).ready(function() {
 	                          	  "id":row.id,
 	                          	  "resumeName":row.resumeName,
 	                          	  "resumeMobile":row.resumeMobile,
-	                              "recommendTime":row.recommendTime,
 	                              "position":row.position,
-	                              "salary":row.salary,
-	                              "cover":row.cover,
-	                              "status":row.status,
-	                              "workTime":row.workTime,
-	                              "interviewTime":row.interviewTime,
-	                              "present":row.present,
-	                              "result":row.result,
-	                              "remark":row.remark
+	                              "entrytime":row.entrytime,
+	                              "afterBeforeTax":row.afterBeforeTax,
+	                              "isfund":row.isfund,
+	                              "probation":row.probation,
+	                              "probationPercent":row.probationPercent,
+	                              "grant":row.grant,
+	                              "computer":row.computer,
+	                              "profit":row.profit,
+	                              "profitRate":row.profitRate
 	                          },
 	                          success: function(msg){
 	                            $.messager.alert('信息提示','数据修改成功...','info');
 	                            $('#datagrid').datagrid('load');//重新加载datagrid，刷新功能
 	                          }
 	                       });
-	                    }
-	                 });
         	 },
 			onCancelEdit:function(index,row){
 				row.editing = false;
@@ -279,12 +283,6 @@ $(document).ready(function() {
 			}//双击事件
 	});
 }
-
-function exportExcel(type){
-	 var url = 'export?date='+$("#date").datebox('getValue')+'&resumeName='+$("#resumeName").val()+"&resumeMobile="+$("#resumeMobile").val()+"&position="+$("#position").val()+"&name="+$("#name").val();
-     window.location.href=url;
-}
-
 
 	function add(){
 		$('#form_add').form('submit', {
@@ -378,43 +376,7 @@ function exportExcel(type){
         });
 	}
 	
-	/**
-	* Name 打开修改窗口
-	*/
-	function openDownload(){
-		var valArr = new Array; 
-		var c=0;
-		$('input[name="id"]:checked').each(function(i) {
-			valArr[i] = $(this).val();
-			c++;
-		});
-		if (c == 0) {
-			$.messager.alert('信息提示','请先选择！','info');
-			return;
-		} else {
-			$.messager.confirm('Confirm','您确保姓名，电话，推荐时间，岗位，客户，期望薪资，报价，工作状态，到岗时间信息齐全?',function(r){
-				if (r){
-					var vals = valArr.join(','); //转换为逗号隔开的字符串 
-					$.ajax({
-						type: "GET",
-						url: "validate",
-						data: {
-							"ids":vals,
-						},
-						success: function(msg){
-							console.log(msg);
-							if(msg == "SUCCESS"){
-								var vals = valArr.join(','); //转换为逗号隔开的字符串 
-								window.location.href = "download/?ids="+vals;
-							}else{
-								$.messager.alert('这里一定有什么不对劲',"参数不完整");
-							}
-						}
-					});
-				}
-			});
-		}
-	}	
+
 	function openDelete(){
 		var valArr = new Array; 
 		var c=0;
@@ -444,133 +406,6 @@ function exportExcel(type){
 			});
 		}
 	}	
-	function pass(){
-		var valArr = new Array; 
-		var c=0;
-		$('input[name="id"]:checked').each(function(i) {
-			valArr[i] = $(this).val();
-			c++;
-		});
-		var vals = valArr.join(','); //转换为逗号隔开的字符串 
-		 $.ajax({
-             type: "POST",
-             url:'../entry/add',
-             data: {
-             	"ids":vals,
-             },
-             success: function(msg){
-	             $('input[name="id"]:checked').each(function(i) {
-	     			 $.ajax({
-	                     type: "POST",
-	                     url: "../interview/update",
-	                     data: {
-	                     	"id":$(this).val(),
-	                     	"process":3
-	                     },
-	                     success: function(msg){
-	                    	 $('#datagrid').datagrid('load');//重新加载datagrid，刷新功能
-	                     }
-	                  });
-	     		 });
-                 $.messager.alert('信息提示','自动同步到入职管理...','info');
-             }
-//             beforeSend:function(){
-//            	 if($(this).form('enableValidation').form('validate')){
-//					 $("#saveDownBT").hide();
-//				 }
-//				return $(this).form('enableValidation').form('validate');
-//         	}
-          });
-	
-}
-	function openPush(){
-		var c=0;
-		$('input[name="id"]:checked').each(function(i) {
-			c++;
-		});
-		if (c == 0) {
-			$.messager.alert('信息提示','请选择人员！','info');
-			return;
-		} 
-//		$('#form_push').form('clear');
-		$('#dialog_push').dialog({
-			closed: false,
-			modal:true,
-            title: "选择",
-            buttons: [{
-            	id:"pushBT",
-                text: '确定',
-                iconCls: 'icon-ok',
-                handler: push
-            }, {
-                text: '取消',
-                iconCls: 'icon-cancel',
-                handler: function () {
-                    $('#dialog_push').dialog('close');                    
-                }
-            }]
-        });
-	}	
-	
-	function push(){
-		var valArr = new Array; 
-		$('input[name="id"]:checked').each(function(i) {
-			valArr[i] = $(this).val();
-		});
-		$.messager.confirm('Confirm','确认执行操作?',function(r){
-			var sellerIds = treeIds();
-			var vals = valArr.join(','); //转换为逗号隔开的字符串 
-			if (r){
-				$("#pushBT").hide();
-				$.ajax({
-					type: "GET",
-					url: "validate",
-					data: {
-						"ids":vals,
-					},
-					success: function(msg){
-						console.log(msg);
-						if(msg == "SUCCESS"){
-							$.ajax({
-				                type: "POST",
-				                url: "push",
-				                data: {
-				                	"ids":vals,
-				                	"sellerIds":sellerIds
-				                },
-				                success: function(msg){
-				                	console.log(msg);
-				                	$.messager.alert('info',msg);
-				                	$("#pushBT").hide();
-				                	$('#datagrid').datagrid('load');//重新加载datagrid，刷新功能
-				                   $('#dialog_push').dialog('close');         
-				                }
-				             });
-						}else{
-							$("#pushBT").show();
-							$.messager.alert('这里一定有什么不对劲',"参数不完整");
-						}
-					}
-				});
-			}
-		});
-	}
-	
-	function treeIds(){                      //这是将选中的节点的id用;分割拼接起来,用于持久化到数据库  
-		   var zTreeO =  $.fn.zTree.getZTreeObj("treeDemo").getNodesByFilter(filter);  
-		   var idListStr = "";  
-		   for (var i = 0; i < zTreeO.length; i++) {  
-		      if (zTreeO[i].id != null) {  
-		     idListStr+= (i == (zTreeO.length-1))?Number(zTreeO[i].id)/10000:Number(zTreeO[i].id)/10000+",";  
-		      }  
-		   };  
-		   return idListStr;
-	};  
-	function filter(node) {   //过滤器直选中2级节点累加  
-	    return (node.level == 2 && node.checked == true);  
-	}  
-	
-	
 	function updateActions(index){
 		$('#datagrid').datagrid('updateRow',{
 			index: index,

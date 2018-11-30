@@ -19,6 +19,7 @@
     <result column="result" property="result" jdbcType="VARCHAR" />
     <result column="remark" property="remark" jdbcType="VARCHAR" />
     <result column="time" property="time" jdbcType="TIMESTAMP" />
+    <result column="process" property="process" jdbcType="VARCHAR" />
   </resultMap>
   
    <resultMap id="DtoResultMap" type="com.honythink.biz.system.dto.InterviewDto" >
@@ -51,11 +52,12 @@
     <result column="seniority" property="resumeSeniority" jdbcType="VARCHAR" />
     <result column="school" property="resumeSchool" jdbcType="VARCHAR" />
     <result column="self" property="resumeSelf" jdbcType="VARCHAR" />
+    <result column="process" property="process" jdbcType="VARCHAR" />
     
   </resultMap>
   <sql id="Base_Column_List" >
     id, recommend_time, position,resume_id,customer_id, username_sell, username_hr, salary,cover,status, work_time,
-    interview_date, interview_time, present, result, remark, time
+    interview_date, interview_time, present, result, remark, time,process
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 'true' as QUERYID,
@@ -101,13 +103,49 @@
      <if test="name != null and name !=''" >
        and c.name like CONCAT('%',#{name},'%')  
      </if>
-     order by r.id desc
+     <if test="date != null and date !=''" >
+       and DATE_FORMAT(r.recommend_time, '%Y-%m-%d') = #{date}
+     </if>
+       order by r.id desc
       <if test="page != null and rows != null" >
       	 limit #{page}, #{rows}
       </if>
     
   </select>
-  
+   <select id="listTomorrow" parameterType="com.honythink.biz.system.dto.BaseDto" resultMap="DtoResultMap">
+    SELECT
+		r.*,su.realname as realname_hr,su1.realname as realname_sell,c.`name` as name,re.name as resumeName,re.education,re.educationtime,re.gender,re.seniority,re.school,re.self,re.mobile as resume_mobile
+	FROM
+		interview r
+	LEFT JOIN customer c ON c.id = r.customer_id
+	LEFT JOIN resume re on re.id = r.resume_id
+	LEFT JOIN sys_user su on r.username_hr = su.username
+	LEFT JOIN sys_user su1 on r.username_hr = su1.username
+    where 1=1
+     <if test="username != null and username !=''" >
+       and r.username_hr = #{username}
+     </if>
+     <if test="resumeName != null and resumeName !=''" >
+       and re.name like CONCAT('%',#{resumeName},'%')  
+     </if>
+     <if test="resumeMobile != null and resumeMobile !=''" >
+       and re.mobile like CONCAT('%',#{resumeMobile},'%')  
+     </if>
+     <if test="position != null and position !=''" >
+       and r.position like CONCAT('%',#{position},'%')  
+     </if>
+     <if test="name != null and name !=''" >
+       and c.name like CONCAT('%',#{name},'%')  
+     </if>
+     <if test="date != null and date !=''" >
+       and DATE_FORMAT(r.interview_time, '%Y-%m-%d') = date_sub(#{date},interval -1 day) 
+     </if>
+       order by r.id desc
+      <if test="page != null and rows != null" >
+      	 limit #{page}, #{rows}
+      </if>
+    
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from interview
     where id = #{id,jdbcType=INTEGER}
@@ -178,6 +216,9 @@
       <if test="time != null" >
         time,
       </if>
+      <if test="process != null" >
+        process,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -231,6 +272,9 @@
       <if test="time != null" >
         #{time,jdbcType=TIMESTAMP},
       </if>
+      <if test="process != null" >
+        #{process,jdbcType=VARCHAR},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.honythink.db.entity.Interview" >
@@ -254,10 +298,10 @@
       <if test="usernameHr != null" >
         username_hr = #{usernameHr,jdbcType=VARCHAR},
       </if>
-      <if test="salary != 0" >
+      <if test="salary != 0 and salary != null" >
         salary = #{salary,jdbcType=REAL},
       </if>
-      <if test="cover != 0" >
+      <if test="cover != 0 and cover != null" >
         cover = #{cover,jdbcType=REAL},
       </if>
       <if test="status != null" >
@@ -284,6 +328,9 @@
       <if test="time != null" >
         time = #{time,jdbcType=TIMESTAMP},
       </if>
+      <if test="process != null" >
+        process = #{process,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -304,7 +351,8 @@
       present = #{present,jdbcType=VARCHAR},
       result = #{result,jdbcType=VARCHAR},
       remark = #{remark,jdbcType=VARCHAR},
-      time = #{time,jdbcType=TIMESTAMP}
+      time = #{time,jdbcType=TIMESTAMP},
+      process = #{process,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>
